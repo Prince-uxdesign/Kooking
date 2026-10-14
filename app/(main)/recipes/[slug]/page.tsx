@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { BackLink, BackLinkFallback } from "@/features/recipes/BackLink";
 import { CATEGORY_ICONS, iconForRecipe } from "@/features/recipes/category-icons";
 import { RecipeDetailInteractive } from "@/features/recipes/RecipeDetailInteractive";
+import { RecipeDetailWithParams } from "@/features/recipes/RecipeDetailWithParams";
 import { RecordRecipeView } from "@/features/recipes/RecordRecipeView";
 import {
   getCollectionRepository,
@@ -172,7 +173,11 @@ export default async function RecipeDetailPage({ params }: Params) {
       </div>
 
       {/* Interactive Core: Ingredients, Servings, Prep, Equipment, Steps, Kitchen Check */}
-      <RecipeDetailInteractive recipe={recipe} ingredientNames={ingredientNames} />
+      <Suspense
+        fallback={<RecipeDetailInteractive recipe={recipe} ingredientNames={ingredientNames} />}
+      >
+        <RecipeDetailWithParams recipe={recipe} ingredientNames={ingredientNames} />
+      </Suspense>
 
       {/* Related Recipes Section */}
       {relatedRecipes.length > 0 && (

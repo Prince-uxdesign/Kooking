@@ -13,9 +13,11 @@ import {
   Users,
   Utensils,
 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { LocalSaved, LocalSessions } from "@/shared/data/local";
+import { LocalSaved } from "@/shared/data/local";
+import { stepCues } from "@/shared/domain/cues";
 import { difficultyLabel, formatMinutes } from "@/shared/domain/discovery";
 import {
   deriveEquipment,
@@ -27,15 +29,14 @@ import {
   type PrepItem,
 } from "@/shared/domain/recipe-detail";
 import type { Recipe, RecipeIngredient } from "@/shared/domain/recipe-schema";
-import { startSession } from "@/shared/domain/session";
+import { kitchenCheckHref } from "@/shared/domain/navigation";
+import { startCookingIfReady } from "./start-cooking";
 import { calculateScalingRatio, scaleRecipe, type ScaledLine } from "@/shared/domain/scaling";
 import { Badge } from "@/shared/ui/Badge";
-import { BottomSheet } from "@/shared/ui/BottomSheet";
 import { Button, buttonClasses } from "@/shared/ui/Button";
 import { QuantityInput } from "@/shared/ui/QuantityInput";
 
 const localSaved = new LocalSaved();
-const localSessions = new LocalSessions();
 
 const ROLE_LABELS: Record<RecipeIngredient["role"], string> = {
   required: "Required",
@@ -56,19 +57,24 @@ export interface RecipeDetailInteractiveProps {
   recipe: Recipe;
   ingredientNames: Record<string, string>;
   initialSaved?: boolean;
+  /** Serving count carried in from Kitchen Check (`?servings=`). */
+  initialServings?: number;
+  /** Discovery origin, forwarded so back links keep working. */
+  from?: string | null;
 }
 
 export function RecipeDetailInteractive({
   recipe,
   ingredientNames,
   initialSaved = false,
+  initialServings,
+  from = null,
 }: RecipeDetailInteractiveProps) {
   const router = useRouter();
   const [, startTransition] = useTransition();
 
-  const [servings, setServings] = useState(recipe.baseServings);
+  const [servings, setServings] = useState(initialServings ?? recipe.baseServings);
   const [saved, setSaved] = useState(initialSaved);
-  const [kitchenCheckOpen, setKitchenCheckOpen] = useState(false);
   const [haveItems, setHaveItems] = useState<Record<string, boolean>>({});
   const [preparedItems, setPreparedItems] = useState<Record<string, boolean>>({});
 
@@ -127,32 +133,14 @@ export function RecipeDetailInteractive({
   };
 
   const handleStartCooking = async () => {
-    try {
-      const sessionId = `cook_${recipe.slug}_${Date.now()}`;
-      const lineNames = new Map(
-        recipe.ingredients.map((line) => [
-          line.id,
-          nameMap.get(line.ingredientId) ?? line.ingredientId,
-        ]),
-      );
-
-      const session = startSession({
-        id: sessionId,
-        recipe,
-        servings,
-        now: Date.now(),
-        lineNames,
-      });
-
-      await localSessions.store(session);
-      startTransition(() => {
-        router.push(`/cook/${encodeURIComponent(sessionId)}`);
-      });
-    } catch {
-      // Fallback: direct navigation with a generated id
-      router.push(`/cook/${encodeURIComponent(`cook_${recipe.slug}`)}`);
-    }
+    // Cooking only starts when the Kitchen Check says so; otherwise go finish it.
+    const result = await startCookingIfReady({ recipe, servings, ingredientNames });
+    startTransition(() => {
+      router.push(result.ok ? result.href : kitchenCheckHref(recipe.slug, { servings, from }));
+    });
   };
+
+  const checkHref = kitchenCheckHref(recipe.slug, { servings, from });
 
   const requiredCount = recipe.ingredients.filter(
     (i) => i.role === "required" || i.role === "substitutable",
@@ -238,13 +226,9 @@ export function RecipeDetailInteractive({
                 {scaledIngredients.length} ingredients · Tap to mark items you have
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => setKitchenCheckOpen(true)}
-              className={buttonClasses({ variant: "secondary", size: "md" })}
-            >
+            <Link href={checkHref} className={buttonClasses({ variant: "secondary", size: "md" })}>
               Kitchen check
-            </button>
+            </Link>
           </div>
 
           <ul className="flex flex-col gap-2.5">
@@ -557,17 +541,21 @@ export function RecipeDetailInteractive({
 
                   <p className="text-[16px] leading-[1.65] text-ink-900">{step.instruction}</p>
 
-                  {step.sensoryCue && (
+                  {stepCues(step).length > 0 && (
                     <div className="flex items-start gap-2.5 rounded-2xl bg-white p-3.5 text-[14px] leading-5 text-ink-700">
                       <Sparkles
                         aria-hidden
                         size={16}
                         className="mt-0.5 shrink-0 text-primary-700"
                       />
-                      <div>
-                        <span className="font-semibold text-ink-900">Sensory cue: </span>
-                        {step.sensoryCue}
-                      </div>
+                      <ul className="flex flex-col gap-1">
+                        {stepCues(step).map((cue) => (
+                          <li key={cue.kind}>
+                            <span className="font-semibold text-ink-900">{cue.label}: </span>
+                            {cue.text}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
 
@@ -669,14 +657,12 @@ export function RecipeDetailInteractive({
               <Play aria-hidden size={18} fill="currentColor" />
               Start cooking
             </Button>
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => setKitchenCheckOpen(true)}
-              className="w-full"
+            <Link
+              href={checkHref}
+              className={buttonClasses({ variant: "secondary", size: "md", className: "w-full" })}
             >
               Kitchen check
-            </Button>
+            </Link>
           </div>
         </div>
       </aside>
@@ -688,81 +674,15 @@ export function RecipeDetailInteractive({
           <span className="text-[14px] font-semibold text-ink-900">Serves {servings}</span>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary" size="md" onClick={() => setKitchenCheckOpen(true)}>
+          <Link href={checkHref} className={buttonClasses({ variant: "secondary", size: "md" })}>
             Check
-          </Button>
+          </Link>
           <Button variant="primary" size="md" onClick={handleStartCooking}>
             <Play aria-hidden size={16} fill="currentColor" />
             Start cooking
           </Button>
         </div>
       </div>
-
-      {/* Kitchen Check BottomSheet (Integration Point) */}
-      <BottomSheet
-        title="Kitchen Check"
-        open={kitchenCheckOpen}
-        onClose={() => setKitchenCheckOpen(false)}
-        footer={
-          <div className="flex gap-2.5">
-            <Button
-              variant="secondary"
-              onClick={() => setKitchenCheckOpen(false)}
-              className="flex-1"
-            >
-              Done
-            </Button>
-            <Button variant="primary" onClick={handleStartCooking} className="flex-1">
-              Start cooking
-            </Button>
-          </div>
-        }
-      >
-        <div className="flex flex-col gap-4 text-left">
-          <div className="rounded-2xl bg-surface-100 p-4">
-            <h4 className="text-[15px] font-semibold text-ink-900">Ingredient readiness check</h4>
-            <p className="mt-1 text-[13px] leading-5 text-ink-500">
-              Check off ingredients you have ready. Optional and garnish items will not prevent you
-              from cooking.
-            </p>
-            <div className="mt-3 flex items-center gap-2 text-[13px] font-medium text-ink-700">
-              <span className="tnum">
-                {haveRequiredCount} of {requiredCount} required ingredients confirmed
-              </span>
-            </div>
-          </div>
-
-          <ul className="flex flex-col gap-2">
-            {scaledIngredients.map((line) => {
-              const displayName = nameMap.get(line.ingredientId) ?? line.ingredientId;
-              const isChecked = !!haveItems[line.id];
-              return (
-                <li key={line.id} className="list-none">
-                  <label className="flex cursor-pointer items-center justify-between rounded-xl p-2.5 hover:bg-surface-100">
-                    <div className="flex items-center gap-2.5">
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => toggleHave(line.id)}
-                        className="h-5 w-5 accent-[#111311]"
-                      />
-                      <span className="text-[15px] text-ink-900">{displayName}</span>
-                    </div>
-                    <span className="tnum text-[14px] font-medium text-ink-600">
-                      {line.displayQuantity}
-                    </span>
-                  </label>
-                </li>
-              );
-            })}
-          </ul>
-
-          <p className="text-[12px] text-ink-400">
-            Note: This check is device-local for this cooking session. Cloud pantry sync lands in a
-            later phase.
-          </p>
-        </div>
-      </BottomSheet>
     </div>
   );
 }

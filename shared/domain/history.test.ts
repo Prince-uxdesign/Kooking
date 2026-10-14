@@ -32,6 +32,10 @@ function session(id: string, status: CookingSession["status"], updatedAt: number
     status,
     createdAt: 0,
     updatedAt,
+    steps: [],
+    pausedAt: null,
+    completedAt: null,
+    abandonedAt: null,
   } satisfies CookingSession;
 }
 

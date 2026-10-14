@@ -155,6 +155,25 @@ export type TimerConfig = z.infer<typeof timerConfigSchema>;
 
 export const heatLevels = ["low", "medium-low", "medium", "medium-high", "high"] as const;
 
+const cueText = z.string().trim().min(1, "cue text can't be empty").max(300);
+
+/**
+ * Structured sensory cues for a step: what the cook should see, feel,
+ * smell or hear. Every field is optional; unknown keys are rejected so a
+ * typo can't silently drop a cue. `sensoryCue` remains for cues that
+ * don't fit one sense.
+ */
+export const stepCuesSchema = z
+  .object({
+    visual: cueText.optional(),
+    texture: cueText.optional(),
+    aroma: cueText.optional(),
+    sound: cueText.optional(),
+  })
+  .strict();
+
+export type StepCues = z.infer<typeof stepCuesSchema>;
+
 export const recipeStepSchema = z.object({
   id: idSchema,
   order: z.number().int().min(1),
@@ -165,8 +184,16 @@ export const recipeStepSchema = z.object({
   heat: z.enum(heatLevels).optional(),
   estimatedMinutes: z.number().positive().max(1440).optional(),
   timer: timerConfigSchema.optional(),
-  sensoryCue: z.string().max(300).optional(),
-  completionNote: z.string().max(300).optional(),
+  /** A cue that doesn't belong to one sense. */
+  sensoryCue: cueText.optional(),
+  cues: stepCuesSchema.optional(),
+  /**
+   * What to check before moving on. Independent of `timer`: a timer is a
+   * time cue, this is the doneness check.
+   */
+  completionNote: cueText.optional(),
+  /** Safety-relevant warning for this step (hot oil, steam, raw meat…). */
+  safetyNote: cueText.optional(),
 });
 
 export type RecipeStep = z.infer<typeof recipeStepSchema>;
@@ -307,6 +334,41 @@ export const recipeSchema = z
     const stepIds = new Set(recipe.steps.map((s) => s.id));
     if (stepIds.size !== recipe.steps.length) {
       ctx.addIssue({ code: "custom", message: "step ids must be unique" });
+    }
+
+    // Per-step quantities say how much of a line *this step handles*. The
+    // same line can be handled by several steps (rinse the rice, then add
+    // it), so they are not shares that must sum — but none may exceed the
+    // line's total, and each must belong to a line the step lists.
+    for (const step of recipe.steps) {
+      if (new Set(step.ingredientIds).size !== step.ingredientIds.length) {
+        ctx.addIssue({
+          code: "custom",
+          message: `step ${step.order} lists the same ingredient line more than once`,
+        });
+      }
+      for (const [ref, qty] of Object.entries(step.ingredientQuantities ?? {})) {
+        if (!step.ingredientIds.includes(ref)) {
+          ctx.addIssue({
+            code: "custom",
+            message: `step ${step.order} gives a quantity for '${ref}' but doesn't list it in ingredientIds`,
+          });
+        }
+        const line = recipe.ingredients.find((i) => i.id === ref);
+        if (line && typeof qty === "number") {
+          if (line.quantity === null) {
+            ctx.addIssue({
+              code: "custom",
+              message: `step ${step.order} gives a quantity for '${ref}', which has no quantity in the ingredient list`,
+            });
+          } else if (qty > line.quantity + 1e-9) {
+            ctx.addIssue({
+              code: "custom",
+              message: `step ${step.order} uses ${qty} of '${ref}' but the recipe only has ${line.quantity}`,
+            });
+          }
+        }
+      }
     }
 
     for (const step of recipe.steps) {

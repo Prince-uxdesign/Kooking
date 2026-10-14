@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { recipeSchema } from "./recipe-schema";
+import { remainingMs } from "./timers";
 import {
   pauseTimer,
   rehydrateSession,
@@ -32,7 +33,8 @@ describe("startSession", () => {
     expect(session.timers[0]).toMatchObject({
       durationSeconds: 600,
       status: "idle",
-      remainingSeconds: 600,
+      remainingMs: 600_000,
+      label: "Simmer base",
     });
   });
 });
@@ -64,7 +66,7 @@ describe("timers", () => {
     expect(timer.endsAt).toBe(NOW + 600_000);
 
     const paused = pauseTimer(running, "timer:demo-step-2", NOW + 60_000);
-    expect(paused.timers[0]).toMatchObject({ status: "paused", remainingSeconds: 540 });
+    expect(paused.timers[0]).toMatchObject({ status: "paused", remainingMs: 540_000 });
   });
 });
 
@@ -72,13 +74,18 @@ describe("rehydrateSession", () => {
   it("completes timers that elapsed while away", () => {
     const running = startTimer(start(), "timer:demo-step-2", NOW);
     const back = rehydrateSession(running, NOW + 700_000);
-    expect(back.timers[0]).toMatchObject({ status: "done", remainingSeconds: 0 });
+    expect(back.timers[0]).toMatchObject({
+      status: "done",
+      remainingMs: 0,
+      finishedAt: NOW + 600_000,
+    });
   });
 
   it("recomputes remaining for timers still running", () => {
     const running = startTimer(start(), "timer:demo-step-2", NOW);
     const back = rehydrateSession(running, NOW + 60_000);
-    expect(back.timers[0]).toMatchObject({ status: "running", remainingSeconds: 540 });
+    expect(back.timers[0]).toMatchObject({ status: "running", endsAt: NOW + 600_000 });
+    expect(remainingMs(back.timers[0], NOW + 60_000)).toBe(540_000);
   });
 
   it("rejects corrupt payloads instead of half-loading", () => {

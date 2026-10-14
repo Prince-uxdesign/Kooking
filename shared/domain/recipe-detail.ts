@@ -1,3 +1,4 @@
+import { stepCues } from "./cues";
 import type { Recipe } from "./recipe-schema";
 import type { ScaledLine } from "./scaling";
 
@@ -322,10 +323,10 @@ export function deriveTips(recipe: Recipe, ingredientNames: Map<string, string>)
 
   // Step sensory cues and completion notes
   recipe.steps.forEach((step) => {
-    if (step.sensoryCue) {
+    for (const cue of stepCues(step)) {
       tips.push({
-        title: `Step ${step.order} cue`,
-        text: step.sensoryCue,
+        title: `Step ${step.order}: ${cue.label.toLowerCase()}`,
+        text: cue.text,
         type: "sensory",
       });
     }

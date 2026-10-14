@@ -37,3 +37,31 @@ export function backTargetFor(
   }
   return fallback;
 }
+
+function withParams(path: string, params: Record<string, string | number | null | undefined>) {
+  const query = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== null && v !== undefined && v !== "") query.set(k, String(v));
+  }
+  const qs = query.toString();
+  return qs ? `${path}?${qs}` : path;
+}
+
+/** Recipe page, optionally carrying servings and the discovery origin. */
+export function recipeHref(
+  slug: string,
+  opts: { servings?: number | null; from?: string | null } = {},
+): string {
+  return withParams(`/recipes/${slug}`, { servings: opts.servings, from: opts.from });
+}
+
+/** Kitchen Check for a recipe at a specific serving count. */
+export function kitchenCheckHref(
+  slug: string,
+  opts: { servings: number; from?: string | null },
+): string {
+  return withParams(`/recipes/${slug}/kitchen-check`, {
+    servings: opts.servings,
+    from: opts.from,
+  });
+}

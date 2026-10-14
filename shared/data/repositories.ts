@@ -4,6 +4,7 @@ import type { CookingSession } from "@/shared/domain/session";
 import type { SavedRecipe } from "@/shared/domain/user";
 import type { RecentView } from "@/shared/domain/history";
 import type { Collection } from "@/shared/domain/collections";
+import type { KitchenCheckRecord } from "@/shared/domain/kitchen-check";
 
 /**
  * Repository interfaces (Phase 1 §3). Features depend on these —
@@ -42,11 +43,18 @@ export interface ShoppingRepository {
   store(list: ShoppingList): Promise<void>;
 }
 
+export interface KitchenCheckRepository {
+  load(key: string): Promise<KitchenCheckRecord | null>;
+  store(record: KitchenCheckRecord): Promise<void>;
+}
+
 export interface SessionRepository {
   latestForRecipe(recipeId: string): Promise<CookingSession | null>;
   /** Most recently updated active/paused session across all recipes. */
   latestResumable(): Promise<CookingSession | null>;
   getById(id: string): Promise<CookingSession>;
+  /** Unvalidated stored entry, so a corrupt session can be told apart from a missing one. */
+  getRaw(id: string): Promise<unknown | null>;
   store(session: CookingSession): Promise<void>;
 }
 

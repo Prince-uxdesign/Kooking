@@ -234,8 +234,11 @@ export function evaluateIngredientRequirement(
     };
   }
 
+  // A reported amount of zero is "none on hand", the same as not having it.
+  const onHand = Boolean(pantryInput?.have) && pantryInput?.haveQty !== 0;
+
   // 2. Substitution Check: If user does not have original, check for approved substitution
-  if ((!pantryInput || !pantryInput.have) && activeSubstituteId) {
+  if (!onHand && activeSubstituteId) {
     const isApproved = substitutes.includes(activeSubstituteId);
     const subName = nameMap.get(activeSubstituteId) ?? activeSubstituteId;
 
@@ -285,7 +288,7 @@ export function evaluateIngredientRequirement(
   }
 
   // 3. Missing Check: Not on hand and not substituted
-  if (!pantryInput || !pantryInput.have) {
+  if (!onHand || !pantryInput) {
     const reasonText =
       line.role === "substitutable" && substitutes.length > 0
         ? `${name}: Missing substitutable ingredient. Approved alternatives: ${substitutes.join(", ")}.`

@@ -8,7 +8,14 @@ import { SiteHeader } from "./SiteHeader";
  * >= lg: sidebar). Page content stays in `children` —
  * no feature logic lives here.
  */
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell({
+  children,
+  banner,
+}: {
+  children: React.ReactNode;
+  /** Optional cross-page notice above the content (e.g. resume cooking). */
+  banner?: React.ReactNode;
+}) {
   return (
     <div className="min-h-screen lg:flex lg:items-start">
       <SiteHeader />
@@ -18,6 +25,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         tabIndex={-1}
         className="mx-auto w-full max-w-[1120px] flex-1 px-5 pb-32 pt-4 sm:px-6 sm:pt-6 lg:px-12 lg:pb-16 lg:pt-12"
       >
+        {banner}
         {children}
       </main>
       <TabBar />

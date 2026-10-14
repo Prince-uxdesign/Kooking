@@ -89,7 +89,7 @@ export class MemorySessions implements SessionRepository {
 
   async latestForRecipe(recipeId: string): Promise<CookingSession | null> {
     const candidates = [...this.sessions.values()]
-      .filter((s) => s.recipeId === recipeId && s.status !== "completed")
+      .filter((s) => s.recipeId === recipeId && (s.status === "active" || s.status === "paused"))
       .sort((a, b) => b.updatedAt - a.updatedAt);
     return candidates[0] ?? null;
   }
@@ -102,6 +102,10 @@ export class MemorySessions implements SessionRepository {
     const found = this.sessions.get(id);
     if (!found) throw new StoreError("not-found", `session '${id}' not found`);
     return found;
+  }
+
+  async getRaw(id: string): Promise<unknown | null> {
+    return this.sessions.get(id) ?? null;
   }
 
   async store(session: CookingSession): Promise<void> {

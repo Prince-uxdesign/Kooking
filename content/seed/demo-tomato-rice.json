@@ -83,7 +83,10 @@
       "ingredientQuantities": { "demo-tomato-paste": 70, "demo-salt": null },
       "heat": "medium",
       "timer": { "durationSeconds": 600, "label": "Simmer base" },
-      "sensoryCue": "Oil gathers at the edges and the sharp raw smell fades.",
+      "cues": {
+        "visual": "Oil gathers at the edges.",
+        "aroma": "The sharp raw smell fades."
+      },
       "completionNote": "Base looks glossy, not watery."
     },
     {

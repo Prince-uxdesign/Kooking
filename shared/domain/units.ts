@@ -214,3 +214,61 @@ export function formatQuantity(amount: number | null, unit: Unit | null): string
   }
   return `${trimNumber(amount)} ${unit}`;
 }
+
+/* Quantity text typed by a cook (Kitchen Check, shopping list). */
+
+export type ParsedQuantity =
+  { kind: "empty" } | { kind: "ok"; value: number } | { kind: "invalid"; message: string };
+
+const UNICODE_FRACTIONS: Record<string, number> = {
+  "½": 0.5,
+  "⅓": 1 / 3,
+  "⅔": 2 / 3,
+  "¼": 0.25,
+  "¾": 0.75,
+};
+
+const MAX_QTY = 1_000_000;
+
+/**
+ * Accepts "2", "1.5", "1,5", "1/2", "1 1/2", "½", "1½". Rejects
+ * negatives, text and anything non-finite. Zero is a valid answer
+ * ("I have none left of the packet").
+ */
+export function parseQuantityText(raw: string): ParsedQuantity {
+  const text = raw.trim();
+  if (text === "") return { kind: "empty" };
+
+  const bad = (message = "Enter a number, like 2 or 1/2."): ParsedQuantity => ({
+    kind: "invalid",
+    message,
+  });
+
+  if (text.startsWith("-")) return bad("Amount can't be negative.");
+
+  let value: number | null = null;
+
+  const mixedGlyph = /^(\d+)?\s*([½⅓⅔¼¾])$/.exec(text);
+  const decimal = /^(\d+)([.,]\d+)?$/.exec(text) ?? /^([.,]\d+)$/.exec(text);
+  const fraction = /^(\d+)\s*\/\s*(\d+)$/.exec(text);
+  const mixedFraction = /^(\d+)\s+(\d+)\s*\/\s*(\d+)$/.exec(text);
+
+  if (mixedGlyph) {
+    value = Number(mixedGlyph[1] ?? 0) + UNICODE_FRACTIONS[mixedGlyph[2]];
+  } else if (mixedFraction) {
+    const d = Number(mixedFraction[3]);
+    if (d === 0) return bad();
+    value = Number(mixedFraction[1]) + Number(mixedFraction[2]) / d;
+  } else if (fraction) {
+    const d = Number(fraction[2]);
+    if (d === 0) return bad();
+    value = Number(fraction[1]) / d;
+  } else if (decimal) {
+    value = Number(text.replace(",", "."));
+  }
+
+  if (value === null || !Number.isFinite(value)) return bad();
+  if (value > MAX_QTY) return bad("That amount is too large.");
+  // Strip float dust (1/3 -> 0.333333333) so equality with scaled amounts holds.
+  return { kind: "ok", value: dedust(value) };
+}

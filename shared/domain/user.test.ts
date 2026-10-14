@@ -55,6 +55,10 @@ describe("memory repositories", () => {
       status: "active" as const,
       createdAt: 5,
       updatedAt: 5,
+      steps: [],
+      pausedAt: null,
+      completedAt: null,
+      abandonedAt: null,
     };
     await sessions.store(session);
     expect(await sessions.latestForRecipe(recipe.id)).toMatchObject({ id: "s1" });

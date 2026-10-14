@@ -174,7 +174,7 @@ describe("scaleRecipe — serving adjustments", () => {
     expect(recipe.steps[1].timer?.durationSeconds).toBe(600);
     expect(recipe.steps[1].heat).toBe("medium");
     expect(recipe.steps[1].instruction).toContain("Simmer");
-    expect(recipe.steps[1].sensoryCue).toContain("Oil gathers");
+    expect(recipe.steps[1].cues?.visual).toContain("Oil gathers");
     expect(recipe.steps[2].estimatedMinutes).toBe(20);
   });
 });
