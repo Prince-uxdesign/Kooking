@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "quick-meals",
+    "title": "Quick meals",
+    "description": "Ready in 30 minutes or less, prep included.",
+    "rule": { "kind": "max-total-minutes", "minutes": 30 }
+  },
+  {
+    "slug": "everyday-cooking",
+    "title": "Everyday cooking",
+    "description": "Recipes tagged for regular, everyday cooking.",
+    "rule": { "kind": "tag", "tag": "everyday" }
+  },
+  {
+    "slug": "weekend-cooking",
+    "title": "Weekend cooking",
+    "description": "Longer cooks of 1 hr 30 min or more, for when you have time.",
+    "rule": { "kind": "min-total-minutes", "minutes": 90 }
+  },
+  {
+    "slug": "one-pot-meals",
+    "title": "One-pot meals",
+    "description": "Recipes tagged as cooked in a single pot.",
+    "rule": { "kind": "tag", "tag": "one-pot" }
+  },
+  {
+    "slug": "beginner-friendly",
+    "title": "Beginner-friendly",
+    "description": "Recipes whose difficulty is marked easy.",
+    "rule": { "kind": "difficulty", "difficulty": "easy" }
+  }
+]

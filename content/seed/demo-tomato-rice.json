@@ -1,0 +1,78 @@
+{
+  "id": "demo-tomato-rice",
+  "slug": "demo-tomato-rice",
+  "title": "Demo Tomato Rice (SAMPLE — not a real recipe)",
+  "description": "Seed fixture for schema and domain tests. Replace with chef-validated content. Never publish.",
+  "categories": ["rice"],
+  "tags": ["demo", "sample"],
+  "baseServings": 4,
+  "timeMinutes": { "prep": 10, "cook": 25, "total": 35 },
+  "ingredients": [
+    {
+      "id": "demo-rice",
+      "ingredientId": "demo:long-grain-rice",
+      "quantity": 400,
+      "unit": "g",
+      "preparation": "rinsed",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "demo-tomato-paste",
+      "ingredientId": "demo:tomato-paste",
+      "quantity": 70,
+      "unit": "g",
+      "role": "substitutable",
+      "scaling": "linear",
+      "substitutes": ["demo:tomato-puree"]
+    },
+    {
+      "id": "demo-salt",
+      "ingredientId": "demo:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "optional",
+      "scaling": "to-taste",
+      "note": "Season gradually"
+    },
+    {
+      "id": "demo-plantain",
+      "ingredientId": "demo:plantain",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "garnish",
+      "scaling": "discrete",
+      "note": "Fried, to serve"
+    }
+  ],
+  "steps": [
+    {
+      "id": "demo-step-1",
+      "order": 1,
+      "instruction": "Rinse the rice until the water runs mostly clear, then drain.",
+      "ingredientIds": ["demo-rice"]
+    },
+    {
+      "id": "demo-step-2",
+      "order": 2,
+      "instruction": "Simmer the tomato base on medium heat until the oil rises.",
+      "ingredientIds": ["demo-tomato-paste", "demo-salt"],
+      "heat": "medium",
+      "timer": { "durationSeconds": 600, "label": "Simmer base" },
+      "sensoryCue": "Oil gathers at the edges and the sharp raw smell fades.",
+      "completionNote": "Base looks glossy, not watery."
+    },
+    {
+      "id": "demo-step-3",
+      "order": 3,
+      "instruction": "Fold in the rice, cover tightly, and steam on low heat until tender.",
+      "ingredientIds": ["demo-rice"],
+      "heat": "low",
+      "estimatedMinutes": 20,
+      "completionNote": "Grains separate and stand, not mushy."
+    }
+  ],
+  "contentVersion": 1,
+  "status": "draft",
+  "demo": true
+}

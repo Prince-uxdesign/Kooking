@@ -1,0 +1,35 @@
+# Kooking — Testing Strategy (Phase 5)
+
+Runner: vitest 5, node environment (`vitest.config.ts` maps `@/` to the repo root). Run with `npm test`; watch mode with `npx vitest`.
+
+## 1. What we test (and why)
+
+Unit + domain tests, colocated as `*.test.ts` next to the code they cover. No arbitrary coverage target — every suite below guards a business rule from the brief:
+
+| Rule                                                                                                                                                                                                                    | Suite                        | Status                  |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------------------- |
+| Quantities reject zero/negative/NaN/Infinity; dust-free math                                                                                                                                                            | `units.test.ts` (20)         | PASS                    |
+| Servings scale per unit class; to-taste/manual untouched; timers invariant                                                                                                                                              | `scaling.test.ts` (6)        | PASS                    |
+| Step order contiguous; refs resolve; substitutes gated; demo never published; `testedBy` past review                                                                                                                    | `recipe-schema.test.ts` (15) | PASS                    |
+| Required lines block readiness with exact shortfall; optional/garnish never block; unit-mismatch fallback; approved swaps only                                                                                          | `readiness.test.ts` (6)      | PASS                    |
+| Recipe items snapshot + aggregate per servings; personal CRUD; check-off flips                                                                                                                                          | `shopping.test.ts` (5)       | PASS                    |
+| Session lifecycle legal/illegal moves; timer pause math on fixed clocks; reload rehydration; stale-content detection                                                                                                    | `session.test.ts` (8)        | PASS                    |
+| Guest identity; save toggle; memory repos incl. not-found                                                                                                                                                               | `user.test.ts` (5)           | PASS                    |
+| Discovery: listability (no real drafts), featured/collection selection, search + category hrefs, Explore query, back-link targets (no open redirect), reserved slugs, difficulty, time/greeting labels, image src rules | `discovery.test.ts` (16)     | PASS (Phases 7–8)       |
+| Categories (copy for every enum value, membership, counts) and collections (schema, each rule kind, derived membership, visibility threshold, shipped file)                                                             | `collections.test.ts` (11)   | PASS (Phase 8)          |
+| Recently viewed record/dedupe/cap/resolve; resumable-session selection + progress label; local adapters incl. blocked storage                                                                                           | `history.test.ts` (8)        | PASS (Phase 7)          |
+| Nav destinations single-sourced; active-state matching incl. prefix traps (`/recipesx`)                                                                                                                                 | `nav-items.test.ts` (12+)    | PASS (added this phase) |
+
+Fixtures: exactly one seed recipe (`content/seed/demo-tomato-rice.json`, explicitly demo) parsed through the real schema — tests exercise production validation, not a parallel fake.
+
+## 2. What we deliberately don't test yet
+
+- Component rendering (no jsdom/react-testing-library installed): shell and components are verified via production `next build` + served smoke tests + static audits each phase. DOM tests arrive with the first interactive feature, not before.
+- E2E/browser automation: unavailable in this environment; the responsive checklist (`RESPONSIVE_QA_CHECKLIST.md`) is executed manually per phase.
+- No full feature implementations exist to integration-test — suites cover what exists, nothing speculative.
+
+## 3. Conventions
+
+- Fixed clocks: pass `now` explicitly; never depend on wall time.
+- Test behavior, not implementation: assert readiness/scaling outcomes, not internal shapes.
+- A rule is "tested" only if a passing test names it. Failing assertions get fixed in code or corrected in the test with a comment explaining the right expectation (as happened once in Phase 4: 3.75g rounds to 4).
