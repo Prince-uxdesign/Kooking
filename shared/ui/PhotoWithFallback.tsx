@@ -36,7 +36,7 @@ export function PhotoWithFallback({
       src={src}
       alt={alt}
       loading={priority ? "eager" : "lazy"}
-      fetchPriority={priority ? "high" : "auto"}
+      fetchPriority={priority ? "high" : undefined}
       decoding="async"
       onError={() => setFailed(true)}
       className="absolute inset-0 h-full w-full object-cover"

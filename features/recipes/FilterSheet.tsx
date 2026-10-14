@@ -64,8 +64,8 @@ export function FilterSheet({
         {facets &&
           SECTIONS.filter(({ key }) => facets[key].length > 0).map(({ key, title, hint }) => (
             <fieldset key={key} className="flex flex-col gap-3">
-              <legend className="mb-3 text-[17px] font-semibold text-ink-900">{title}</legend>
-              {hint && <p className="-mt-2 text-[13px] leading-5 text-ink-500">{hint}</p>}
+              <legend className="mb-3 text-[1.0625rem] font-semibold text-ink-900">{title}</legend>
+              {hint && <p className="-mt-2 text-[0.8125rem] leading-5 text-ink-500">{hint}</p>}
               <div className="flex flex-wrap gap-2">
                 {facets[key].map((option) => (
                   <FacetChip
@@ -88,10 +88,17 @@ function FacetChip({ option, onToggle }: { option: FacetOption; onToggle: () => 
       pressed={option.selected}
       onClick={onToggle}
       disabled={option.count === 0 && !option.selected}
-      label={`${option.label}, ${option.count === 0 ? "no matches" : recipeCountLabel(option.count)}`}
     >
-      {option.label}
-      <span className="tnum text-[13px] text-ink-600">{option.count}</span>
+      {/* Name = what's visible ("Rice dishes 1") plus hidden context, never a different label. */}
+      {option.label}{" "}
+      <span className="tnum text-[0.8125rem] text-ink-600">
+        {option.count}
+        <span className="sr-only">
+          {" "}
+          {option.count === 1 ? "recipe" : "recipes"}
+          {option.count === 0 ? ", no matches" : ""}
+        </span>
+      </span>
     </ChipButton>
   );
 }

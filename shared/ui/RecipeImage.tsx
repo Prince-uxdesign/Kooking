@@ -39,7 +39,9 @@ export function RecipeImage({
         <FallbackIcon size={compact ? 18 : 22} strokeWidth={1.75} />
       </span>
       {/* Caption only where it fits — narrow 2-up cards show the icon alone. */}
-      {!compact && <span className="hidden text-[13px] @[200px]:inline">Photo coming soon</span>}
+      {!compact && (
+        <span className="hidden text-[0.8125rem] @[200px]:inline">Photo coming soon</span>
+      )}
     </div>
   );
 

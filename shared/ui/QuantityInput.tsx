@@ -1,6 +1,7 @@
 "use client";
 
 import { Minus, Plus } from "lucide-react";
+import { useState } from "react";
 
 export interface QuantityInputProps {
   label: string;
@@ -25,12 +26,18 @@ export function QuantityInput({
   onChange,
   id,
 }: QuantityInputProps) {
+  /**
+   * Said once after a button press. Keyboard use on the spinbutton itself
+   * is announced by its own value, so this stays empty then (no doubling).
+   */
+  const [said, setSaid] = useState("");
   const clamp = (n: number) => {
     if (!Number.isFinite(n)) return min;
     return Math.min(max, Math.max(min, Math.round(n)));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    setSaid("");
     if (e.key === "ArrowUp" || e.key === "ArrowRight") {
       e.preventDefault();
       onChange(clamp(value + step));
@@ -60,14 +67,22 @@ export function QuantityInput({
       id={id}
       className="flex min-h-[52px] items-center justify-between gap-3 rounded-[20px] bg-surface-100 py-1.5 pl-4 pr-1.5"
     >
-      <span className="text-[15px] font-medium text-ink-900">{label}</span>
+      <span className="text-[0.9375rem] font-medium text-ink-900">{label}</span>
+      <span role="status" className="sr-only">
+        {said}
+      </span>
       <div className="flex items-center gap-1 rounded-full bg-white p-1 shadow-xs">
         <button
           type="button"
           aria-label={`Decrease ${label} to ${decreaseTarget}`}
-          disabled={value <= min}
-          onClick={() => onChange(clamp(value - step))}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-surface-100 text-ink-900 transition-colors hover:bg-surface-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 disabled:opacity-40 disabled:pointer-events-none"
+          aria-disabled={value <= min}
+          onClick={() => {
+            if (value <= min) return;
+            const next = clamp(value - step);
+            onChange(next);
+            setSaid(`${label}: ${next}`);
+          }}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-surface-100 text-ink-900 transition-colors hover:bg-surface-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 aria-disabled:opacity-40"
         >
           <Minus aria-hidden size={18} strokeWidth={2.2} />
         </button>
@@ -75,13 +90,12 @@ export function QuantityInput({
         <div
           role="spinbutton"
           tabIndex={0}
-          aria-live="polite"
           aria-label={label}
           aria-valuenow={value}
           aria-valuemin={min}
           aria-valuemax={max}
           onKeyDown={handleKeyDown}
-          className="tnum min-w-[2.75rem] px-1 text-center text-[17px] font-semibold text-ink-900 select-none rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+          className="tnum min-w-[2.75rem] px-1 text-center text-[1.0625rem] font-semibold text-ink-900 select-none rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
         >
           {value}
         </div>
@@ -89,9 +103,14 @@ export function QuantityInput({
         <button
           type="button"
           aria-label={`Increase ${label} to ${increaseTarget}`}
-          disabled={value >= max}
-          onClick={() => onChange(clamp(value + step))}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary-500 text-ink-900 transition-colors hover:bg-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 disabled:opacity-40 disabled:pointer-events-none"
+          aria-disabled={value >= max}
+          onClick={() => {
+            if (value >= max) return;
+            const next = clamp(value + step);
+            onChange(next);
+            setSaid(`${label}: ${next}`);
+          }}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary-500 text-ink-900 transition-colors hover:bg-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 aria-disabled:opacity-40"
         >
           <Plus aria-hidden size={18} strokeWidth={2.2} />
         </button>

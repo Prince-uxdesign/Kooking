@@ -15,7 +15,7 @@ export function Progress({
     <div className="flex flex-col gap-2">
       <div className="flex items-baseline justify-between gap-2">
         <p className="text-sm font-medium text-ink-900">{text}</p>
-        <p className="tnum text-[13px] text-ink-500">{pct}%</p>
+        <p className="tnum text-[0.8125rem] text-ink-500">{pct}%</p>
       </div>
       <div
         role="progressbar"

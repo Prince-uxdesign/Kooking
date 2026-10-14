@@ -47,7 +47,7 @@ export default async function HomePage() {
       <header className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <HomeGreeting />
-          <h1 className="text-[30px] font-semibold leading-9 text-ink-900 sm:text-[36px] sm:leading-[44px]">
+          <h1 className="text-[1.875rem] font-semibold leading-9 text-ink-900 sm:text-[2.25rem] sm:leading-[44px]">
             What would you like to cook?
           </h1>
         </div>

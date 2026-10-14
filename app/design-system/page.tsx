@@ -81,10 +81,10 @@ export default function DesignSystemPage() {
   return (
     <main id="main-content" className="mx-auto w-full max-w-[1120px] px-5 pb-24 pt-8 sm:px-6">
       <Badge>Kooking · Design system · Clean Kitchen</Badge>
-      <h1 className="mt-3 text-[32px] font-semibold leading-10 sm:text-[40px] sm:leading-[48px]">
+      <h1 className="mt-3 text-[2rem] font-semibold leading-10 sm:text-[2.5rem] sm:leading-[48px]">
         Foundations, not screens
       </h1>
-      <p className="mt-2 max-w-2xl text-[16px] leading-7 text-ink-600">
+      <p className="mt-2 max-w-2xl text-[1rem] leading-7 text-ink-600">
         Reusable tokens and components for the cooking journey. Full home and recipe pages are out
         of scope — this page only proves the primitives compose, respond, and stay accessible.
       </p>
@@ -104,8 +104,8 @@ export default function DesignSystemPage() {
                 style={{ background: hex }}
               />
               <span className="text-sm font-medium">{name}</span>
-              <span className="tnum text-[13px] text-ink-500">{hex}</span>
-              <span className="text-[13px] leading-5 text-ink-500">{use}</span>
+              <span className="tnum text-[0.8125rem] text-ink-500">{hex}</span>
+              <span className="text-[0.8125rem] leading-5 text-ink-500">{use}</span>
             </Card>
           ))}
         </div>
@@ -118,9 +118,9 @@ export default function DesignSystemPage() {
           description="Inter. Semibold titles, regular body, medium labels — never heavy. Tabular numerals for quantities and timers."
         />
         <Panel>
-          <p className="text-[30px] font-semibold leading-9">Jollof rice for Sunday</p>
-          <h2 className="mt-2 text-[20px] font-semibold">Section heading 20px</h2>
-          <p className="mt-2 text-[17px] leading-[1.65]">
+          <p className="text-[1.875rem] font-semibold leading-9">Jollof rice for Sunday</p>
+          <h2 className="mt-2 text-[1.25rem] font-semibold">Section heading 20px</h2>
+          <p className="mt-2 text-[1.0625rem] leading-[1.65]">
             Step body: stir the tomato base on medium heat until the oil rises to the surface, about
             ten minutes. Quantities stay inline and tabular:{" "}
             <span className="tnum font-medium">400 g</span> rice,{" "}
@@ -246,7 +246,7 @@ export default function DesignSystemPage() {
             />
           </div>
           <Panel>
-            <h3 className="mb-3 text-[17px] font-medium">Stew base · 4 servings</h3>
+            <h3 className="mb-3 text-[1.0625rem] font-medium">Stew base · 4 servings</h3>
             <ul className="flex flex-col gap-2">
               <IngredientRow
                 name="Long-grain rice"
@@ -457,7 +457,7 @@ export default function DesignSystemPage() {
         </div>
       </section>
 
-      <footer className="mt-12 border-t border-line-default pt-4 text-[13px] text-ink-500">
+      <footer className="mt-12 border-t border-line-default pt-4 text-[0.8125rem] text-ink-500">
         <p>
           Validated at 320 / 375 / 390 / 430 / 768 / 1024 / 1280px via responsive layout (single
           codebase, no forked trees). No real recipes, ratings, or endorsements shown — placeholders

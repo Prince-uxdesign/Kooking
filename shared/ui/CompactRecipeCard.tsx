@@ -5,6 +5,7 @@ import { difficultyLabel, formatMinutes } from "@/shared/domain/discovery";
 import type { RecipeDifficulty } from "@/shared/domain/recipe-schema";
 import { Badge } from "./Badge";
 import { RecipeImage } from "./RecipeImage";
+import { SaveButton } from "@/features/saved/SaveButton";
 
 export interface CompactRecipeCardProps {
   title: string;
@@ -24,6 +25,8 @@ export interface CompactRecipeCardProps {
   saved?: boolean;
   /** Callback when save/bookmark button is toggled. */
   onSaveToggle?: () => void;
+  /** Stable recipe id: shows a save button wired to the shared saved store. */
+  recipeId?: string;
   /** Accessible label override for save button. */
   saveLabel?: string;
   /** Fallback icon for missing image. */
@@ -52,6 +55,7 @@ export function CompactRecipeCard({
   demo = false,
   saved = false,
   onSaveToggle,
+  recipeId,
   saveLabel,
   FallbackIcon,
   priority = false,
@@ -73,14 +77,14 @@ export function CompactRecipeCard({
           className="h-full w-full rounded-[20px]"
         />
         {demo && (
-          <span className="absolute left-1.5 top-1.5 z-10 rounded-full bg-white px-2 py-0.5 text-[10px] font-medium text-ink-700">
+          <span className="absolute left-1.5 top-1.5 z-10 rounded-full bg-white px-2 py-0.5 text-[0.625rem] font-medium text-ink-700">
             Demo
           </span>
         )}
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <h3 className="line-clamp-1 text-[15px] font-medium leading-5 text-ink-900">
+        <h3 className="line-clamp-1 text-[0.9375rem] font-medium leading-5 text-ink-900">
           {href ? (
             <Link
               href={href}
@@ -93,9 +97,9 @@ export function CompactRecipeCard({
           )}
         </h3>
 
-        {meta && <p className="line-clamp-1 text-[13px] text-ink-500">{meta}</p>}
+        {meta && <p className="line-clamp-1 text-[0.8125rem] text-ink-500">{meta}</p>}
 
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 pt-0.5 text-[13px] text-ink-500">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 pt-0.5 text-[0.8125rem] text-ink-500">
           {timeLabel && (
             <span className="tnum inline-flex items-center gap-1">
               <Clock aria-hidden size={13} strokeWidth={1.75} />
@@ -105,14 +109,22 @@ export function CompactRecipeCard({
 
           {diffText && (
             <span className="inline-flex items-center">
-              {timeLabel && <span className="mr-2 text-ink-400">·</span>}
+              {timeLabel && (
+                <span aria-hidden className="mr-2 text-ink-400">
+                  ·
+                </span>
+              )}
               <Badge tone="white">{diffText}</Badge>
             </span>
           )}
 
           {category && !diffText && !meta && (
             <span className="inline-flex items-center">
-              {timeLabel && <span className="mr-2 text-ink-400">·</span>}
+              {timeLabel && (
+                <span aria-hidden className="mr-2 text-ink-400">
+                  ·
+                </span>
+              )}
               <span className="text-ink-500">{category}</span>
             </span>
           )}
@@ -131,7 +143,7 @@ export function CompactRecipeCard({
             saveLabel ?? (saved ? `Remove ${title} from saved` : `Save ${title} for later`)
           }
           aria-pressed={saved}
-          className={`relative z-10 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white transition-colors hover:bg-surface-200 focus-visible:outline-3 focus-visible:outline-info-700 active:scale-95 ${
+          className={`relative z-10 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white transition-colors hover:bg-surface-200 focus-visible:outline-3 focus-visible:outline-info-700 active:scale-95 ${
             saved ? "text-primary-700" : "text-ink-700"
           }`}
         >
@@ -142,6 +154,9 @@ export function CompactRecipeCard({
             fill={saved ? "currentColor" : "none"}
           />
         </button>
+      )}
+      {!onSaveToggle && recipeId && (
+        <SaveButton recipeId={recipeId} title={title} variant="compact" />
       )}
     </article>
   );

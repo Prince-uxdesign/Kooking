@@ -3,17 +3,30 @@
 import { CloudOff, RefreshCw, TriangleAlert } from "lucide-react";
 import { useEffect, useState } from "react";
 
-/** `navigator.onLine` with live updates. Defaults to online before mount. */
+import { checkReachability } from "@/features/pwa/connectivity";
+
+/** `navigator.onLine` combined with active reachability verification. */
 export function useOnlineStatus(): boolean {
   const [online, setOnline] = useState(true);
   useEffect(() => {
-    const update = () => setOnline(navigator.onLine);
-    update();
-    window.addEventListener("online", update);
-    window.addEventListener("offline", update);
+    let active = true;
+
+    async function verify() {
+      if (typeof navigator !== "undefined" && !navigator.onLine) {
+        if (active) setOnline(false);
+        return;
+      }
+      const reachable = await checkReachability();
+      if (active) setOnline(reachable);
+    }
+
+    void verify();
+    window.addEventListener("online", verify);
+    window.addEventListener("offline", verify);
     return () => {
-      window.removeEventListener("online", update);
-      window.removeEventListener("offline", update);
+      active = false;
+      window.removeEventListener("online", verify);
+      window.removeEventListener("offline", verify);
     };
   }, []);
   return online;
@@ -40,7 +53,7 @@ export function SessionStatus({
       {saveFailed && (
         <div
           role="alert"
-          className="flex flex-wrap items-center gap-3 rounded-2xl bg-error-100 px-4 py-3 text-[14px] text-error-700"
+          className="flex flex-wrap items-center gap-3 rounded-2xl bg-error-100 px-4 py-3 text-[0.875rem] text-error-700"
         >
           <TriangleAlert aria-hidden size={18} className="shrink-0" />
           <p className="min-w-0 flex-1">
@@ -60,7 +73,7 @@ export function SessionStatus({
       {!online && (
         <p
           role="status"
-          className="flex items-start gap-2 rounded-2xl bg-white/10 px-4 py-3 text-[14px] text-white/80"
+          className="flex items-start gap-2 rounded-2xl bg-white/10 px-4 py-3 text-[0.875rem] text-white/80"
         >
           <CloudOff aria-hidden size={18} className="mt-0.5 shrink-0" />
           You&apos;re offline. This session is on your device, so you can keep cooking and your
@@ -69,7 +82,10 @@ export function SessionStatus({
         </p>
       )}
       {syncNotice && (
-        <p role="status" className="rounded-2xl bg-white/10 px-4 py-3 text-[14px] text-white/80">
+        <p
+          role="status"
+          className="rounded-2xl bg-white/10 px-4 py-3 text-[0.875rem] text-white/80"
+        >
           {syncNotice}
         </p>
       )}

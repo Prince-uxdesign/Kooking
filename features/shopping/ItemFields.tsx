@@ -16,21 +16,25 @@ function Field({
   error,
   children,
   className = "",
+  optional = false,
 }: {
   id: string;
   label: string;
   error?: string;
   children: React.ReactNode;
   className?: string;
+  /** Said in the label itself (a placeholder disappears once the cook types). */
+  optional?: boolean;
 }) {
   return (
     <div className={`flex min-w-0 flex-col gap-2 ${className}`}>
       <label htmlFor={id} className="text-sm font-medium text-ink-900">
         {label}
+        {optional && <span className="font-normal text-ink-500"> (optional)</span>}
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} role="alert" className="text-[13px] font-medium text-error-700">
+        <p id={`${id}-error`} role="alert" className="text-[0.8125rem] font-medium text-error-700">
           {error}
         </p>
       )}
@@ -60,7 +64,7 @@ export function ItemDetailFields({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-3">
-        <Field id={`${p}-qty`} label="Quantity" error={errors.qty} className="flex-1">
+        <Field id={`${p}-qty`} label="Quantity" error={errors.qty} className="flex-1" optional>
           <input
             id={`${p}-qty`}
             type="text"
@@ -74,7 +78,7 @@ export function ItemDetailFields({
             className={`${fieldClasses} tnum`}
           />
         </Field>
-        <Field id={`${p}-unit`} label="Unit" error={errors.unit} className="w-32 shrink-0">
+        <Field id={`${p}-unit`} label="Unit" error={errors.unit} className="w-32 shrink-0" optional>
           <select
             id={`${p}-unit`}
             value={draft.unit}
@@ -92,7 +96,7 @@ export function ItemDetailFields({
           </select>
         </Field>
       </div>
-      <Field id={`${p}-category`} label="Aisle">
+      <Field id={`${p}-category`} label="Aisle" optional>
         <select
           id={`${p}-category`}
           value={draft.category}
@@ -107,7 +111,7 @@ export function ItemDetailFields({
           ))}
         </select>
       </Field>
-      <Field id={`${p}-note`} label="Note" error={errors.note}>
+      <Field id={`${p}-note`} label="Note" error={errors.note} optional>
         <input
           id={`${p}-note`}
           type="text"
@@ -123,6 +127,23 @@ export function ItemDetailFields({
       </Field>
     </div>
   );
+}
+
+/**
+ * After a failed save, move focus to the first field with an error so a
+ * keyboard or screen-reader user lands on what to fix. Runs after the
+ * render so a collapsed details section has opened first.
+ */
+export function focusFirstInvalid(nameId: string, prefix: string, errors: DraftErrors) {
+  const order: Array<[keyof DraftErrors, string]> = [
+    ["name", nameId],
+    ["qty", `${prefix}-qty`],
+    ["unit", `${prefix}-unit`],
+    ["note", `${prefix}-note`],
+  ];
+  const first = order.find(([field]) => errors[field]);
+  if (!first) return;
+  window.setTimeout(() => document.getElementById(first[1])?.focus(), 0);
 }
 
 export const EMPTY_DRAFT: ItemDraft = { name: "", qtyText: "", unit: "", note: "", category: "" };

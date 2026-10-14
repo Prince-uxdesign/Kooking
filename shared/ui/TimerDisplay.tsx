@@ -30,11 +30,11 @@ export function TimerDisplay({
   return (
     <div className="flex items-center justify-between gap-3 rounded-3xl bg-ink-900 py-4 pl-6 pr-4 text-white">
       <div className="flex flex-col">
-        <span className="text-[13px] text-white/70">{label}</span>
+        <span className="text-[0.8125rem] text-white/70">{label}</span>
         <output
           aria-live="polite"
           aria-label={`${label}: ${formatClock(seconds)}${running ? ", running" : ", paused"}`}
-          className="tnum text-[34px] font-semibold leading-10 tracking-tight"
+          className="tnum text-[2.125rem] font-semibold leading-10 tracking-tight"
         >
           {formatClock(seconds)}
         </output>
@@ -58,7 +58,7 @@ export function TimerDisplay({
             className="inline-flex h-12 min-w-12 items-center justify-center gap-2 rounded-full bg-primary-500 px-5 font-medium text-ink-900 hover:bg-primary-400"
           >
             {running ? <Pause aria-hidden size={18} /> : <Play aria-hidden size={18} />}
-            <span className="text-[15px]">{running ? "Pause" : "Start"}</span>
+            <span className="text-[0.9375rem]">{running ? "Pause" : "Start"}</span>
           </button>
         )}
       </div>

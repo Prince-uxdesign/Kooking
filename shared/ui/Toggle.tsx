@@ -13,10 +13,10 @@ export function Toggle({ label, checked, onChange, description, id }: ToggleProp
   return (
     <div className="flex min-h-[52px] items-center justify-between gap-4 rounded-[20px] bg-surface-100 px-4 py-3">
       <span className="flex flex-col">
-        <span id={id ? `${id}-label` : undefined} className="text-[15px] text-ink-900">
+        <span id={id ? `${id}-label` : undefined} className="text-[0.9375rem] text-ink-900">
           {label}
         </span>
-        {description && <span className="text-[13px] text-ink-500">{description}</span>}
+        {description && <span className="text-[0.8125rem] text-ink-500">{description}</span>}
       </span>
       <button
         id={id}

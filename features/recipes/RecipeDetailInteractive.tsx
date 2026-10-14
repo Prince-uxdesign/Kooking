@@ -12,11 +12,13 @@ import {
   Timer as TimerIcon,
   Users,
   Utensils,
+  WifiOff,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { LocalSaved } from "@/shared/data/local";
+import { useMemo, useState, useTransition } from "react";
+import { usePwa } from "@/features/pwa";
+import { useSavedRecipes } from "@/shared/data/saved-store";
 import { stepCues } from "@/shared/domain/cues";
 import { difficultyLabel, formatMinutes } from "@/shared/domain/discovery";
 import {
@@ -35,8 +37,6 @@ import { calculateScalingRatio, scaleRecipe, type ScaledLine } from "@/shared/do
 import { Badge } from "@/shared/ui/Badge";
 import { Button, buttonClasses } from "@/shared/ui/Button";
 import { QuantityInput } from "@/shared/ui/QuantityInput";
-
-const localSaved = new LocalSaved();
 
 const ROLE_LABELS: Record<RecipeIngredient["role"], string> = {
   required: "Required",
@@ -74,16 +74,22 @@ export function RecipeDetailInteractive({
   const [, startTransition] = useTransition();
 
   const [servings, setServings] = useState(initialServings ?? recipe.baseServings);
-  const [saved, setSaved] = useState(initialSaved);
+  // Shared with every card showing this recipe; `initialSaved` only covers the
+  // moment before the device's saved list has been read.
+  const savedRecipes = useSavedRecipes();
+  const saved = savedRecipes.status === "loading" ? initialSaved : savedRecipes.isSaved(recipe.id);
   const [haveItems, setHaveItems] = useState<Record<string, boolean>>({});
   const [preparedItems, setPreparedItems] = useState<Record<string, boolean>>({});
 
-  const nameMap = new Map(Object.entries(ingredientNames));
-  const scaledIngredients = scaleRecipe(recipe, servings);
-  const equipment = deriveEquipment(recipe);
-  const preparation = derivePreparation(recipe, nameMap, scaledIngredients);
-  const prepGroups = groupPreparationItems(preparation);
-  const tips = deriveTips(recipe, nameMap);
+  const nameMap = useMemo(() => new Map(Object.entries(ingredientNames)), [ingredientNames]);
+  const scaledIngredients = useMemo(() => scaleRecipe(recipe, servings), [recipe, servings]);
+  const equipment = useMemo(() => deriveEquipment(recipe), [recipe]);
+  const preparation = useMemo(
+    () => derivePreparation(recipe, nameMap, scaledIngredients),
+    [recipe, nameMap, scaledIngredients],
+  );
+  const prepGroups = useMemo(() => groupPreparationItems(preparation), [preparation]);
+  const tips = useMemo(() => deriveTips(recipe, nameMap), [recipe, nameMap]);
 
   const totalPrepCount = preparation.length;
   const preparedCount = preparation.filter((p) => !!preparedItems[p.id]).length;
@@ -114,22 +120,9 @@ export function RecipeDetailInteractive({
     setHaveItems((prev) => ({ ...prev, [lineId]: !prev[lineId] }));
   };
 
-  const handleSaveToggle = async () => {
-    const nextSaved = !saved;
-    setSaved(nextSaved);
-    try {
-      if (nextSaved) {
-        await localSaved.save({
-          ownerId: "guest",
-          recipeId: recipe.id,
-          savedAt: Date.now(),
-        });
-      } else {
-        await localSaved.unsave("guest", recipe.id);
-      }
-    } catch {
-      // Local storage fallback
-    }
+  const handleSaveToggle = () => {
+    // Rolls back and explains (app-wide notice) if this device can't store it.
+    void savedRecipes.setSaved(recipe.id, !saved, recipe.title);
   };
 
   const handleStartCooking = async () => {
@@ -148,23 +141,38 @@ export function RecipeDetailInteractive({
   const haveRequiredCount = recipe.ingredients.filter(
     (i) => (i.role === "required" || i.role === "substitutable") && haveItems[i.id],
   ).length;
+  const pwa = usePwa();
+  const isOffline = !pwa.isOnline || !pwa.isServerReachable;
 
   return (
     <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start lg:gap-12">
       {/* Main Content Column */}
       <div className="flex flex-col gap-10">
+        {isOffline && (
+          <div
+            role="status"
+            className="flex items-center gap-2.5 rounded-2xl bg-surface-100 px-4 py-3 text-sm text-ink-700"
+          >
+            <WifiOff size={16} className="shrink-0 text-amber-500" aria-hidden />
+            <span>
+              <strong>Viewing cached recipe offline.</strong> All ingredient scaling, sensory cues,
+              and cooking steps are ready on this device.
+            </span>
+          </div>
+        )}
         {/* Section 1: Overview & Serving Selector */}
         <section aria-labelledby="section-overview" className="flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4">
-            <h2 id="section-overview" className="text-[20px] font-semibold text-ink-900">
+            <h2 id="section-overview" className="text-[1.25rem] font-semibold text-ink-900">
               Servings & Scaling
             </h2>
             <button
               type="button"
               onClick={handleSaveToggle}
-              aria-label={saved ? `Remove ${recipe.title} from saved` : `Save ${recipe.title}`}
-              aria-pressed={saved}
-              className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors focus-visible:outline-3 focus-visible:outline-info-700 ${
+              aria-label={
+                saved ? `Saved: ${recipe.title}. Remove from saved` : `Save recipe: ${recipe.title}`
+              }
+              className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors focus-visible:outline-3 focus-visible:outline-info-700 ${
                 saved
                   ? "bg-primary-100 text-primary-700 hover:bg-primary-200"
                   : "bg-surface-100 text-ink-700 hover:bg-surface-200"
@@ -183,8 +191,8 @@ export function RecipeDetailInteractive({
           <div className="rounded-3xl bg-surface-100 p-5 sm:p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-[15px] font-medium text-ink-900">Adjust servings</p>
-                <p className="text-[13px] text-ink-500">
+                <p className="text-[0.9375rem] font-medium text-ink-900">Adjust servings</p>
+                <p className="text-[0.8125rem] text-ink-500">
                   Ingredients scale automatically. Timers and heat stay invariant.
                 </p>
               </div>
@@ -197,7 +205,7 @@ export function RecipeDetailInteractive({
               />
             </div>
             {servings !== recipe.baseServings && (
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-line-default/60 pt-3 text-[12px] text-ink-500">
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-line-default/60 pt-3 text-[0.8125rem] text-ink-500">
                 <span>
                   Base recipe serves <strong className="text-ink-900">{recipe.baseServings}</strong>
                   . Scaled for <strong className="text-ink-900">{servings}</strong> servings (
@@ -219,10 +227,10 @@ export function RecipeDetailInteractive({
         <section aria-labelledby="section-ingredients" className="flex flex-col gap-4">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <h2 id="section-ingredients" className="text-[20px] font-semibold text-ink-900">
+              <h2 id="section-ingredients" className="text-[1.25rem] font-semibold text-ink-900">
                 Ingredients
               </h2>
-              <p className="text-[13px] text-ink-500">
+              <p className="text-[0.8125rem] text-ink-500">
                 {scaledIngredients.length} ingredients · Tap to mark items you have
               </p>
             </div>
@@ -261,37 +269,41 @@ export function RecipeDetailInteractive({
                     <div className="flex min-w-0 flex-1 flex-col sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                       <div className="flex flex-col">
                         <span
-                          className={`text-[15px] font-medium leading-5 break-words ${
+                          className={`text-[0.9375rem] font-medium leading-5 break-words ${
                             isChecked ? "text-primary-700" : "text-ink-900"
                           }`}
                         >
                           {displayName}
                         </span>
                         {line.preparation && (
-                          <span className="text-[13px] text-ink-500">Prep: {line.preparation}</span>
+                          <span className="text-[0.8125rem] text-ink-500">
+                            Prep: {line.preparation}
+                          </span>
                         )}
                         {line.constraint && (
-                          <span className="text-[12px] font-medium text-ink-700">
+                          <span className="text-[0.8125rem] font-medium text-ink-700">
                             Note: {line.constraint}
                           </span>
                         )}
-                        {line.note && <span className="text-[13px] text-ink-500">{line.note}</span>}
+                        {line.note && (
+                          <span className="text-[0.8125rem] text-ink-500">{line.note}</span>
+                        )}
                         {subsText && (
-                          <span className="text-[12px] text-ink-500">
+                          <span className="text-[0.8125rem] text-ink-500">
                             Swappable with: {subsText}
                           </span>
                         )}
                       </div>
 
                       <div className="mt-1 flex flex-wrap items-center gap-2 sm:mt-0 sm:justify-end">
-                        <span className="tnum text-[15px] font-semibold text-ink-900">
+                        <span className="tnum text-[0.9375rem] font-semibold text-ink-900">
                           {line.displayQuantity}
                         </span>
                         {line.approximate && (
-                          <span className="text-[11px] text-ink-500">(approx)</span>
+                          <span className="text-[0.6875rem] text-ink-500">(approx)</span>
                         )}
                         {line.requiresManual && (
-                          <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] font-medium text-amber-700">
+                          <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[0.6875rem] font-medium text-amber-700">
                             Manual adjustment
                           </span>
                         )}
@@ -316,14 +328,17 @@ export function RecipeDetailInteractive({
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 id="section-preparation" className="text-[20px] font-semibold text-ink-900">
+                  <h2
+                    id="section-preparation"
+                    className="text-[1.25rem] font-semibold text-ink-900"
+                  >
                     Preparation (Mise en place)
                   </h2>
-                  <span className="rounded-full bg-surface-200 px-2.5 py-0.5 text-[12px] font-medium text-ink-700">
+                  <span className="rounded-full bg-surface-200 px-2.5 py-0.5 text-[0.8125rem] font-medium text-ink-700">
                     {preparedCount}/{totalPrepCount} ready
                   </span>
                 </div>
-                <p className="text-[13px] text-ink-500">
+                <p className="text-[0.8125rem] text-ink-500">
                   Prep, wash, and measure ingredients before lighting the stove.
                 </p>
               </div>
@@ -333,7 +348,7 @@ export function RecipeDetailInteractive({
                 <button
                   type="button"
                   onClick={allPrepared ? resetPrepared : markAllPrepared}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-line-default bg-white px-3 py-1.5 text-[12px] font-medium text-ink-700 transition hover:bg-surface-100 focus-visible:outline-2 focus-visible:outline-info-700"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-line-default bg-white px-3 py-1.5 text-[0.8125rem] font-medium text-ink-700 transition hover:bg-surface-100 focus-visible:outline-2 focus-visible:outline-info-700"
                 >
                   {allPrepared ? "Reset checklist" : "Mark all ready"}
                 </button>
@@ -356,13 +371,15 @@ export function RecipeDetailInteractive({
                     {/* Group Header */}
                     <div className="flex items-center justify-between px-1">
                       <div className="flex items-center gap-2">
-                        <h3 className="text-[15px] font-semibold text-ink-900">{group.label}</h3>
-                        <span className="text-[12px] text-ink-500">
+                        <h3 className="text-[0.9375rem] font-semibold text-ink-900">
+                          {group.label}
+                        </h3>
+                        <span className="text-[0.8125rem] text-ink-500">
                           ({groupPreparedCount}/{group.items.length})
                         </span>
                       </div>
                       {isGroupAllDone && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-primary-100 px-2 py-0.5 text-[11px] font-semibold text-primary-800">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-primary-100 px-2 py-0.5 text-[0.6875rem] font-semibold text-primary-800">
                           <Check size={11} strokeWidth={3} />
                           Group done
                         </span>
@@ -398,7 +415,7 @@ export function RecipeDetailInteractive({
                                 <div className="flex flex-col">
                                   <div className="flex flex-wrap items-center gap-2">
                                     <span
-                                      className={`text-[15px] font-semibold leading-5 break-words ${
+                                      className={`text-[0.9375rem] font-semibold leading-5 break-words ${
                                         isDone
                                           ? "text-primary-900 line-through decoration-primary-400"
                                           : "text-ink-900"
@@ -407,24 +424,26 @@ export function RecipeDetailInteractive({
                                       {prep.ingredientName ?? prep.instruction}
                                     </span>
                                     {prep.displayQuantity && (
-                                      <span className="tnum rounded-md bg-surface-200 px-2 py-0.5 text-[12px] font-semibold text-ink-800">
+                                      <span className="tnum rounded-md bg-surface-200 px-2 py-0.5 text-[0.8125rem] font-semibold text-ink-800">
                                         {prep.displayQuantity}
                                       </span>
                                     )}
                                   </div>
 
                                   {prep.preparationState && prep.ingredientName && (
-                                    <span className="text-[13px] font-medium text-primary-700">
+                                    <span className="text-[0.8125rem] font-medium text-primary-700">
                                       {prep.preparationState}
                                     </span>
                                   )}
 
                                   {prep.detail && (
-                                    <span className="text-[12px] text-ink-500">{prep.detail}</span>
+                                    <span className="text-[0.8125rem] text-ink-500">
+                                      {prep.detail}
+                                    </span>
                                   )}
 
                                   {prep.stepTimingAdvice && (
-                                    <span className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium text-ink-500">
+                                    <span className="mt-0.5 inline-flex items-center gap-1 text-[0.6875rem] font-medium text-ink-500">
                                       <Clock size={11} strokeWidth={2} />
                                       {prep.stepTimingAdvice}
                                     </span>
@@ -433,12 +452,12 @@ export function RecipeDetailInteractive({
 
                                 <div className="mt-1 shrink-0 sm:mt-0">
                                   {isDone ? (
-                                    <span className="inline-flex items-center gap-1 rounded-full bg-primary-200 px-2.5 py-1 text-[11px] font-semibold text-primary-800">
+                                    <span className="inline-flex items-center gap-1 rounded-full bg-primary-200 px-2.5 py-1 text-[0.6875rem] font-semibold text-primary-800">
                                       <Check size={12} strokeWidth={3} />
                                       Ready
                                     </span>
                                   ) : (
-                                    <span className="inline-flex items-center rounded-full bg-surface-200 px-2.5 py-1 text-[11px] font-medium text-ink-600">
+                                    <span className="inline-flex items-center rounded-full bg-surface-200 px-2.5 py-1 text-[0.6875rem] font-medium text-ink-600">
                                       To prep
                                     </span>
                                   )}
@@ -459,7 +478,7 @@ export function RecipeDetailInteractive({
         {/* Section 4: Equipment */}
         {equipment.length > 0 && (
           <section aria-labelledby="section-equipment" className="flex flex-col gap-4">
-            <h2 id="section-equipment" className="text-[20px] font-semibold text-ink-900">
+            <h2 id="section-equipment" className="text-[1.25rem] font-semibold text-ink-900">
               Equipment
             </h2>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -479,8 +498,8 @@ export function RecipeDetailInteractive({
                       eq.iconType !== "colander" && <Utensils size={18} strokeWidth={1.75} />}
                   </span>
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-[15px] font-medium text-ink-900">{eq.name}</span>
-                    <span className="text-[13px] leading-4 text-ink-500">{eq.note}</span>
+                    <span className="text-[0.9375rem] font-medium text-ink-900">{eq.name}</span>
+                    <span className="text-[0.8125rem] leading-4 text-ink-500">{eq.note}</span>
                   </div>
                 </div>
               ))}
@@ -491,10 +510,10 @@ export function RecipeDetailInteractive({
         {/* Section 5: Cooking Instructions */}
         <section aria-labelledby="section-instructions" className="flex flex-col gap-4">
           <div>
-            <h2 id="section-instructions" className="text-[20px] font-semibold text-ink-900">
+            <h2 id="section-instructions" className="text-[1.25rem] font-semibold text-ink-900">
               Cooking instructions
             </h2>
-            <p className="text-[13px] text-ink-500">
+            <p className="text-[0.8125rem] text-ink-500">
               {recipe.steps.length} sequential steps · Visual overview before Cooking Mode
             </p>
           </div>
@@ -514,24 +533,24 @@ export function RecipeDetailInteractive({
                   className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-5 sm:p-6"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary-100 text-[13px] font-semibold text-primary-700">
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary-100 text-[0.8125rem] font-semibold text-primary-700">
                       {step.order}
                     </span>
                     <div className="flex flex-wrap items-center gap-2">
                       {step.heat && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-[12px] font-medium text-ink-700">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-[0.8125rem] font-medium text-ink-700">
                           <Flame aria-hidden size={13} strokeWidth={1.75} />
                           {HEAT_LABELS[step.heat] ?? step.heat}
                         </span>
                       )}
                       {step.timer && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-[12px] font-medium text-ink-700">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-[0.8125rem] font-medium text-ink-700">
                           <Clock aria-hidden size={13} strokeWidth={1.75} />
                           {formatMinutes(Math.round(step.timer.durationSeconds / 60))}
                         </span>
                       )}
                       {step.estimatedMinutes && !step.timer && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-[12px] font-medium text-ink-700">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-[0.8125rem] font-medium text-ink-700">
                           <Clock aria-hidden size={13} strokeWidth={1.75} />
                           {formatMinutes(step.estimatedMinutes)}
                         </span>
@@ -539,10 +558,10 @@ export function RecipeDetailInteractive({
                     </div>
                   </div>
 
-                  <p className="text-[16px] leading-[1.65] text-ink-900">{step.instruction}</p>
+                  <p className="text-[1rem] leading-[1.65] text-ink-900">{step.instruction}</p>
 
                   {stepCues(step).length > 0 && (
-                    <div className="flex items-start gap-2.5 rounded-2xl bg-white p-3.5 text-[14px] leading-5 text-ink-700">
+                    <div className="flex items-start gap-2.5 rounded-2xl bg-white p-3.5 text-[0.875rem] leading-5 text-ink-700">
                       <Sparkles
                         aria-hidden
                         size={16}
@@ -560,7 +579,7 @@ export function RecipeDetailInteractive({
                   )}
 
                   {step.completionNote && (
-                    <div className="flex items-start gap-2 rounded-2xl bg-surface-200/50 px-3.5 py-2.5 text-[13px] text-ink-600">
+                    <div className="flex items-start gap-2 rounded-2xl bg-surface-200/50 px-3.5 py-2.5 text-[0.8125rem] text-ink-600">
                       <Info aria-hidden size={15} className="mt-0.5 shrink-0 text-ink-500" />
                       <span>
                         <strong className="font-medium text-ink-800">Done sign: </strong>
@@ -571,7 +590,7 @@ export function RecipeDetailInteractive({
 
                   {usedIngredients.length > 0 && (
                     <div className="mt-1 flex flex-wrap items-center gap-1.5 pt-1">
-                      <span className="text-[12px] text-ink-500">Uses:</span>
+                      <span className="text-[0.8125rem] text-ink-500">Uses:</span>
                       {usedIngredients.map((name) => (
                         <Badge key={name} tone="white">
                           {name}
@@ -588,14 +607,14 @@ export function RecipeDetailInteractive({
         {/* Section 6: Notes & Tips */}
         {tips.length > 0 && (
           <section aria-labelledby="section-tips" className="flex flex-col gap-4">
-            <h2 id="section-tips" className="text-[20px] font-semibold text-ink-900">
+            <h2 id="section-tips" className="text-[1.25rem] font-semibold text-ink-900">
               Relevant notes and tips
             </h2>
             <div className="flex flex-col gap-3">
               {tips.map((tip, idx) => (
                 <div key={idx} className="rounded-2xl bg-surface-100 p-4">
-                  <h3 className="text-[15px] font-semibold text-ink-900">{tip.title}</h3>
-                  <p className="mt-1 text-[14px] leading-5 text-ink-600">{tip.text}</p>
+                  <h3 className="text-[0.9375rem] font-semibold text-ink-900">{tip.title}</h3>
+                  <p className="mt-1 text-[0.875rem] leading-5 text-ink-600">{tip.text}</p>
                 </div>
               ))}
             </div>
@@ -607,19 +626,19 @@ export function RecipeDetailInteractive({
       <aside aria-label="Cooking preparation" className="hidden lg:sticky lg:top-8 lg:block">
         <div className="flex flex-col gap-5 rounded-[32px] bg-surface-100 p-6">
           <div className="flex flex-col gap-1">
-            <h3 className="text-[18px] font-semibold text-ink-900">Ready to cook?</h3>
-            <p className="text-[13px] leading-5 text-ink-500">
+            <h3 className="text-[1.125rem] font-semibold text-ink-900">Ready to cook?</h3>
+            <p className="text-[0.8125rem] leading-5 text-ink-500">
               Review ingredients or launch directly into cooking mode.
             </p>
           </div>
 
-          <div className="flex flex-col gap-2 rounded-2xl bg-white p-4 text-[14px]">
+          <div className="flex flex-col gap-2 rounded-2xl bg-white p-4 text-[0.875rem]">
             <div className="flex justify-between text-ink-700">
               <span>Total time:</span>
               <span className="tnum font-medium text-ink-900">{totalTimeLabel ?? "—"}</span>
             </div>
             {prepTimeLabel && cookTimeLabel && (
-              <div className="flex justify-between text-[13px] text-ink-500">
+              <div className="flex justify-between text-[0.8125rem] text-ink-500">
                 <span>Active time:</span>
                 <span className="tnum">
                   {prepTimeLabel} prep · {cookTimeLabel} cook
@@ -670,8 +689,10 @@ export function RecipeDetailInteractive({
       {/* Mobile Sticky Bottom Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between gap-3 border-t border-line-default bg-white/95 px-5 py-3.5 backdrop-blur-md lg:hidden">
         <div className="flex flex-col">
-          <span className="tnum text-[12px] text-ink-500">{totalTimeLabel ?? "Cooking mode"}</span>
-          <span className="text-[14px] font-semibold text-ink-900">Serves {servings}</span>
+          <span className="tnum text-[0.8125rem] text-ink-500">
+            {totalTimeLabel ?? "Cooking mode"}
+          </span>
+          <span className="text-[0.875rem] font-semibold text-ink-900">Serves {servings}</span>
         </div>
         <div className="flex items-center gap-2">
           <Link href={checkHref} className={buttonClasses({ variant: "secondary", size: "md" })}>

@@ -180,10 +180,13 @@ export function resolveSession(
   const stepRepaired = stepIndex !== session.currentStepIndex;
   const entry = catalog[session.recipeId];
 
+  const step = session.steps[stepIndex];
+  if (!step) return { kind: "corrupt" };
+
   return {
     kind: "cooking",
     session: stepRepaired ? { ...session, currentStepIndex: stepIndex } : session,
-    step: session.steps[stepIndex],
+    step,
     stepIndex,
     stepCount: count,
     recipeUpdated: Boolean(entry) && entry.contentVersion !== session.contentVersion,

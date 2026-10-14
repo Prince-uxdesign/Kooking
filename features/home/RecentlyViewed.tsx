@@ -43,7 +43,7 @@ export function RecentlyViewed({ catalog }: { catalog: RecipeSummary[] }) {
           className="h-[88px] animate-pulse rounded-3xl bg-surface-100"
         />
       ) : state.recipes.length === 0 ? (
-        <p className="flex items-center gap-3.5 rounded-3xl bg-surface-100 p-2 pr-4 text-[15px] leading-6 text-ink-500">
+        <p className="flex items-center gap-3.5 rounded-3xl bg-surface-100 p-2 pr-4 text-[0.9375rem] leading-6 text-ink-500">
           <span
             aria-hidden
             className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-ink-900"

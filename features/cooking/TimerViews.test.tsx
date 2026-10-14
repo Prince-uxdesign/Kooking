@@ -86,7 +86,11 @@ describe("other timers", () => {
       />,
     );
     expect(html).toContain("9:00");
-    expect(html).toContain("Simmer base, step 2: 9 minutes left. Go to step.");
+    // The visible text is the accessible name; extra context is hidden text, not an aria-label
+    // (so the name always contains what's on screen: WCAG 2.5.3).
+    expect(html).not.toContain('aria-label="Simmer');
+    expect(html).toContain("Simmer base");
+    expect(html).toMatch(/class="sr-only">, step 2\. Go to step\.</);
   });
 
   it("raises a finished timer from another step as an alert", () => {

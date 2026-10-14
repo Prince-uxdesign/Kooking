@@ -44,9 +44,9 @@ export function ResumeBar() {
     <div
       role="region"
       aria-label="Unfinished cooking session"
-      className="mb-4 flex items-center gap-2 rounded-full bg-ink-900 py-1.5 pl-4 pr-1.5 text-white"
+      className="mb-4 flex flex-wrap items-center gap-2 rounded-[28px] bg-ink-900 py-2 pl-4 pr-2 text-white"
     >
-      <p className="tnum min-w-0 flex-1 truncate text-[14px]">
+      <p className="tnum min-w-0 basis-full break-words sm:basis-0 sm:flex-1 text-[0.875rem]">
         <span className="font-medium">Still cooking {first.title}</span>
         {first.stepLabel && <span className="text-white/70"> · {first.stepLabel}</span>}
         {first.paused && <span className="text-white/70"> · Paused</span>}
@@ -60,7 +60,7 @@ export function ResumeBar() {
       </p>
       <Link
         href={cookHref(first.sessionId)}
-        className="inline-flex min-h-[40px] shrink-0 items-center rounded-full bg-primary-500 px-4 text-[14px] font-medium text-ink-900 hover:bg-primary-400"
+        className="inline-flex min-h-[44px] shrink-0 items-center rounded-full bg-primary-500 px-4 text-[0.875rem] font-medium text-ink-900 hover:bg-primary-400"
       >
         Continue
       </Link>
@@ -68,7 +68,7 @@ export function ResumeBar() {
         type="button"
         onClick={dismiss}
         aria-label="Hide for now"
-        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white/70 hover:bg-white/10"
+        className="inline-flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full text-white/70 hover:bg-white/10"
       >
         <X aria-hidden size={18} />
       </button>

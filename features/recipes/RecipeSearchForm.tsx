@@ -40,7 +40,7 @@ export function RecipeSearchForm() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for recipes"
-          className="min-h-[60px] w-full min-w-0 rounded-full bg-transparent pl-[52px] pr-2 text-[16px] text-ink-900 placeholder:text-ink-500 focus-visible:outline-none"
+          className="min-h-[60px] w-full min-w-0 rounded-full bg-transparent pl-[52px] pr-2 text-[1rem] text-ink-900 placeholder:text-ink-500 focus-visible:outline-none"
         />
         <button
           type="submit"

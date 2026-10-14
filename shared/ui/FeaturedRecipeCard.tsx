@@ -5,6 +5,7 @@ import { difficultyLabel, formatMinutes } from "@/shared/domain/discovery";
 import type { RecipeDifficulty } from "@/shared/domain/recipe-schema";
 import { buttonClasses } from "./Button";
 import { RecipeImage } from "./RecipeImage";
+import { SaveButton } from "@/features/saved/SaveButton";
 
 export interface FeaturedRecipeCardProps {
   title: string;
@@ -30,6 +31,8 @@ export interface FeaturedRecipeCardProps {
   saved?: boolean;
   /** Callback when save button is clicked. */
   onSaveToggle?: () => void;
+  /** Stable recipe id: shows a save button wired to the shared saved store. */
+  recipeId?: string;
   /** Accessible label override for save button. */
   saveLabel?: string;
   /** Fallback icon for missing image. */
@@ -61,6 +64,7 @@ export function FeaturedRecipeCard({
   ctaLabel = "View recipe",
   saved = false,
   onSaveToggle,
+  recipeId,
   saveLabel,
   FallbackIcon,
   priority = true,
@@ -85,11 +89,11 @@ export function FeaturedRecipeCard({
       <div className="flex flex-col gap-3 px-4 pb-4 pt-5 sm:justify-center sm:gap-4 sm:p-8">
         <div className="flex items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-primary-500 px-3 py-1 text-xs font-medium text-ink-900">
+            <span className="rounded-full bg-primary-500 px-3 py-1 text-[0.8125rem] font-medium text-ink-900">
               {eyebrow}
             </span>
             {demo && (
-              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">
+              <span className="rounded-full bg-white/10 px-3 py-1 text-[0.8125rem] font-medium text-white/80">
                 Demo
               </span>
             )}
@@ -107,7 +111,7 @@ export function FeaturedRecipeCard({
                 saveLabel ?? (saved ? `Remove ${title} from saved` : `Save ${title} for later`)
               }
               aria-pressed={saved}
-              className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors focus-visible:outline-3 focus-visible:outline-info-700 active:scale-95 ${
+              className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors focus-visible:outline-3 focus-visible:outline-info-700 active:scale-95 ${
                 saved
                   ? "bg-primary-500 text-ink-900 hover:bg-primary-600"
                   : "bg-white/10 text-white hover:bg-white/20"
@@ -121,19 +125,22 @@ export function FeaturedRecipeCard({
               />
             </button>
           )}
+          {!onSaveToggle && recipeId && (
+            <SaveButton recipeId={recipeId} title={title} variant="featured" />
+          )}
         </div>
 
-        <h3 className="line-clamp-3 text-[24px] font-semibold leading-8 sm:text-[28px] sm:leading-9">
+        <h3 className="line-clamp-3 text-[1.5rem] font-semibold leading-8 sm:text-[1.75rem] sm:leading-9">
           <Link href={href} className="text-white hover:underline focus-visible:outline-none">
             {title}
           </Link>
         </h3>
 
         {description && (
-          <p className="line-clamp-2 text-[14px] leading-6 text-white/70">{description}</p>
+          <p className="line-clamp-2 text-[0.875rem] leading-6 text-white/70">{description}</p>
         )}
 
-        <ul className="flex flex-wrap gap-x-4 gap-y-1 text-[14px] text-white/70">
+        <ul className="flex flex-wrap gap-x-4 gap-y-1 text-[0.875rem] text-white/70">
           {time && (
             <li className="tnum inline-flex items-center gap-1.5">
               <Clock aria-hidden size={16} strokeWidth={1.75} />
@@ -159,7 +166,7 @@ export function FeaturedRecipeCard({
         </ul>
 
         {demo && (
-          <p className="text-[13px] leading-5 text-white/55">
+          <p className="text-[0.8125rem] leading-5 text-white/55">
             Sample recipe for development. Not chef-tested.
           </p>
         )}

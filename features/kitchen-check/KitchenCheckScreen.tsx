@@ -190,10 +190,12 @@ export function KitchenCheckScreen({
           label: "Review amounts",
           run: () => scrollToRow(readiness.unresolved[0]?.lineId),
         };
+      // "Shop" and "alternatives" already have their own buttons right above;
+      // a second control with the same job would be a duplicate tab stop
+      // (and, for alternatives, a different name for the same action).
       case "review-alternatives":
-        return { label: "Review approved alternatives", run: () => setAlternativesOpen(true) };
       case "shop":
-        return hasWork ? { label: "Shop for missing ingredients", run: shopForMissing } : null;
+        return null;
       default:
         return null;
     }
@@ -219,7 +221,7 @@ export function KitchenCheckScreen({
         <ShoppingBasket aria-hidden size={18} strokeWidth={1.75} />
         Shop for missing ingredients
       </Button>
-      <p id="shop-hint" className="-mt-1 text-[13px] leading-5 text-ink-500">
+      <p id="shop-hint" className="-mt-1 text-[0.8125rem] leading-5 text-ink-500">
         {hasWork
           ? `Adds ${view.summary.toShop} ${view.summary.toShop === 1 ? "item" : "items"} to your shopping list.`
           : "Nothing is marked missing or short yet."}
@@ -247,11 +249,11 @@ export function KitchenCheckScreen({
           Back to recipe
         </Link>
         <div className="flex flex-col gap-2">
-          <h1 className="text-[30px] font-semibold leading-9 text-ink-900 sm:text-[34px] sm:leading-[42px]">
+          <h1 className="text-[1.875rem] font-semibold leading-9 text-ink-900 sm:text-[2.125rem] sm:leading-[42px]">
             Kitchen Check
           </h1>
-          <p className="text-[16px] leading-6 text-ink-500">{recipe.title}</p>
-          <p className="tnum inline-flex w-fit items-center gap-1.5 rounded-full bg-surface-100 px-4 py-2.5 text-[14px] text-ink-900">
+          <p className="text-[1rem] leading-6 text-ink-500">{recipe.title}</p>
+          <p className="tnum inline-flex w-fit items-center gap-1.5 rounded-full bg-surface-100 px-4 py-2.5 text-[0.875rem] text-ink-900">
             <Users aria-hidden size={16} strokeWidth={1.75} />
             <span className="font-medium">Serves {servings}</span>
             {servings !== recipe.baseServings && (
@@ -260,7 +262,10 @@ export function KitchenCheckScreen({
           </p>
         </div>
         {adjusted && (
-          <p role="status" className="rounded-2xl bg-info-100 px-4 py-3 text-[14px] text-info-700">
+          <p
+            role="status"
+            className="rounded-2xl bg-info-100 px-4 py-3 text-[0.875rem] text-info-700"
+          >
             The serving count in the link wasn&apos;t valid, so this check uses {servings}. Go back
             to the recipe to change it.
           </p>
@@ -273,11 +278,11 @@ export function KitchenCheckScreen({
           className="flex flex-col gap-4 rounded-3xl bg-surface-100 p-5 lg:sticky lg:top-8 lg:order-2"
         >
           <div className="flex flex-col gap-1">
-            <h2 className="text-[20px] font-semibold leading-7 text-ink-900" aria-live="polite">
+            <h2 className="text-[1.25rem] font-semibold leading-7 text-ink-900" aria-live="polite">
               {headline.title}
             </h2>
             {headline.detail && (
-              <p className="text-[15px] leading-6 text-ink-600" aria-live="polite">
+              <p className="text-[0.9375rem] leading-6 text-ink-600" aria-live="polite">
                 {headline.detail}
               </p>
             )}
@@ -302,7 +307,7 @@ export function KitchenCheckScreen({
           {notice && (
             <div
               role={notice.tone === "error" ? "alert" : "status"}
-              className={`flex flex-col gap-2 rounded-2xl px-4 py-3 text-[14px] leading-5 ${
+              className={`flex flex-col gap-2 rounded-2xl px-4 py-3 text-[0.875rem] leading-5 ${
                 notice.tone === "error" ? "bg-error-100 text-error-700" : "bg-white text-ink-900"
               }`}
             >
@@ -332,21 +337,21 @@ export function KitchenCheckScreen({
             {readiness.canStartCooking ? (
               <p
                 id="start-hint-lg"
-                className="inline-flex items-center gap-2 text-[14px] font-medium text-success-700"
+                className="inline-flex items-center gap-2 text-[0.875rem] font-medium text-success-700"
               >
                 <CheckCircle2 aria-hidden size={18} strokeWidth={1.75} />
                 Ready to cook. Everything required is covered.
               </p>
             ) : (
               <>
-                <p id="start-hint-lg" className="text-[13px] leading-5 text-ink-500">
+                <p id="start-hint-lg" className="text-[0.8125rem] leading-5 text-ink-500">
                   {readiness.blockedReason}
                 </p>
                 {nextAction && (
                   <button
                     type="button"
                     onClick={nextAction.run}
-                    className="min-h-[44px] self-start rounded-full px-4 text-[14px] font-medium text-ink-900 underline underline-offset-4 hover:bg-white"
+                    className="min-h-[44px] self-start rounded-full px-4 text-[0.875rem] font-medium text-ink-900 underline underline-offset-4 hover:bg-white"
                   >
                     {nextAction.label}
                   </button>
@@ -358,15 +363,15 @@ export function KitchenCheckScreen({
 
         <section aria-labelledby="check-list" className="flex flex-col gap-4 lg:order-1">
           <div>
-            <h2 id="check-list" className="text-[20px] font-semibold text-ink-900">
+            <h2 id="check-list" className="text-[1.25rem] font-semibold text-ink-900">
               Ingredients for {servings}
             </h2>
-            <p className="text-[13px] text-ink-500">
+            <p className="text-[0.8125rem] text-ink-500">
               Tell us what you have. Nothing is assumed until you answer.
             </p>
           </div>
           {view.rows.length === 0 ? (
-            <p className="rounded-3xl bg-surface-100 p-5 text-[15px] text-ink-600">
+            <p className="rounded-3xl bg-surface-100 p-5 text-[0.9375rem] text-ink-600">
               This recipe has no ingredients to check.
             </p>
           ) : (
@@ -392,10 +397,10 @@ export function KitchenCheckScreen({
       <div className="sticky bottom-24 z-30 lg:hidden">
         <div className="flex items-center gap-3 rounded-[28px] bg-white p-2 pl-5 ring-1 ring-line-strong">
           <div className="min-w-0 flex-1">
-            <p className="tnum line-clamp-2 text-[14px] font-medium leading-5 text-ink-900">
+            <p className="tnum line-clamp-2 text-[0.875rem] font-medium leading-5 text-ink-900">
               {summaryLine}
             </p>
-            <p id="start-hint" className="truncate text-[12px] leading-4 text-ink-500">
+            <p id="start-hint" className="truncate text-[0.8125rem] leading-4 text-ink-500">
               {readiness.canStartCooking ? "Ready to cook" : readiness.blockedReason}
             </p>
           </div>
@@ -439,7 +444,7 @@ export function KitchenCheckScreen({
         }
       >
         {conflict && (
-          <div className="flex flex-col gap-3 text-left text-[15px] leading-6 text-ink-700">
+          <div className="flex flex-col gap-3 text-left text-[0.9375rem] leading-6 text-ink-700">
             <p>
               You&apos;re already cooking {conflict.title} for{" "}
               <strong className="font-medium text-ink-900">{conflict.servings} servings</strong>

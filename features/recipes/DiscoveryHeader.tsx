@@ -35,11 +35,11 @@ export function DiscoveryHeader({
           <Icon size={24} strokeWidth={1.75} />
         </span>
         <div className="flex min-w-0 flex-col gap-1">
-          <h1 className="text-[30px] font-semibold leading-9 text-ink-900 sm:text-[34px] sm:leading-[42px]">
+          <h1 className="text-[1.875rem] font-semibold leading-9 text-ink-900 sm:text-[2.125rem] sm:leading-[42px]">
             {title}
           </h1>
-          <p className="max-w-prose text-[16px] leading-6 text-ink-500">{description}</p>
-          <p className="tnum text-[13px] leading-5 text-ink-500">{meta}</p>
+          <p className="max-w-prose text-[1rem] leading-6 text-ink-500">{description}</p>
+          <p className="tnum text-[0.8125rem] leading-5 text-ink-500">{meta}</p>
         </div>
       </div>
     </header>

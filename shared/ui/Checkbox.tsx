@@ -13,8 +13,10 @@ export function Checkbox({ label, description, className = "", ...rest }: Checkb
     >
       <input type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 accent-[#111311]" {...rest} />
       <span className="flex flex-col">
-        <span className="text-[15px] leading-6 text-ink-900">{label}</span>
-        {description && <span className="text-[13px] leading-5 text-ink-500">{description}</span>}
+        <span className="text-[0.9375rem] leading-6 text-ink-900">{label}</span>
+        {description && (
+          <span className="text-[0.8125rem] leading-5 text-ink-500">{description}</span>
+        )}
       </span>
     </label>
   );

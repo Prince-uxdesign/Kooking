@@ -44,7 +44,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const recipe = await findRecipe((await params).slug);
   return {
-    title: recipe ? `${recipe.title} · Kooking` : "Recipe not found",
+    title: recipe ? recipe.title : "Recipe not found",
     description: recipe?.description ?? "Authentic Nigerian recipe instructions and ingredients.",
   };
 }
@@ -89,7 +89,7 @@ export default async function RecipeDetailPage({ params }: Params) {
 
   return (
     <article className="mx-auto flex w-full max-w-5xl flex-col gap-8 pb-20 sm:gap-10 sm:pb-12">
-      <RecordRecipeView recipeId={recipe.id} />
+      <RecordRecipeView recipeId={recipe.id} recipe={recipe} />
 
       <Suspense fallback={<BackLinkFallback />}>
         <BackLink collectionTitles={collectionTitles} />
@@ -104,7 +104,7 @@ export default async function RecipeDetailPage({ params }: Params) {
           className="aspect-[4/3] w-full rounded-[32px] sm:aspect-[16/9] lg:aspect-[21/9] lg:max-h-[420px]"
         />
         {recipe.demo && (
-          <span className="absolute left-4 top-4 z-10 rounded-full bg-white px-3 py-1 text-xs font-semibold text-ink-900 shadow-none">
+          <span className="absolute left-4 top-4 z-10 rounded-full bg-white px-3 py-1 text-[0.8125rem] font-semibold text-ink-900 shadow-none">
             Demo Recipe
           </span>
         )}
@@ -115,22 +115,22 @@ export default async function RecipeDetailPage({ params }: Params) {
         {recipe.demo && (
           <div className="flex flex-wrap items-center gap-2">
             <Badge>Demo Content</Badge>
-            <span className="text-[13px] text-ink-500">
+            <span className="text-[0.8125rem] text-ink-500">
               Sample recipe for development and testing. Not chef-approved.
             </span>
           </div>
         )}
 
-        <h1 className="text-[30px] font-semibold leading-9 text-ink-900 sm:text-[36px] sm:leading-[44px]">
+        <h1 className="text-[1.875rem] font-semibold leading-9 text-ink-900 sm:text-[2.25rem] sm:leading-[44px]">
           {recipe.title}
         </h1>
 
         {recipe.description && (
-          <p className="max-w-3xl text-[16px] leading-7 text-ink-600">{recipe.description}</p>
+          <p className="max-w-3xl text-[1rem] leading-7 text-ink-600">{recipe.description}</p>
         )}
 
         {/* Fact Pills */}
-        <ul className="flex flex-wrap gap-2 pt-1 text-[14px] text-ink-900">
+        <ul className="flex flex-wrap gap-2 pt-1 text-[0.875rem] text-ink-900">
           {time && (
             <li className="tnum inline-flex items-center gap-1.5 rounded-full bg-surface-100 px-4 py-2.5">
               <Clock aria-hidden size={16} strokeWidth={1.75} />

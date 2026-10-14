@@ -2,6 +2,8 @@ import { z } from "zod";
 import { recipeStepSchema, type Recipe } from "./recipe-schema";
 import { scaleRecipe } from "./scaling";
 import {
+  MIN_TIMER_SECONDS,
+  MAX_TIMER_SECONDS,
   applyTimerAction,
   createTimer,
   sessionTimerSchema,
@@ -317,6 +319,104 @@ export const resetTimer = (s: CookingSession, id: string, now: number) =>
   applySessionTimer(s, id, "reset", now);
 export const acknowledgeTimer = (s: CookingSession, id: string, now: number) =>
   applySessionTimer(s, id, "acknowledge", now);
+
+/** At most this many cook-added timers can be live (running or paused) at once. */
+export const MAX_EXTRA_TIMERS = 6;
+
+/** "10-minute timer", "1 hour 30 minutes timer", "45-second timer". */
+export function extraTimerLabel(seconds: number): string {
+  if (seconds % 3600 === 0) return `${seconds / 3600}-hour timer`;
+  if (seconds < 3600 && seconds % 60 === 0) return `${seconds / 60}-minute timer`;
+  if (seconds < 60) return `${seconds}-second timer`;
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return [h && `${h} hr`, m && `${m} min`, s && `${s} sec`].filter(Boolean).join(" ") + " timer";
+}
+
+/**
+ * Start a timer for the current step that the recipe didn't define
+ * (Phase 30, "start a ten-minute timer"). Uses the same timer model,
+ * persistence and alerts as recipe timers. If the step's own timer is
+ * idle and has exactly this duration, that one is started instead of
+ * adding a duplicate. Returns the started timer's id.
+ */
+export function addSessionTimer(
+  session: CookingSession,
+  durationSeconds: number,
+  now: number,
+): { session: CookingSession; timerId: string; reused: boolean } {
+  if (
+    !Number.isInteger(durationSeconds) ||
+    durationSeconds < MIN_TIMER_SECONDS ||
+    durationSeconds > MAX_TIMER_SECONDS
+  ) {
+    throw new TimerError(
+      `timer duration must be a whole number of seconds from ${MIN_TIMER_SECONDS} to ${MAX_TIMER_SECONDS}`,
+    );
+  }
+  if (session.status === "completed" || session.status === "abandoned") {
+    throw new TimerError(`timers can't change on a ${session.status} session`);
+  }
+  const step = session.steps[session.currentStepIndex];
+  if (!step) throw new TimerError("there is no current step");
+
+  const own = session.timers.find(
+    (t) => t.stepId === step.id && !t.id.startsWith("extra:") && t.status === "idle",
+  );
+  if (own && own.durationSeconds === durationSeconds) {
+    return {
+      session: applySessionTimer(session, own.id, "start", now),
+      timerId: own.id,
+      reused: true,
+    };
+  }
+
+  const live = session.timers.filter(
+    (t) => t.id.startsWith("extra:") && (t.status === "running" || t.status === "paused"),
+  );
+  if (live.length >= MAX_EXTRA_TIMERS) {
+    throw new TimerError(`no more than ${MAX_EXTRA_TIMERS} extra timers at once`);
+  }
+  // Make room within the session's timer limit by dropping finished, seen extras.
+  let timers = session.timers;
+  if (timers.length >= 60) {
+    timers = timers.filter(
+      (t) => !(t.id.startsWith("extra:") && t.status === "done" && t.acknowledged),
+    );
+    if (timers.length >= 60) throw new TimerError("this session has too many timers");
+  }
+
+  let id = `extra:${now}`;
+  for (let n = 2; timers.some((t) => t.id === id); n++) id = `extra:${now}:${n}`;
+  const timer = applyTimerAction(
+    createTimer({ id, stepId: step.id, durationSeconds, label: extraTimerLabel(durationSeconds) }),
+    "start",
+    now,
+  );
+  return {
+    session: { ...session, timers: [...timers, timer], updatedAt: now },
+    timerId: id,
+    reused: false,
+  };
+}
+
+const isExtraLive = (t: SessionTimer) =>
+  t.status === "running" || t.status === "paused" || (t.status === "done" && !t.acknowledged);
+
+/**
+ * The timer Cooking Mode shows on a step's card: the recipe's own
+ * timer when the step has one, otherwise the newest extra timer that
+ * still needs attention. Every other live timer goes in the pinned bar.
+ */
+export function stepTimerFor(session: CookingSession, stepId: string): SessionTimer | null {
+  const own = session.timers.find((t) => t.stepId === stepId && !t.id.startsWith("extra:"));
+  if (own) return own;
+  const extras = session.timers.filter(
+    (t) => t.stepId === stepId && t.id.startsWith("extra:") && isExtraLive(t),
+  );
+  return extras[extras.length - 1] ?? null;
+}
 
 /**
  * Settle timers that ran out at or before `now`. Returns the same

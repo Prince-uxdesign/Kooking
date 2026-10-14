@@ -50,8 +50,8 @@ const CATEGORY: Record<Unit, UnitCategory> = {
   pinch: "free",
 };
 
-export function unitCategory(unit: Unit): UnitCategory {
-  return CATEGORY[unit];
+export function unitCategory(unit: Unit | string): UnitCategory {
+  return (unit in CATEGORY ? CATEGORY[unit as Unit] : undefined) ?? "free";
 }
 
 /**
@@ -161,11 +161,28 @@ export function scaleAmount(
   if (behavior === "manual" || amount === null || unit === null) {
     return { amount, approximate: false, requiresManual: behavior === "manual" };
   }
+  // Guard against invalid/non-finite or non-positive amounts
+  if (!Number.isFinite(amount) || amount <= 0) {
+    return { amount: null, approximate: false, requiresManual: true };
+  }
+  // Guard against non-finite or non-positive servings counts
+  if (
+    !Number.isFinite(baseServings) ||
+    baseServings <= 0 ||
+    !Number.isFinite(targetServings) ||
+    targetServings <= 0
+  ) {
+    return { amount, approximate: false, requiresManual: true };
+  }
+  const category = unit in CATEGORY ? CATEGORY[unit] : null;
+  if (!category) {
+    return { amount, approximate: false, requiresManual: true };
+  }
   const raw = dedust((amount * targetServings) / baseServings);
-  if (behavior === "discrete" || CATEGORY[unit] === "count") {
+  if (behavior === "discrete" || category === "count") {
     return { amount: Math.max(1, Math.round(raw)), approximate: false, requiresManual: false };
   }
-  if (CATEGORY[unit] === "household") {
+  if (category === "household") {
     return {
       amount: roundHousehold(raw),
       approximate: behavior === "approximate",

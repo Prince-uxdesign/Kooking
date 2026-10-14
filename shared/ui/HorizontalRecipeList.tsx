@@ -51,6 +51,7 @@ export function HorizontalRecipeList({
                   demo={recipe.demo}
                   saved={savedIds.includes(recipe.id)}
                   onSaveToggle={onSaveToggle ? () => onSaveToggle(recipe.id) : undefined}
+                  recipeId={recipe.id}
                   FallbackIcon={iconForRecipe(recipe.categories)}
                 />
               </li>

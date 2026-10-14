@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="128" fill="#3EDC6B" />
+  <g transform="translate(106, 106) scale(0.5859)" fill="none" stroke="#111311" stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Cooking Pot Icon (matching Lucide CookingPot icon in Kooking brand) -->
+    <!-- Lid handle -->
+    <path d="M 220 80 A 36 36 0 0 1 292 80" />
+    <!-- Lid top curve -->
+    <path d="M 100 160 Q 256 120 412 160" />
+    <!-- Pot body -->
+    <path d="M 80 180 L 432 180" />
+    <path d="M 96 180 L 116 380 Q 120 420 160 420 L 352 420 Q 392 420 396 380 L 416 180" fill="#111311" fill-opacity="0.08" />
+    <path d="M 96 180 L 116 380 Q 120 420 160 420 L 352 420 Q 392 420 396 380 L 416 180 Z" />
+    <!-- Side handles -->
+    <path d="M 80 230 C 40 230 40 290 80 290" />
+    <path d="M 432 230 C 472 230 472 290 432 290" />
+    <!-- Steam waves -->
+    <path d="M 180 50 Q 190 30 180 10" />
+    <path d="M 256 45 Q 266 25 256 5" />
+    <path d="M 332 50 Q 342 30 332 10" />
+  </g>
+</svg>

@@ -31,6 +31,7 @@ export function FeaturedMeal({
         demo={recipe.demo}
         saved={saved}
         onSaveToggle={onSaveToggle}
+        recipeId={recipe.id}
         FallbackIcon={iconForRecipe(recipe.categories)}
         priority
       />

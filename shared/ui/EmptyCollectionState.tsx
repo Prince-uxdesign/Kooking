@@ -40,9 +40,9 @@ export function EmptyCollectionState({
         <Icon size={24} strokeWidth={1.75} />
       </span>
 
-      <h3 className="mt-3 text-[17px] font-semibold text-ink-900">{title}</h3>
+      <h3 className="mt-3 text-[1.0625rem] font-semibold text-ink-900">{title}</h3>
 
-      {message && <p className="mt-1 max-w-md text-[14px] leading-6 text-ink-500">{message}</p>}
+      {message && <p className="mt-1 max-w-md text-[0.875rem] leading-6 text-ink-500">{message}</p>}
 
       {action && <div className="mt-4">{action}</div>}
     </div>

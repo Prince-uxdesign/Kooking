@@ -1,9 +1,10 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { useDialogFocus } from "./useDialogFocus";
 
-/** Accessible dialog: labelled, Esc closes, restores focus. */
+/** Accessible dialog: labelled, focus moves in and is kept inside, Esc closes, focus returns. */
 export function Modal({
   title,
   description,
@@ -18,16 +19,8 @@ export function Modal({
   children: React.ReactNode;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useDialogFocus({ open, panelRef, initialFocusRef: closeRef, onClose });
 
   if (!open) return null;
 
@@ -38,6 +31,7 @@ export function Modal({
       className="fixed inset-0 z-50 flex items-end justify-center bg-ink-900/40 p-4 sm:items-center"
     >
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={title}
@@ -46,9 +40,9 @@ export function Modal({
       >
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-[20px] font-semibold text-ink-900">{title}</h2>
+            <h2 className="text-[1.25rem] font-semibold text-ink-900">{title}</h2>
             {description && (
-              <p className="mt-1 text-[15px] leading-6 text-ink-500">{description}</p>
+              <p className="mt-1 text-[0.9375rem] leading-6 text-ink-500">{description}</p>
             )}
           </div>
           <button

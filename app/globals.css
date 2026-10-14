@@ -92,9 +92,14 @@ h3 {
 }
 
 /* Visible focus for keyboard users — never remove */
-:where(a, button, input, select, [tabindex]):focus-visible {
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
   outline: 3px solid var(--color-info-700);
   outline-offset: 2px;
+}
+
+/* On the dark Cooking Mode surface the blue ring is only ~3:1; use the bright green (11:1). */
+.on-dark :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline-color: var(--color-primary-400);
 }
 
 /* Respect reduced motion — timers/progress must not rely on animation */
@@ -103,6 +108,7 @@ h3 {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }

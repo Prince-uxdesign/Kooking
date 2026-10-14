@@ -19,16 +19,11 @@ export function scaleRecipe(
   targetServings: number,
   maxLimit?: number,
 ): ScaledLine[] {
-  const effectiveMax = maxLimit ?? Math.max(12, recipe.baseServings);
+  const safeBase = clampServings(recipe?.baseServings ?? 4, 1, 24);
+  const effectiveMax = maxLimit ?? Math.max(12, safeBase);
   const servings = clampServings(targetServings, 1, effectiveMax);
-  return recipe.ingredients.map((line) => {
-    const scaled = scaleAmount(
-      line.quantity,
-      recipe.baseServings,
-      servings,
-      line.scaling,
-      line.unit,
-    );
+  return (recipe.ingredients ?? []).map((line) => {
+    const scaled = scaleAmount(line.quantity, safeBase, servings, line.scaling, line.unit);
     return {
       ...line,
       scaledQuantity: scaled.amount,

@@ -9,15 +9,29 @@ import {
 } from "@/shared/domain/session";
 import { recentViewSchema, recordView, type RecentView } from "@/shared/domain/history";
 import { savedRecipeSchema, type SavedRecipe } from "@/shared/domain/user";
+import { salvageSavedEntries, sortSaved, withSaved, withoutSaved } from "@/shared/domain/saved";
 import { shoppingListSchema, type ShoppingList } from "@/shared/domain/shopping";
 import {
   kitchenCheckRecordSchema,
   upsertRecord,
   type KitchenCheckRecord,
 } from "@/shared/domain/kitchen-check";
+import {
+  cookingHistoryEntrySchema,
+  type CookingHistoryEntry,
+  mergeCookingHistory,
+} from "@/shared/domain/cooking-history";
+import {
+  userCookingPreferencesSchema,
+  type UserCookingPreferences,
+  DEFAULT_USER_PREFERENCES,
+} from "@/shared/domain/preferences";
+import { cachedRecipeEntrySchema, type CachedRecipeEntry } from "@/shared/domain/recipe-cache";
+import type { Recipe } from "@/shared/domain/recipe-schema";
 import type {
   HistoryRepository,
   KitchenCheckRepository,
+  RecipeCacheRepository,
   SavedRepository,
   SessionRepository,
   ShoppingRepository,
@@ -66,8 +80,12 @@ function write(key: string, value: unknown): void {
 const SESSIONS_KEY = "kooking:sessions:v1";
 const LISTS_KEY = "kooking:lists:v1";
 const RECENT_KEY = "kooking:recent:v1";
-const SAVED_KEY = "kooking:saved:v1";
+/** Shared with the saved-recipes store so other tabs' changes can be picked up. */
+export const SAVED_KEY = "kooking:saved:v1";
 const KITCHEN_CHECK_KEY = "kooking:kitchen-check:v1";
+export const COOKING_HISTORY_KEY = "kooking:cooking-history:v1";
+export const PREFERENCES_KEY = "kooking:prefs:v1";
+export const RECIPE_CACHE_KEY = "kooking:cached-recipes:v1";
 
 interface RawArray {
   entries: unknown[];
@@ -231,27 +249,56 @@ export class LocalHistory implements HistoryRepository {
   }
 }
 
+/**
+ * Saved recipes on this device (Phase 33). Unlike the generic `read`,
+ * a damaged list is salvaged entry by entry rather than discarded, and
+ * storage that can't be read at all is reported (StoreError
+ * "unavailable") so the UI can say so instead of showing an empty list.
+ */
 export class LocalSaved implements SavedRepository {
+  constructor(private readonly key: string = SAVED_KEY) {}
+
   private all(): SavedRecipe[] {
-    return read(SAVED_KEY, z.array(savedRecipeSchema)) ?? [];
+    if (typeof window === "undefined") return [];
+    let raw: string | null;
+    try {
+      raw = window.localStorage.getItem(this.key);
+    } catch {
+      throw new StoreError("unavailable", "local storage is blocked");
+    }
+    if (!raw) return [];
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      parsed = null; // unreadable text: nothing to salvage
+    }
+    const { entries, dropped } = salvageSavedEntries(parsed);
+    if (dropped > 0 || parsed === null) {
+      // Rewrite the cleaned list so the damage doesn't linger. Best effort.
+      try {
+        window.localStorage.setItem(this.key, JSON.stringify(entries));
+      } catch {
+        // Read-only or full: keep using the salvaged copy in memory.
+      }
+    }
+    return entries;
+  }
+
+  async list(ownerId: string): Promise<SavedRecipe[]> {
+    return sortSaved(this.all().filter((s) => s.ownerId === ownerId));
   }
 
   async listIds(ownerId: string): Promise<string[]> {
-    return this.all()
-      .filter((s) => s.ownerId === ownerId)
-      .map((s) => s.recipeId);
+    return (await this.list(ownerId)).map((s) => s.recipeId);
   }
 
   async save(entry: SavedRecipe): Promise<void> {
-    const rest = this.all().filter(
-      (s) => !(s.ownerId === entry.ownerId && s.recipeId === entry.recipeId),
-    );
-    write(SAVED_KEY, [...rest, entry]);
+    write(this.key, withSaved(this.all(), savedRecipeSchema.parse(entry)));
   }
 
   async unsave(ownerId: string, recipeId: string): Promise<void> {
-    const rest = this.all().filter((s) => !(s.ownerId === ownerId && s.recipeId === recipeId));
-    write(SAVED_KEY, rest);
+    write(this.key, withoutSaved(this.all(), ownerId, recipeId));
   }
 }
 
@@ -267,5 +314,126 @@ export class LocalKitchenChecks implements KitchenCheckRepository {
 
   async store(record: KitchenCheckRecord): Promise<void> {
     write(KITCHEN_CHECK_KEY, upsertRecord(this.all(), record));
+  }
+}
+
+const MAX_HISTORY_ENTRIES = 50;
+
+/**
+ * Local Cooking History (Phase 35).
+ * Stores finished/ended cooking records on this device.
+ */
+export class LocalCookingHistory {
+  private all(): CookingHistoryEntry[] {
+    return read(COOKING_HISTORY_KEY, z.array(cookingHistoryEntrySchema)) ?? [];
+  }
+
+  async list(): Promise<CookingHistoryEntry[]> {
+    return this.all().sort((a, b) => b.startedAt - a.startedAt);
+  }
+
+  async record(entry: CookingHistoryEntry): Promise<void> {
+    const valid = cookingHistoryEntrySchema.parse(entry);
+    const existing = this.all();
+    const merged = mergeCookingHistory(existing, [valid]).slice(0, MAX_HISTORY_ENTRIES);
+    write(COOKING_HISTORY_KEY, merged);
+  }
+
+  async clear(): Promise<void> {
+    if (typeof window === "undefined" || !("localStorage" in window)) return;
+    try {
+      window.localStorage.removeItem(COOKING_HISTORY_KEY);
+    } catch {
+      // Ignore
+    }
+  }
+}
+
+/**
+ * Local User Preferences (Phase 35).
+ */
+export class LocalPreferences {
+  async load(): Promise<UserCookingPreferences> {
+    return read(PREFERENCES_KEY, userCookingPreferencesSchema) ?? DEFAULT_USER_PREFERENCES;
+  }
+
+  async store(prefs: UserCookingPreferences): Promise<void> {
+    const valid = userCookingPreferencesSchema.parse(prefs);
+    write(PREFERENCES_KEY, valid);
+  }
+}
+
+/**
+ * Clears private account data from this device upon sign-out to ensure
+ * zero data leakage into subsequent guest sessions.
+ */
+export function clearAccountLocalData(userId?: string): void {
+  if (typeof window === "undefined" || !("localStorage" in window)) return;
+
+  try {
+    // 1. Clear private cooking history cache
+    window.localStorage.removeItem(COOKING_HISTORY_KEY);
+
+    // 2. Clear user-specific shopping lists
+    if (userId) {
+      const raw = window.localStorage.getItem(LISTS_KEY);
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            const retained = parsed.filter(
+              (item: { ownerId?: string }) => item && item.ownerId !== userId,
+            );
+            window.localStorage.setItem(LISTS_KEY, JSON.stringify(retained));
+          }
+        } catch {
+          window.localStorage.removeItem(LISTS_KEY);
+        }
+      }
+    }
+  } catch {
+    // Best effort cleanup
+  }
+}
+
+const MAX_CACHED_RECIPES = 30;
+
+/**
+ * Local cache of full structured recipes on this device (Phase 36).
+ * Ensures that steps, ingredient scaling, sensory cues, equipment,
+ * and timers are accessible even when completely offline.
+ */
+export class LocalRecipeCache implements RecipeCacheRepository {
+  private all(): CachedRecipeEntry[] {
+    const raw = read(RECIPE_CACHE_KEY, z.array(cachedRecipeEntrySchema));
+    return raw ?? [];
+  }
+
+  async list(): Promise<CachedRecipeEntry[]> {
+    return this.all().sort((a, b) => b.cachedAt - a.cachedAt);
+  }
+
+  async get(recipeId: string): Promise<CachedRecipeEntry | null> {
+    return this.all().find((c) => c.recipe.id === recipeId) ?? null;
+  }
+
+  async getBySlug(slug: string): Promise<CachedRecipeEntry | null> {
+    return this.all().find((c) => c.recipe.slug === slug) ?? null;
+  }
+
+  async save(recipe: Recipe, cachedAt: number = Date.now()): Promise<void> {
+    const entry: CachedRecipeEntry = {
+      recipe,
+      cachedAt,
+      version: 1,
+    };
+    const rest = this.all().filter((c) => c.recipe.id !== recipe.id);
+    const updated = [entry, ...rest].slice(0, MAX_CACHED_RECIPES);
+    write(RECIPE_CACHE_KEY, updated);
+  }
+
+  async remove(recipeId: string): Promise<void> {
+    const rest = this.all().filter((c) => c.recipe.id !== recipeId);
+    write(RECIPE_CACHE_KEY, rest);
   }
 }

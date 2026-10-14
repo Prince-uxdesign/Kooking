@@ -20,7 +20,7 @@ export function Chip({
     <Link
       href={href}
       aria-current={selected ? "true" : undefined}
-      className={`inline-flex min-h-[44px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-5 text-[15px] transition-colors ${
+      className={`inline-flex min-h-[44px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-5 text-[0.9375rem] transition-colors ${
         selected
           ? "bg-primary-500 text-ink-900"
           : "bg-surface-100 text-ink-900 hover:bg-surface-200"
@@ -37,7 +37,7 @@ export function Chip({
 }
 
 const chipBase =
-  "inline-flex min-h-[44px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-5 text-[15px] transition-colors";
+  "inline-flex min-h-[44px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-5 text-[0.9375rem] transition-colors";
 
 /**
  * Button chip for in-page state (filters). `pressed` exposes on/off to

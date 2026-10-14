@@ -20,6 +20,7 @@ export function PlaceholderPage({
     <div className="flex flex-col gap-6">
       <PageHeader title={title} description={description} />
       <EmptyState
+        headingLevel={2}
         title={`${title} is on its way`}
         message={message}
         action={

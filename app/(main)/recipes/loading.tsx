@@ -2,7 +2,7 @@
 export default function RecipesLoading() {
   return (
     <div role="status" aria-label="Loading recipes" className="flex flex-col gap-8">
-      <div className="h-9 w-48 animate-pulse rounded-full bg-surface-100" />
+      <div className="h-9 w-48 max-w-full animate-pulse rounded-full bg-surface-100" />
       <div className="flex gap-2 overflow-hidden">
         {[0, 1, 2, 3].map((i) => (
           <div key={i} className="h-11 w-32 shrink-0 animate-pulse rounded-full bg-surface-100" />

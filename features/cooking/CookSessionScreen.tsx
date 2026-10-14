@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { LocalSessions } from "@/shared/data/local";
+import { LocalCookingHistory, LocalSessions } from "@/shared/data/local";
+import { sessionToHistoryEntry } from "@/shared/domain/cooking-history";
+import { getRemoteSyncService } from "@/shared/data/remote-sync";
+import { useOptionalAuth } from "@/features/auth/AuthContext";
 import {
   advanceStep,
   checkFinish,
@@ -44,24 +47,39 @@ import {
   type NotificationState,
 } from "./timer-alerts";
 import { AlertControls, OtherTimersBar, StepTimerCard, TimerAlertBanner } from "./TimerViews";
-import { useTimerClock } from "./useTimerClock";
+import { createTimerClock, type TimerClock } from "./timer-clock";
 import { isNewerThan, salvageSession } from "@/shared/domain/recovery";
 import { CompletionScreen } from "./CompletionScreen";
 import { SessionStatus, useOnlineStatus } from "./SessionStatus";
 import { CookingStep } from "./CookingStep";
 import { FinishPrompt } from "./FinishPrompt";
+import { ReadAloud, type ReadAloudHandle } from "./ReadAloud";
+import { stepSpeech } from "@/shared/domain/step-speech";
+import { addSessionTimer, stepTimerFor } from "@/shared/domain/session";
+import { commandKey, parseAlternatives } from "@/shared/domain/voice-commands";
+import { planVoiceCommand } from "@/shared/domain/voice-plan";
+import { createDeduper } from "./voice-recognition";
+import { ScreenWakeControl, useScreenWake } from "./ScreenWake";
+import {
+  MicButton,
+  VoiceHelp,
+  VoiceStatus,
+  useVoiceCommands,
+  voiceStatusVisible,
+  type VoiceFeedback,
+} from "./VoiceControl";
 
 const sessions = new LocalSessions();
 
 const pill =
-  "inline-flex min-h-[56px] items-center justify-center rounded-full px-6 text-[16px] font-medium transition-colors disabled:pointer-events-none disabled:opacity-40";
+  "inline-flex min-h-[56px] items-center justify-center rounded-full px-6 text-[1rem] font-medium transition-colors disabled:pointer-events-none disabled:opacity-40";
 const primary = `${pill} bg-primary-500 text-ink-900 hover:bg-primary-400`;
 const quiet = `${pill} bg-white/10 text-white hover:bg-white/20`;
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="flex flex-col gap-4 rounded-[32px] bg-white/5 p-6 sm:p-8">
-      <h1 className="text-[28px] font-semibold leading-9 text-white">{title}</h1>
+      <h1 className="text-[1.75rem] font-semibold leading-9 text-white">{title}</h1>
       {children}
     </section>
   );
@@ -89,6 +107,8 @@ export function CookSessionScreen({
   const [saveFailed, setSaveFailed] = useState(false);
   const [removeConfirm, setRemoveConfirm] = useState(false);
   const online = useOnlineStatus();
+  const auth = useOptionalAuth();
+  const userId = auth?.user?.id ?? null;
   const [busy, setBusy] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const lastStep = useRef<number | null>(null);
@@ -96,8 +116,9 @@ export function CookSessionScreen({
   // Timers
   const session = view && "session" in view ? view.session : null;
   const timers = session?.timers ?? [];
-  const anyRunning = timers.some((t) => t.status === "running");
-  const { now, clock } = useTimerClock(anyRunning, nextExpiry(timers));
+  const clockRef = useRef<TimerClock | null>(null);
+  clockRef.current ??= createTimerClock();
+  const clock = clockRef.current;
   const chime = useRef<Chime | null>(null);
   chime.current ??= createChime();
   const [soundOn, setSoundOn] = useState(true);
@@ -169,9 +190,13 @@ export function CookSessionScreen({
     };
   }, [loadFromStorage]);
 
+  /** Synchronous guard: `busy` state can be stale between a call and the next render. */
+  const inFlight = useRef(false);
+  /** Resolves true only when the change was applied and saved. */
   const apply = useCallback(
-    async (update: (s: CookingSession) => CookingSession) => {
-      if (!view || !("session" in view) || busy) return;
+    async (update: (s: CookingSession) => CookingSession): Promise<boolean> => {
+      if (!view || !("session" in view) || busy || inFlight.current) return false;
+      inFlight.current = true;
       setBusy(true);
       try {
         // Never overwrite progress made in another tab: adopt it instead.
@@ -179,60 +204,80 @@ export function CookSessionScreen({
         if (isNewerThan(stored, view.session)) {
           setView(resolveSession(stored, catalog, Date.now()));
           setError("This session changed in another tab or window. Showing the latest; try again.");
-          return;
+          return false;
         }
         const next = update(view.session);
         try {
           await sessions.store(next);
+          if (next.status === "completed" || next.status === "abandoned") {
+            const history = new LocalCookingHistory();
+            const entry = sessionToHistoryEntry(next, { userId });
+            void history.record(entry);
+            if (userId) {
+              void getRemoteSyncService().recordCookingHistory(userId, entry);
+            }
+          }
         } catch {
           // Nothing on screen changes: the last saved state is what's shown.
           setSaveFailed(true);
           setError(null);
-          return;
+          return false;
         }
         setSaveFailed(false);
         setError(null);
         setNotice(null);
         setView(resolveSession(next, catalog, Date.now()));
+        return true;
       } catch (e) {
         setError(
           e instanceof SessionTransitionError || e instanceof TimerError
             ? "That action isn't available right now."
             : "Something went wrong. Your last saved progress is unchanged.",
         );
+        return false;
       } finally {
+        inFlight.current = false;
         setBusy(false);
       }
     },
-    [view, catalog, busy],
+    [view, catalog, busy, userId],
   );
 
-  // Settle timers that ran out. Uses the in-page clock, which re-anchors
-  // to the wall clock whenever the page becomes visible again.
+  // Settle timers that ran out. Re-anchors to wall clock on visibility changes
+  // and schedules precise wake up at the next timer expiration.
   useEffect(() => {
-    if (!session || !timers.some((t) => isExpired(t, now))) return;
-    const { session: settled } = settleSessionTimers(session, now);
-    setView(resolveSession(settled, catalog, now));
-    // A finished timer is derived from its end time, so showing it is safe
-    // even if this save fails; it will settle again on the next load.
-    // Don't write over newer progress from another tab.
-    void sessions
-      .getRaw(settled.id)
-      .then(async (stored) => {
-        if (isNewerThan(stored, settled)) return loadFromStorage("sync");
-        await sessions.store(settled);
-        setSaveFailed(false);
-      })
-      .catch(() => setSaveFailed(true));
-  }, [now, session, timers, catalog, loadFromStorage]);
+    const settle = () => {
+      const currentTime = Date.now();
+      if (!session || !timers.some((t) => isExpired(t, currentTime))) return;
+      const { session: settled } = settleSessionTimers(session, currentTime);
+      setView(resolveSession(settled, catalog, currentTime));
+      void sessions
+        .getRaw(settled.id)
+        .then(async (stored) => {
+          if (isNewerThan(stored, settled)) return loadFromStorage("sync");
+          await sessions.store(settled);
+          setSaveFailed(false);
+        })
+        .catch(() => setSaveFailed(true));
+    };
+
+    settle();
+
+    const next = nextExpiry(timers);
+    if (next === null) return;
+    const delay = Math.max(0, next - Date.now()) + 50;
+    const timerId = window.setTimeout(settle, delay);
+    return () => window.clearTimeout(timerId);
+  }, [timers, session, catalog, loadFromStorage]);
 
   // Alert once per finished timer, only if it finished in the last minute
   // (a timer that ran out long ago is shown on screen, not sounded).
   useEffect(() => {
+    const currentTime = Date.now();
     for (const t of pendingAlerts(timers)) {
       if (alerted.current.has(t.id)) continue;
       alerted.current.add(t.id);
-      if (t.finishedAt === null || now - t.finishedAt > 60_000) continue;
+      if (t.finishedAt === null || currentTime - t.finishedAt > 60_000) continue;
       if (soundOn) chime.current?.play();
       vibrate();
       notifyTimerDone(t.label ?? "Timer", document.visibilityState === "hidden");
@@ -242,13 +287,134 @@ export function CookSessionScreen({
       const t = timers.find((x) => x.id === id);
       if (!t || t.status !== "done") alerted.current.delete(id);
     }
-  }, [timers, now, soundOn]);
+  }, [timers, soundOn]);
 
   const timerAction = (timerId: string, action: TimerAction) => {
     // Start/resume is a user gesture: the moment browsers allow audio.
     if (action === "start" || action === "resume") chime.current?.unlock();
     void apply((s) => applySessionTimer(s, timerId, action, clock.now()));
   };
+
+  // Voice commands (Phase 30). Every command goes through the same
+  // `apply` and read-aloud controller as the buttons; nothing here is a
+  // second state machine. Transcripts are shown briefly and never saved.
+  const readAloud = useRef<ReadAloudHandle>(null);
+  const [voiceFeedback, setVoiceFeedback] = useState<VoiceFeedback | null>(null);
+  const dedupe = useRef(createDeduper());
+  const stopListening = useRef<(message?: string) => void>(() => {});
+  const handlePhrase = async (alternatives: string[]) => {
+    if (view?.kind !== "cooking") return;
+    const heard = alternatives[0];
+    const speech = readAloud.current?.status() ?? "unsupported";
+    const speaking = speech === "starting" || speech === "playing";
+    // Spoken feedback never talks over a reading (the cook may be listening to it).
+    const say = (text: string) => {
+      if (speech !== "unsupported" && !speaking) readAloud.current?.say([text]);
+    };
+    const parsed = parseAlternatives(alternatives);
+    if (!parsed.ok) {
+      // While Kooking is talking, the mic hears it; only real commands count then.
+      if (parsed.reason === "empty" || speaking) return;
+      if (parsed.reason === "unrecognized") {
+        setVoiceFeedback({ tone: "not-understood", heard, text: parsed.message });
+        return;
+      }
+      setVoiceFeedback({ tone: "clarify", heard, text: parsed.message });
+      say(parsed.message);
+      return;
+    }
+    // The same command heard twice in a moment runs once ("next step" never moves two).
+    if (!dedupe.current(commandKey(parsed.command))) return;
+
+    const plan = planVoiceCommand(parsed.command, {
+      session: view.session,
+      now: clock.now(),
+      speech,
+    });
+    const done = (text: string) => setVoiceFeedback({ tone: "done", heard, text });
+    const failed = () =>
+      setVoiceFeedback({
+        tone: "info",
+        heard,
+        text: "That didn't go through. Use the buttons on screen.",
+      });
+    setVoiceFeedback({ tone: "recognized", heard });
+
+    switch (plan.kind) {
+      case "replay-step":
+        readAloud.current?.replayStep();
+        done(plan.ack);
+        return;
+      case "answer":
+        if (speech !== "unsupported") readAloud.current?.say(plan.segments);
+        done(plan.text);
+        return;
+      case "navigate": {
+        setFinishCheck(null);
+        readAloud.current?.readOnNextStep();
+        const ok = await apply((s) =>
+          plan.direction === "next" ? advanceStep(s, clock.now()) : previousStep(s, clock.now()),
+        );
+        if (ok) done(plan.ack);
+        else failed();
+        return;
+      }
+      case "start-timer": {
+        let reusedLabel: string | null = null;
+        const ok = await apply((s) => {
+          const added = addSessionTimer(s, plan.seconds, clock.now());
+          if (added.reused) {
+            reusedLabel = added.session.timers.find((t) => t.id === added.timerId)?.label ?? null;
+          }
+          return added.session;
+        });
+        if (!ok) {
+          failed();
+          return;
+        }
+        // The step's own timer matched, so that's the one that started: name it.
+        const ack = reusedLabel ? `${reusedLabel} timer started` : plan.ack;
+        done(ack);
+        say(reusedLabel ? `${ack}.` : plan.say);
+        return;
+      }
+      case "timer": {
+        const ok = await apply((s) => applySessionTimer(s, plan.timerId, plan.action, clock.now()));
+        if (ok) {
+          done(plan.ack);
+          say(plan.say);
+        } else failed();
+        return;
+      }
+      case "speech":
+        if (plan.action === "pause") readAloud.current?.pause();
+        else if (plan.action === "resume") readAloud.current?.resume();
+        else readAloud.current?.stop();
+        done(plan.ack);
+        return;
+      case "stop-listening":
+        stopListening.current();
+        done(plan.ack);
+        return;
+      case "explain":
+        setVoiceFeedback({ tone: "info", heard, text: plan.text });
+        say(plan.text);
+        return;
+      case "clarify":
+        setVoiceFeedback({ tone: "clarify", heard, text: plan.text });
+        say(plan.text);
+        return;
+    }
+  };
+  const voice = useVoiceCommands((alts) => void handlePhrase(alts), view?.kind === "cooking");
+  stopListening.current = voice.stop;
+
+  // Screen wake (Phase 31): held only while a session is being cooked; released
+  // on pause, finish, end, or leaving. Failure never touches timers or saving.
+  const wake = useScreenWake(view?.kind === "cooking" ? view.session.status : null);
+
+  // Feedback stays until the next command or until the mic is turned off: no
+  // timeout, so nobody loses a message they were still reading (WCAG 2.2.1).
 
   // After a step change (not the first render), start the new step at the
   // top and move focus to its heading so screen readers announce it.
@@ -264,7 +430,7 @@ export function CookSessionScreen({
 
   if (!view) {
     return (
-      <p role="status" className="text-[16px] text-white/70">
+      <p role="status" className="text-[1rem] text-white/70">
         Loading your cooking session…
       </p>
     );
@@ -280,7 +446,7 @@ export function CookSessionScreen({
     case "not-found":
       return (
         <Panel title="Session not found">
-          <p className="text-[16px] leading-7 text-white/70">
+          <p className="text-[1rem] leading-7 text-white/70">
             This cooking session isn&apos;t on this device. It may have been started on another
             device or cleared from storage.
           </p>
@@ -291,7 +457,7 @@ export function CookSessionScreen({
       const salvage = salvageSession(damagedRaw);
       return (
         <Panel title="This session can't be opened">
-          <p className="text-[16px] leading-7 text-white/70">
+          <p className="text-[1rem] leading-7 text-white/70">
             The saved data for this session is damaged, so it can&apos;t be continued safely.
             {salvage
               ? ` It looks like ${salvage.recipeTitle ?? "a recipe"}${
@@ -310,7 +476,7 @@ export function CookSessionScreen({
           )}
           {removeConfirm ? (
             <div className="flex flex-col gap-3 rounded-2xl bg-white/5 p-4">
-              <p className="text-[15px] text-white/80">Remove the damaged session for good?</p>
+              <p className="text-[0.9375rem] text-white/80">Remove the damaged session for good?</p>
               <div className="flex flex-wrap gap-3">
                 <button
                   type="button"
@@ -337,7 +503,7 @@ export function CookSessionScreen({
             </button>
           )}
           {error && (
-            <p role="alert" className="text-[14px] text-error-100">
+            <p role="alert" className="text-[0.875rem] text-error-100">
               {error}
             </p>
           )}
@@ -369,7 +535,7 @@ export function CookSessionScreen({
       const s = view.session;
       return (
         <Panel title="This session was ended">
-          <p className="text-[16px] leading-7 text-white/70">
+          <p className="text-[1rem] leading-7 text-white/70">
             {s.recipeTitle ?? "This recipe"} · {s.servings} servings. Ended sessions can&apos;t be
             resumed. To cook it again, start a new session from Kitchen Check.
           </p>
@@ -382,7 +548,7 @@ export function CookSessionScreen({
     case "no-snapshot":
       return (
         <Panel title="This session is out of date">
-          <p className="text-[16px] leading-7 text-white/70">
+          <p className="text-[1rem] leading-7 text-white/70">
             It was saved before Kooking kept a copy of the steps, so it can&apos;t be continued
             safely. End it and start again from Kitchen Check.
           </p>
@@ -408,7 +574,7 @@ export function CookSessionScreen({
         session.steps.findIndex((st) => st.id === stepId) + 1;
       const goToStepId = (stepId: string) =>
         apply((s) => goToStep(s, stepNumberOf(stepId) - 1, Date.now()));
-      const stepTimer = session.timers.find((t) => t.stepId === step.id) ?? null;
+      const stepTimer = stepTimerFor(session, step.id);
       const progress = progressSummary(session);
       const doneSteps = session.steps.map((st) => session.completedStepIds.includes(st.id));
       const finish = (stopTimers: boolean) => {
@@ -421,7 +587,7 @@ export function CookSessionScreen({
         setJustFinished(true);
         void apply((s) => finishCooking(s, at(), { stopTimers }));
       };
-      const others = session.timers.filter((t) => t.stepId !== step.id);
+      const others = session.timers.filter((t) => t.id !== stepTimer?.id);
       const paused = session.status === "paused";
       const at = () => clock.now();
       return (
@@ -437,11 +603,59 @@ export function CookSessionScreen({
           step={step}
           progress={progress}
           doneSteps={doneSteps}
+          speechSlot={
+            <ReadAloud
+              readKey={`${session.id}:${step.id}`}
+              segments={stepSpeech(step)}
+              stepNumber={step.number}
+              // Recipes don't carry a locale yet; use the page's language.
+              lang={typeof document === "undefined" ? null : document.documentElement.lang || null}
+              paused={paused}
+              handleRef={readAloud}
+            />
+          }
+          voiceHelpSlot={<VoiceHelp state={voice.state} />}
+          wakeSlot={
+            <ScreenWakeControl
+              state={wake.state}
+              enabled={wake.enabled}
+              sessionPaused={paused}
+              onToggle={wake.toggle}
+              onRetry={wake.retry}
+            />
+          }
+          micSlot={
+            <MicButton
+              state={voice.state}
+              onStart={() => {
+                // A press is the moment browsers allow audio; voice timers can chime.
+                chime.current?.unlock();
+                setVoiceFeedback(null);
+                voice.start();
+              }}
+              onStop={() => {
+                setVoiceFeedback(null);
+                voice.stop();
+              }}
+            />
+          }
+          voiceStatusSlot={
+            voiceStatusVisible(voice.state, voiceFeedback) ? (
+              <VoiceStatus
+                state={voice.state}
+                feedback={voiceFeedback}
+                onStop={() => {
+                  setVoiceFeedback(null);
+                  voice.stop();
+                }}
+                onRetry={() => voice.start()}
+              />
+            ) : null
+          }
           promptSlot={
             finishCheck && (
               <FinishPrompt
                 check={finishCheck}
-                now={now}
                 onGoToStep={(n) => {
                   setFinishCheck(null);
                   void apply((s) => goToStep(s, n - 1, at()));
@@ -489,7 +703,6 @@ export function CookSessionScreen({
             stepTimer && (
               <StepTimerCard
                 timer={stepTimer}
-                now={now}
                 readyCue={step.readinessCheck}
                 onAction={(a) => timerAction(stepTimer.id, a)}
                 alertControls={
@@ -517,7 +730,6 @@ export function CookSessionScreen({
                 timers={others.filter(
                   (t) => t.status !== "idle" && !(t.status === "done" && t.acknowledged),
                 )}
-                now={now}
                 stepNumberOf={stepNumberOf}
                 onOpen={goToStepId}
               />

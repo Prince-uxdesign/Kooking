@@ -46,14 +46,16 @@ export function IngredientRow({
         />
         <span className="flex min-w-0 flex-1 flex-col">
           <span className="flex items-baseline justify-between gap-2">
-            <span className="truncate text-[15px] text-ink-900">{name}</span>
-            <span className="tnum shrink-0 text-[15px] font-medium text-ink-900">{quantity}</span>
+            <span className="truncate text-[0.9375rem] text-ink-900">{name}</span>
+            <span className="tnum shrink-0 text-[0.9375rem] font-medium text-ink-900">
+              {quantity}
+            </span>
           </span>
-          {note && <span className="text-[13px] leading-5 text-ink-500">{note}</span>}
+          {note && <span className="text-[0.8125rem] leading-5 text-ink-500">{note}</span>}
         </span>
         <Badge tone={role === "required" ? "white" : "info"}>{roleLabel[role]}</Badge>
         {checked && (
-          <span className="inline-flex items-center gap-1 text-[13px] font-medium text-success-700">
+          <span className="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-success-700">
             <Check aria-hidden size={14} strokeWidth={2.5} />
             Have it
           </span>

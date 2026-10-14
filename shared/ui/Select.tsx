@@ -21,7 +21,7 @@ export function Select({ label, error, id, children, className = "", ...rest }: 
         {children}
       </select>
       {error && (
-        <p role="alert" className="text-[13px] font-medium text-error-700">
+        <p role="alert" className="text-[0.8125rem] font-medium text-error-700">
           {error}
         </p>
       )}

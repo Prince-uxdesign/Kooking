@@ -15,5 +15,5 @@ export function HomeGreeting() {
     setGreeting(greetingFor(new Date().getHours()));
   }, []);
 
-  return <p className="min-h-6 text-[16px] leading-6 text-ink-500">{greeting ?? " "}</p>;
+  return <p className="min-h-6 text-[1rem] leading-6 text-ink-500">{greeting ?? " "}</p>;
 }

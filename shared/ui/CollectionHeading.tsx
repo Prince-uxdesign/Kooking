@@ -37,14 +37,14 @@ export function CollectionHeading({
     <div className={`flex flex-col gap-1 ${className}`}>
       <div className="flex items-center justify-between gap-3">
         <div className="flex flex-wrap items-baseline gap-2">
-          <HeadingTag id={id} className="text-[20px] font-semibold leading-7 text-ink-900">
+          <HeadingTag id={id} className="text-[1.25rem] font-semibold leading-7 text-ink-900">
             {title}
           </HeadingTag>
-          {meta && <span className="tnum text-[14px] text-ink-500">{meta}</span>}
+          {meta && <span className="tnum text-[0.875rem] text-ink-500">{meta}</span>}
         </div>
         {action && <div className="shrink-0">{action}</div>}
       </div>
-      {description && <p className="text-[14px] leading-5 text-ink-500">{description}</p>}
+      {description && <p className="text-[0.875rem] leading-5 text-ink-500">{description}</p>}
     </div>
   );
 }

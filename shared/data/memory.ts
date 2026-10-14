@@ -3,6 +3,7 @@ import type { ShoppingList } from "@/shared/domain/shopping";
 import { pickResumable, type CookingSession } from "@/shared/domain/session";
 import { recordView, type RecentView } from "@/shared/domain/history";
 import type { SavedRecipe } from "@/shared/domain/user";
+import { sortSaved, withSaved, withoutSaved } from "@/shared/domain/saved";
 import type {
   HistoryRepository,
   ManageableRecipeRepository,
@@ -55,20 +56,22 @@ export class MemoryRecipes implements ManageableRecipeRepository {
 }
 
 export class MemorySaved implements SavedRepository {
-  private readonly ids = new Map<string, Set<string>>();
+  private entries: SavedRecipe[] = [];
+
+  async list(ownerId: string): Promise<SavedRecipe[]> {
+    return sortSaved(this.entries.filter((e) => e.ownerId === ownerId));
+  }
 
   async listIds(ownerId: string): Promise<string[]> {
-    return [...(this.ids.get(ownerId) ?? [])];
+    return (await this.list(ownerId)).map((e) => e.recipeId);
   }
 
   async save(entry: SavedRecipe): Promise<void> {
-    const set = this.ids.get(entry.ownerId) ?? new Set<string>();
-    set.add(entry.recipeId);
-    this.ids.set(entry.ownerId, set);
+    this.entries = withSaved(this.entries, entry);
   }
 
   async unsave(ownerId: string, recipeId: string): Promise<void> {
-    this.ids.get(ownerId)?.delete(recipeId);
+    this.entries = withoutSaved(this.entries, ownerId, recipeId);
   }
 }
 

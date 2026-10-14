@@ -19,7 +19,7 @@ export function NavItem({
       aria-current={active ? "page" : undefined}
       aria-label={label}
       title={label}
-      className={`inline-flex h-12 min-w-12 items-center justify-center gap-2 rounded-full px-3.5 text-[14px] font-medium transition-colors ${
+      className={`inline-flex h-12 min-w-12 items-center justify-center gap-2 rounded-full px-3.5 text-[0.875rem] font-medium transition-colors ${
         active ? "bg-primary-500 text-ink-900" : "bg-white/10 text-white hover:bg-white/15"
       }`}
     >

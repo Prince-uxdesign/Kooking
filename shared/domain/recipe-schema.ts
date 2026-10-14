@@ -177,7 +177,7 @@ export type StepCues = z.infer<typeof stepCuesSchema>;
 export const recipeStepSchema = z.object({
   id: idSchema,
   order: z.number().int().min(1),
-  instruction: z.string().min(1).max(2000),
+  instruction: z.string().trim().min(1, "instruction cannot be empty").max(2000),
   ingredientIds: z.array(idSchema).max(20).default([]),
   ingredientQuantities: z.record(z.string(), z.number().nullable()).optional(),
   preparationNotes: z.string().max(500).optional(),
@@ -401,7 +401,19 @@ export const recipeSchema = z
     // Substitution integrity within the recipe
     for (const ingredient of recipe.ingredients) {
       if (ingredient.substitutes) {
+        if (new Set(ingredient.substitutes).size !== ingredient.substitutes.length) {
+          ctx.addIssue({
+            code: "custom",
+            message: `substitute list for ingredient line '${ingredient.id}' cannot contain duplicate references`,
+          });
+        }
         for (const sub of ingredient.substitutes) {
+          if (!sub.trim()) {
+            ctx.addIssue({
+              code: "custom",
+              message: `substitute in ingredient line '${ingredient.id}' cannot be empty or whitespace`,
+            });
+          }
           if (sub === ingredient.ingredientId || sub === ingredient.id) {
             ctx.addIssue({
               code: "custom",

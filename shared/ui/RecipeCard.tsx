@@ -6,6 +6,7 @@ import type { RecipeDifficulty } from "@/shared/domain/recipe-schema";
 import { Badge } from "./Badge";
 import { buttonClasses } from "./Button";
 import { RecipeImage } from "./RecipeImage";
+import { SaveButton } from "@/features/saved/SaveButton";
 
 export interface RecipeCardProps {
   title: string;
@@ -31,6 +32,11 @@ export interface RecipeCardProps {
   saved?: boolean;
   /** Callback when save/bookmark button is toggled. */
   onSaveToggle?: () => void;
+  /**
+   * Stable recipe id. When given (and no `onSaveToggle`), the card shows a
+   * save button wired to the shared saved-recipes store.
+   */
+  recipeId?: string;
   /** Accessible label override for save button. */
   saveLabel?: string;
   /** Optional manual open action button. */
@@ -66,6 +72,7 @@ export function RecipeCard({
   demo = false,
   saved = false,
   onSaveToggle,
+  recipeId,
   saveLabel,
   onOpen,
   FallbackIcon,
@@ -90,7 +97,7 @@ export function RecipeCard({
 
         {/* Honest demo indicator */}
         {demo && (
-          <span className="absolute left-2.5 top-2.5 z-10 rounded-full bg-white px-2.5 py-1 text-[11px] font-medium text-ink-700 shadow-none">
+          <span className="absolute left-2.5 top-2.5 z-10 rounded-full bg-white px-2.5 py-1 text-[0.6875rem] font-medium text-ink-700 shadow-none">
             Demo
           </span>
         )}
@@ -108,7 +115,7 @@ export function RecipeCard({
               saveLabel ?? (saved ? `Remove ${title} from saved` : `Save ${title} for later`)
             }
             aria-pressed={saved}
-            className={`absolute right-2.5 top-2.5 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white transition-colors hover:bg-surface-200 focus-visible:outline-3 focus-visible:outline-info-700 active:scale-95 ${
+            className={`absolute right-2 top-2 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white transition-colors hover:bg-surface-200 focus-visible:outline-3 focus-visible:outline-info-700 active:scale-95 ${
               saved ? "text-primary-700" : "text-ink-700"
             }`}
           >
@@ -120,10 +127,18 @@ export function RecipeCard({
             />
           </button>
         )}
+        {!onSaveToggle && recipeId && (
+          <SaveButton
+            recipeId={recipeId}
+            title={title}
+            variant="card"
+            className="absolute right-2 top-2 z-10"
+          />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-1 px-3 pb-3 pt-2.5">
-        <h3 className="line-clamp-2 text-[15px] font-medium leading-5 text-ink-900">
+        <h3 className="line-clamp-2 text-[0.9375rem] font-medium leading-5 text-ink-900">
           {href ? (
             <Link
               href={href}
@@ -136,19 +151,19 @@ export function RecipeCard({
           )}
         </h3>
 
-        {meta && <p className="text-[13px] leading-5 text-ink-500">{meta}</p>}
+        {meta && <p className="text-[0.8125rem] leading-5 text-ink-500">{meta}</p>}
 
         {/* Quiet metadata: only show real fields present in data */}
         <div className="mt-auto flex flex-wrap items-center gap-x-2.5 gap-y-1.5 pt-1.5">
           {timeLabel && (
-            <span className="tnum inline-flex items-center gap-1 text-[13px] text-ink-500">
+            <span className="tnum inline-flex items-center gap-1 text-[0.8125rem] text-ink-500">
               <Clock aria-hidden size={14} strokeWidth={1.75} />
               <span>{timeLabel}</span>
             </span>
           )}
 
           {!timeLabel && prepMinutes !== undefined && prepMinutes > 0 && (
-            <span className="tnum inline-flex items-center gap-1 text-[13px] text-ink-500">
+            <span className="tnum inline-flex items-center gap-1 text-[0.8125rem] text-ink-500">
               <Clock aria-hidden size={14} strokeWidth={1.75} />
               <span>Prep {formatMinutes(prepMinutes)}</span>
             </span>

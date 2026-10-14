@@ -32,8 +32,17 @@ export interface ManageableRecipeRepository extends RecipeRepository {
   delete?(id: string): Promise<void>;
 }
 
+/**
+ * Saved recipes, scoped by owner ("guest" until accounts exist). Entries
+ * hold ids only; the catalog supplies everything else. A future synced
+ * adapter implements the same contract, so local storage is never
+ * assumed to be the permanent source of truth.
+ */
 export interface SavedRepository {
+  /** This owner's entries, newest save first, without duplicates. */
+  list(ownerId: string): Promise<SavedRecipe[]>;
   listIds(ownerId: string): Promise<string[]>;
+  /** Idempotent: saving an already-saved recipe just refreshes `savedAt`. */
   save(entry: SavedRecipe): Promise<void>;
   unsave(ownerId: string, recipeId: string): Promise<void>;
 }
@@ -73,4 +82,12 @@ export interface CollectionRepository {
 /** Ingredient identities (names, aliases) that recipe lines reference by id. */
 export interface IngredientRepository {
   list(): Promise<ReusableIngredient[]>;
+}
+
+export interface RecipeCacheRepository {
+  get(recipeId: string): Promise<import("@/shared/domain/recipe-cache").CachedRecipeEntry | null>;
+  getBySlug(slug: string): Promise<import("@/shared/domain/recipe-cache").CachedRecipeEntry | null>;
+  save(recipe: Recipe, cachedAt?: number): Promise<void>;
+  list(): Promise<import("@/shared/domain/recipe-cache").CachedRecipeEntry[]>;
+  remove(recipeId: string): Promise<void>;
 }

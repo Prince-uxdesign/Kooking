@@ -30,10 +30,10 @@ export default async function ExplorePage() {
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-1">
-        <h1 className="text-[30px] font-semibold leading-9 text-ink-900 sm:text-[36px] sm:leading-[44px]">
+        <h1 className="text-[1.875rem] font-semibold leading-9 text-ink-900 sm:text-[2.25rem] sm:leading-[44px]">
           Explore
         </h1>
-        <p className="max-w-prose text-[16px] leading-6 text-ink-500">
+        <p className="max-w-prose text-[1rem] leading-6 text-ink-500">
           Search by dish or ingredient, or browse Nigerian dishes by category and the time you have.
         </p>
       </header>
@@ -65,7 +65,7 @@ function Browse({ discovery }: { discovery: Extract<Discovery, { ok: true }> }) 
       <section aria-labelledby="collections-heading" className="flex flex-col gap-4">
         <SectionHeading id="collections-heading" title="Collections" />
         {overviews.length === 0 ? (
-          <p className="rounded-3xl bg-surface-100 px-5 py-5 text-[15px] leading-6 text-ink-500">
+          <p className="rounded-3xl bg-surface-100 px-5 py-5 text-[0.9375rem] leading-6 text-ink-500">
             Collections such as Quick meals and One-pot meals appear here once recipes match them.
           </p>
         ) : (

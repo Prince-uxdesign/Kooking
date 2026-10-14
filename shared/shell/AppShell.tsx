@@ -2,6 +2,8 @@
 
 import { Sidebar, TabBar } from "./Navigation";
 import { SiteHeader } from "./SiteHeader";
+import { SavedAnnouncer } from "@/features/saved/SavedAnnouncer";
+import { InstallBanner } from "@/features/pwa/InstallBanner";
 
 /**
  * Main application shell (< lg: header + bottom tabs;
@@ -25,10 +27,12 @@ export function AppShell({
         tabIndex={-1}
         className="mx-auto w-full max-w-[1120px] flex-1 px-5 pb-32 pt-4 sm:px-6 sm:pt-6 lg:px-12 lg:pb-16 lg:pt-12"
       >
+        <InstallBanner />
         {banner}
         {children}
       </main>
       <TabBar />
+      <SavedAnnouncer />
     </div>
   );
 }

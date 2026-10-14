@@ -20,7 +20,7 @@ export function TabBar() {
       aria-label="Primary"
       className="safe-bottom pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 lg:hidden"
     >
-      <ul className="pointer-events-auto mb-4 flex items-center gap-1 rounded-full bg-ink-900 p-1.5">
+      <ul className="pointer-events-auto mb-4 flex max-w-full items-center gap-1 rounded-full bg-ink-900 p-1.5">
         {NAV_ITEMS.map(({ href, label, shortLabel, Icon }) => {
           const active = isNavActive(pathname, href);
           return (
@@ -30,7 +30,7 @@ export function TabBar() {
                 aria-label={label}
                 title={label}
                 aria-current={active ? "page" : undefined}
-                className={`flex h-12 min-w-12 items-center justify-center gap-2 rounded-full text-[14px] font-medium transition-colors ${
+                className={`flex min-h-[48px] min-w-[44px] items-center justify-center gap-2 rounded-full text-[0.875rem] font-medium transition-colors ${
                   active
                     ? "bg-primary-500 px-3.5 text-ink-900 min-[360px]:px-4"
                     : "bg-white/10 text-white hover:bg-white/20"
@@ -74,7 +74,7 @@ export function Sidebar() {
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`flex min-h-[48px] items-center gap-3 rounded-full px-4 text-[15px] transition-colors ${
+                className={`flex min-h-[48px] items-center gap-3 rounded-full px-4 text-[0.9375rem] transition-colors ${
                   active
                     ? "bg-primary-500 font-medium text-ink-900"
                     : "text-ink-600 hover:bg-surface-100 hover:text-ink-900"
@@ -87,7 +87,7 @@ export function Sidebar() {
           );
         })}
       </ul>
-      <p className="mt-auto px-4 text-[13px] leading-5 text-ink-500">
+      <p className="mt-auto px-4 text-[0.8125rem] leading-5 text-ink-500">
         Local-first MVP.
         <br />
         Your data stays on this device.

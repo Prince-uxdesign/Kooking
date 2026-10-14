@@ -9,7 +9,7 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 /** Shared field styling: flat gray pill-ish field, white with a dark edge on focus. */
 export const fieldClasses =
-  "min-h-[52px] w-full rounded-2xl border border-transparent bg-surface-100 px-4 text-[16px] text-ink-900 placeholder:text-ink-500 transition-colors focus:border-ink-900 focus:bg-white focus:outline-none aria-[invalid=true]:border-error-700";
+  "min-h-[52px] w-full rounded-2xl border border-transparent bg-surface-100 px-4 text-[1rem] text-ink-900 placeholder:text-ink-500 transition-colors focus:border-ink-900 focus:bg-white focus:outline-none aria-[invalid=true]:border-error-700";
 
 /** Labelled text input. Placeholder is never the only label. */
 export function TextInput({ label, error, hint, id, className = "", ...rest }: TextInputProps) {
@@ -31,12 +31,12 @@ export function TextInput({ label, error, hint, id, className = "", ...rest }: T
         {...rest}
       />
       {hint && !error && (
-        <p id={hintId} className="text-[13px] leading-5 text-ink-500">
+        <p id={hintId} className="text-[0.8125rem] leading-5 text-ink-500">
           {hint}
         </p>
       )}
       {error && (
-        <p id={errorId} role="alert" className="text-[13px] font-medium text-error-700">
+        <p id={errorId} role="alert" className="text-[0.8125rem] font-medium text-error-700">
           {error}
         </p>
       )}

@@ -12,7 +12,7 @@ import {
 import { BottomSheet } from "@/shared/ui/BottomSheet";
 import { Button } from "@/shared/ui/Button";
 import { fieldClasses } from "@/shared/ui/TextInput";
-import { ItemDetailFields } from "./ItemFields";
+import { ItemDetailFields, focusFirstInvalid } from "./ItemFields";
 
 /** Edit sheet. Mount with a `key` per item so the draft resets. */
 export function ItemEditor({
@@ -32,7 +32,11 @@ export function ItemEditor({
   const save = (e?: React.FormEvent) => {
     e?.preventDefault();
     const result = validateDraft(draft);
-    if (!result.ok) return setErrors(result.errors);
+    if (!result.ok) {
+      setErrors(result.errors);
+      focusFirstInvalid("edit-item-name", "edit-item", result.errors);
+      return;
+    }
     onSave(result.value);
   };
 
@@ -55,7 +59,7 @@ export function ItemEditor({
     >
       <form onSubmit={save} noValidate className="flex flex-col gap-4 text-left">
         {item.origin === "recipe" && (
-          <p className="rounded-2xl bg-surface-100 p-4 text-[14px] leading-5 text-ink-600">
+          <p className="rounded-2xl bg-surface-100 p-4 text-[0.875rem] leading-5 text-ink-600">
             From {item.recipeTitle ?? "a recipe"}. Your changes are kept if you shop for this recipe
             again.
           </p>
@@ -79,7 +83,7 @@ export function ItemEditor({
             <p
               id="edit-item-name-error"
               role="alert"
-              className="text-[13px] font-medium text-error-700"
+              className="text-[0.8125rem] font-medium text-error-700"
             >
               {errors.name}
             </p>

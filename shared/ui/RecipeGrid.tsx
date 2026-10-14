@@ -39,7 +39,7 @@ export function RecipeGrid({
   return (
     <ul className={`grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4 ${className}`}>
       {recipes
-        ? recipes.map((recipe) => (
+        ? recipes.map((recipe, index) => (
             <li key={recipe.id} className="min-w-0">
               <RecipeCard
                 title={recipe.title}
@@ -52,7 +52,9 @@ export function RecipeGrid({
                 meta={reasons[recipe.id]}
                 saved={savedIds.includes(recipe.id)}
                 onSaveToggle={onSaveToggle ? () => onSaveToggle(recipe.id) : undefined}
+                recipeId={recipe.id}
                 FallbackIcon={iconForRecipe(recipe.categories)}
+                priority={index < 2}
               />
             </li>
           ))

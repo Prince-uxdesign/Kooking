@@ -125,14 +125,14 @@ export function ExploreSearch({ index, children }: { index: SearchDoc[]; childre
               aria-haspopup="dialog"
               aria-expanded={sheetOpen}
               aria-label={count ? `Filters, ${count} active` : "Filters"}
-              className="relative inline-flex min-h-[56px] min-w-[56px] shrink-0 items-center justify-center gap-2 rounded-full bg-surface-100 px-4 text-[15px] text-ink-900 hover:bg-surface-200"
+              className="relative inline-flex min-h-[56px] min-w-[56px] shrink-0 items-center justify-center gap-2 rounded-full bg-surface-100 px-4 text-[0.9375rem] text-ink-900 hover:bg-surface-200"
             >
               <SlidersHorizontal aria-hidden size={20} strokeWidth={1.75} />
               <span className="hidden sm:inline">Filters</span>
               {count > 0 && (
                 <span
                   aria-hidden
-                  className="tnum absolute -right-0.5 -top-0.5 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-ink-900 px-1.5 text-[12px] font-medium text-white sm:static"
+                  className="tnum absolute -right-0.5 -top-0.5 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-ink-900 px-1.5 text-[0.8125rem] font-medium text-white sm:static"
                 >
                   {count}
                 </span>
@@ -175,10 +175,13 @@ export function ExploreSearch({ index, children }: { index: SearchDoc[]; childre
       {active ? (
         <section aria-labelledby="results-heading" className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <h2 id="results-heading" className="text-[20px] font-semibold leading-7 text-ink-900">
+            <h2
+              id="results-heading"
+              className="text-[1.25rem] font-semibold leading-7 text-ink-900"
+            >
               Results
             </h2>
-            <p className="tnum text-[15px] leading-6 text-ink-500">
+            <p className="tnum text-[0.9375rem] leading-6 text-ink-500">
               {resultSummary(results.length, state)}
             </p>
           </div>

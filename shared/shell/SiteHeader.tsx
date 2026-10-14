@@ -23,7 +23,7 @@ export function Brand({
         <CookingPot size={20} strokeWidth={2} />
       </span>
       {!compact && (
-        <span className={`text-[20px] font-semibold tracking-tight ${title}`}>Kooking</span>
+        <span className={`text-[1.25rem] font-semibold tracking-tight ${title}`}>Kooking</span>
       )}
     </Link>
   );

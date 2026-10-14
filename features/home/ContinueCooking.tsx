@@ -14,7 +14,7 @@ function TimerPill({ timer }: { timer: TimerGlance }) {
   const Icon = timer.state === "done" ? CheckCircle2 : timer.state === "paused" ? Pause : TimerIcon;
   return (
     <li
-      className={`tnum inline-flex min-h-[32px] items-center gap-1.5 rounded-full px-3 text-[13px] ${
+      className={`tnum inline-flex min-h-[32px] items-center gap-1.5 rounded-full px-3 text-[0.8125rem] ${
         timer.state === "done" ? "bg-primary-500 text-ink-900" : "bg-white text-ink-900"
       }`}
     >
@@ -59,16 +59,16 @@ export function ContinueCooking({ catalog }: { catalog: RecipeSummary[] }) {
               className="h-16 w-16 shrink-0 rounded-[18px]"
             />
             <div className="flex min-w-0 flex-1 flex-col gap-1">
-              <h2 id="continue-heading" className="text-[16px] font-medium leading-6 text-ink-900">
+              <h2 id="continue-heading" className="text-[1rem] font-medium leading-6 text-ink-900">
                 <span
                   className="mr-1.5 inline-block h-2 w-2 rounded-full bg-accent-500 align-middle"
                   aria-hidden
                 />
                 Continue cooking {first.title}?
               </h2>
-              <p className="tnum text-[13px] text-ink-500">{meta(first)}</p>
+              <p className="tnum text-[0.8125rem] text-ink-500">{meta(first)}</p>
               {first.stepInstruction && (
-                <p className="line-clamp-2 text-[14px] leading-5 text-ink-700">
+                <p className="line-clamp-2 text-[0.875rem] leading-5 text-ink-700">
                   <span className="sr-only">Current step: </span>
                   {first.stepInstruction}
                 </p>
@@ -102,8 +102,8 @@ export function ContinueCooking({ catalog }: { catalog: RecipeSummary[] }) {
               className="flex items-center gap-3 rounded-[20px] bg-white px-4 py-3"
             >
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[15px] text-ink-900">{s.title}</p>
-                <p className="tnum truncate text-[13px] text-ink-500">
+                <p className="truncate text-[0.9375rem] text-ink-900">{s.title}</p>
+                <p className="tnum truncate text-[0.8125rem] text-ink-500">
                   {meta(s)}
                   {s.timers.length > 0
                     ? ` · ${s.timers.map((t) => `${t.label} ${t.text}`).join(", ")}`
@@ -123,7 +123,7 @@ export function ContinueCooking({ catalog }: { catalog: RecipeSummary[] }) {
       )}
 
       {damaged.length > 0 && (
-        <div className="flex items-start gap-2 rounded-[20px] px-4 py-3 text-[14px] text-ink-700">
+        <div className="flex items-start gap-2 rounded-[20px] px-4 py-3 text-[0.875rem] text-ink-700">
           <AlertTriangle aria-hidden size={16} className="mt-0.5 shrink-0 text-warning-700" />
           <p>
             {damaged.length === 1

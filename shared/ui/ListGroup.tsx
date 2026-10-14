@@ -38,8 +38,8 @@ export function ListRow({
       >
         {leading}
         <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="line-clamp-2 text-[16px] leading-6 text-ink-900">{title}</span>
-          {meta && <span className="text-[13px] leading-5 text-ink-500">{meta}</span>}
+          <span className="line-clamp-2 text-[1rem] leading-6 text-ink-900">{title}</span>
+          {meta && <span className="text-[0.8125rem] leading-5 text-ink-500">{meta}</span>}
         </span>
         <span
           aria-hidden

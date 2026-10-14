@@ -80,7 +80,7 @@ describe("CookingStep", () => {
     expect(html).toContain(step.instruction);
     expect(html).toContain("Done, next step");
     expect(html).not.toContain("Finish cooking");
-    expect(html).toContain('aria-label="Previous step"');
+    expect(html).toContain('aria-label="Back to previous step"');
     expect(html).toContain(">Back<");
     expect(html).toContain('aria-label="Step controls"');
   });
@@ -195,19 +195,19 @@ describe("CookingStep", () => {
     const html = render({
       step: { ...step, cues: [{ kind: "visual", label: "Look", text: long }] },
     });
-    expect(html).toContain(`break-words text-[17px] leading-7 text-white">${long}`);
+    expect(html).toContain(`break-words text-[1.0625rem] leading-7 text-white">${long}`);
   });
 
   it("wraps long instructions instead of truncating them", () => {
     const long = "Stir gently and keep stirring ".repeat(40).trim();
     const html = render({ step: { ...step, instruction: long } });
     expect(html).toContain(long);
-    expect(html).toMatch(/break-words[^"]*text-\[24px\]/);
+    expect(html).toMatch(/break-words[^"]*text-\[1\.5rem\]/);
   });
 
   it("disables Previous on the first step and shows Finish on the last", () => {
     expect(render({ step: { ...step, isFirst: true, number: 1 } })).toMatch(
-      /disabled=""[^>]*aria-label="Previous step"/,
+      /disabled=""[^>]*aria-label="Back to previous step"/,
     );
     const last = render({ step: { ...step, isLast: true, number: 3 } });
     expect(last).toContain("Finish cooking");
@@ -225,5 +225,37 @@ describe("CookingStep", () => {
   it("labels demo content as not chef-tested", () => {
     expect(render({ demo: true })).toContain("Demo recipe · not chef-tested");
     expect(render()).not.toContain("Demo recipe");
+  });
+
+  it("places read-aloud controls right after the instruction, before ingredients", () => {
+    const html = render({ speechSlot: <div data-testid="speech">Read this step</div> });
+    const instruction = html.indexOf(step.instruction);
+    const speech = html.indexOf('data-testid="speech"');
+    const ingredients = html.indexOf("You need for this step");
+    expect(instruction).toBeLessThan(speech);
+    expect(speech).toBeLessThan(ingredients);
+    // Navigation stays its own region, untouched by speech controls.
+    expect(html).toContain('aria-label="Step controls"');
+    expect(html).toContain("Done, next step");
+  });
+
+  it("renders without a speech slot exactly as before", () => {
+    expect(render()).not.toContain("Read this step");
+  });
+
+  it("puts the mic between Back and the primary action, and voice status above the controls", () => {
+    const html = render({
+      micSlot: <button data-testid="mic">mic</button>,
+      voiceStatusSlot: <p data-testid="voice-status">Mic on</p>,
+      voiceHelpSlot: <p data-testid="voice-help">help</p>,
+    });
+    const nav = html.slice(html.indexOf('aria-label="Step controls"'));
+    expect(nav.indexOf("voice-status")).toBeLessThan(nav.indexOf("Back to previous step"));
+    expect(nav.indexOf("Back to previous step")).toBeLessThan(nav.indexOf('data-testid="mic"'));
+    expect(nav.indexOf('data-testid="mic"')).toBeLessThan(nav.indexOf("Done, next step"));
+    expect(html.indexOf("voice-help")).toBeLessThan(html.indexOf("You need for this step"));
+    // Touch controls are all still there.
+    expect(html).toContain("Done, next step");
+    expect(html).toContain("Pause");
   });
 });

@@ -1,11 +1,17 @@
-import { PlaceholderPage } from "@/shared/shell/PlaceholderPage";
+import type { Metadata } from "next";
+import { ProfileScreen } from "@/features/auth/ProfileScreen";
+import { PageHeader } from "@/shared/shell/PageHeader";
+
+export const metadata: Metadata = { title: "Profile" };
 
 export default function ProfilePage() {
   return (
-    <PlaceholderPage
-      title="Profile"
-      description="Accounts are optional — the kitchen never waits for login."
-      message="Profiles arrive only when account sync earns its place. Until then, everything works as a guest with data on this device."
-    />
+    <div className="flex flex-col gap-6">
+      <PageHeader
+        title="Account"
+        description="Optional cross-device sync and backup for your recipes."
+      />
+      <ProfileScreen />
+    </div>
   );
 }

@@ -12,8 +12,8 @@ const base =
   "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors disabled:pointer-events-none disabled:opacity-50";
 
 const sizes: Record<Size, string> = {
-  md: "min-h-[48px] px-6 text-[15px]",
-  lg: "min-h-[56px] px-8 text-[16px]",
+  md: "min-h-[48px] px-6 text-[0.9375rem]",
+  lg: "min-h-[56px] px-8 text-[1rem]",
 };
 
 /** Flat pills. Green fills take ink text — white on primary-500 fails contrast. */

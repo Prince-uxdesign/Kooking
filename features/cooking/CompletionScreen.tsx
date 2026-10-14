@@ -6,7 +6,7 @@ import type { CompletionSummary } from "@/shared/domain/cooking-session";
 import { kitchenCheckHref, recipeHref } from "@/shared/domain/navigation";
 
 const pill =
-  "inline-flex min-h-[56px] items-center justify-center rounded-full px-6 text-[16px] font-medium transition-colors";
+  "inline-flex min-h-[56px] items-center justify-center rounded-full px-6 text-[1rem] font-medium transition-colors";
 
 function durationText(minutes: number): string {
   if (minutes < 60) return `${minutes} min`;
@@ -48,24 +48,26 @@ export function CompletionScreen({
         <CheckCircle2 size={32} strokeWidth={2} />
       </span>
       <div className="flex flex-col gap-2">
-        <h1 id="complete-title" className="text-[30px] font-semibold leading-9 text-white">
+        <h1 id="complete-title" className="text-[1.875rem] font-semibold leading-9 text-white">
           {justFinished ? "You did it" : "Cooking complete"}
         </h1>
-        <p className="text-[17px] leading-7 text-white/80">
+        <p className="text-[1.0625rem] leading-7 text-white/80">
           {summary.recipeTitle} · {summary.servings} servings
         </p>
       </div>
       <dl className="tnum grid grid-cols-2 gap-3">
         <div className="rounded-3xl bg-white/5 p-4">
-          <dt className="text-[13px] text-white/60">Steps done</dt>
-          <dd className="text-[22px] font-semibold text-white">{summary.stepsDone}</dd>
+          <dt className="text-[0.8125rem] text-white/60">Steps done</dt>
+          <dd className="text-[1.375rem] font-semibold text-white">{summary.stepsDone}</dd>
         </div>
         <div className="rounded-3xl bg-white/5 p-4">
-          <dt className="text-[13px] text-white/60">Start to finish</dt>
-          <dd className="text-[22px] font-semibold text-white">{durationText(summary.minutes)}</dd>
+          <dt className="text-[0.8125rem] text-white/60">Start to finish</dt>
+          <dd className="text-[1.375rem] font-semibold text-white">
+            {durationText(summary.minutes)}
+          </dd>
         </div>
       </dl>
-      <p className="text-[14px] text-white/60">
+      <p className="text-[0.875rem] text-white/60">
         Finished {finishedAt}.{demo ? " This was a demo recipe, not chef-tested." : ""}
       </p>
       <div className="flex flex-col gap-3 sm:flex-row">
