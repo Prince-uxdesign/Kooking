@@ -2,22 +2,11 @@ import { describe, expect, it } from "vitest";
 import { StoreError } from "@/shared/data/repositories";
 import { MemoryRecipes, MemorySaved, MemorySessions, MemoryShopping } from "@/shared/data/memory";
 import { recipeSchema } from "./recipe-schema";
-import { createGuest, toggleSavedId } from "./user";
 import seedJson from "../../content/seed/demo-tomato-rice.json";
 
 const recipe = recipeSchema.parse(seedJson);
 
-describe("guest users and saves", () => {
-  it("creates guest identities without credentials", () => {
-    expect(createGuest("device-1", 1000)).toMatchObject({ id: "device-1", kind: "guest" });
-  });
-
-  it("toggles saved ids idempotently", () => {
-    expect(toggleSavedId([], "r1")).toEqual(["r1"]);
-    expect(toggleSavedId(["r1"], "r1")).toEqual([]);
-    expect(toggleSavedId(["r1"], "r2")).toEqual(["r1", "r2"]);
-  });
-
+describe("saves by owner", () => {
   it("persists saves per owner in memory", async () => {
     const saved = new MemorySaved();
     await saved.save({ ownerId: "device-1", recipeId: recipe.id, savedAt: 1000 });

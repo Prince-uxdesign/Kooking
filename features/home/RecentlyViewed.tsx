@@ -3,7 +3,8 @@
 import { History } from "lucide-react";
 import { useEffect, useState } from "react";
 import { LocalHistory } from "@/shared/data/local";
-import { formatMinutes, recipeHref, type RecipeSummary } from "@/shared/domain/discovery";
+import { formatMinutes, type RecipeSummary } from "@/shared/domain/discovery";
+import { recipeHref } from "@/shared/domain/navigation";
 import { resolveRecentlyViewed } from "@/shared/domain/history";
 import { ListGroup, ListRow } from "@/shared/ui/ListGroup";
 import { RecipeImage } from "@/shared/ui/RecipeImage";
@@ -57,7 +58,7 @@ export function RecentlyViewed({ catalog }: { catalog: RecipeSummary[] }) {
           {state.recipes.map((recipe) => (
             <ListRow
               key={recipe.id}
-              href={recipeHref(recipe.slug, "/")}
+              href={recipeHref(recipe.slug, { from: "/" })}
               title={recipe.title}
               meta={formatMinutes(recipe.totalMinutes) || undefined}
               leading={

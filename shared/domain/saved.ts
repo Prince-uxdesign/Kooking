@@ -9,9 +9,6 @@ import { savedRecipeSchema, type SavedRecipe } from "./user";
  * and availability always come from the live catalog.
  */
 
-/** The owner for anonymous use. An account id replaces this once sign-in exists. */
-export const GUEST_OWNER = "guest";
-
 /**
  * Read whatever was stored, keeping every entry that's valid. One bad
  * entry never costs the cook the rest of their list. Duplicates (same

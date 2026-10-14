@@ -14,10 +14,6 @@ export interface RecipeCardProps {
   image?: { src: string; alt: string };
   /** Total cooking/preparation time in minutes. */
   minutes?: number;
-  /** Active prep time if distinct and useful. */
-  prepMinutes?: number;
-  /** Active cook time if distinct and useful. */
-  cookMinutes?: number;
   /** Content-assigned effort level. Shown only when defined in data. */
   difficulty?: RecipeDifficulty;
   /** Associated categories. */
@@ -63,8 +59,6 @@ export function RecipeCard({
   href,
   image,
   minutes,
-  prepMinutes,
-  cookMinutes,
   difficulty,
   categories = [],
   tags = [],
@@ -159,13 +153,6 @@ export function RecipeCard({
             <span className="tnum inline-flex items-center gap-1 text-[0.8125rem] text-ink-500">
               <Clock aria-hidden size={14} strokeWidth={1.75} />
               <span>{timeLabel}</span>
-            </span>
-          )}
-
-          {!timeLabel && prepMinutes !== undefined && prepMinutes > 0 && (
-            <span className="tnum inline-flex items-center gap-1 text-[0.8125rem] text-ink-500">
-              <Clock aria-hidden size={14} strokeWidth={1.75} />
-              <span>Prep {formatMinutes(prepMinutes)}</span>
             </span>
           )}
 

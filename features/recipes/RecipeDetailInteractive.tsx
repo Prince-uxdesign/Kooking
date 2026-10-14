@@ -10,7 +10,6 @@ import {
   Play,
   Sparkles,
   Timer as TimerIcon,
-  Users,
   Utensils,
   WifiOff,
 } from "lucide-react";
@@ -27,8 +26,6 @@ import {
   deriveTips,
   groupPreparationItems,
   type EquipmentItem,
-  type PrepGroup,
-  type PrepItem,
 } from "@/shared/domain/recipe-detail";
 import type { Recipe, RecipeIngredient } from "@/shared/domain/recipe-schema";
 import { kitchenCheckHref } from "@/shared/domain/navigation";
@@ -37,6 +34,7 @@ import { calculateScalingRatio, scaleRecipe, type ScaledLine } from "@/shared/do
 import { Badge } from "@/shared/ui/Badge";
 import { Button, buttonClasses } from "@/shared/ui/Button";
 import { QuantityInput } from "@/shared/ui/QuantityInput";
+import { StepPhoto } from "@/shared/ui/StepPhoto";
 
 const ROLE_LABELS: Record<RecipeIngredient["role"], string> = {
   required: "Required",
@@ -153,7 +151,7 @@ export function RecipeDetailInteractive({
             role="status"
             className="flex items-center gap-2.5 rounded-2xl bg-surface-100 px-4 py-3 text-sm text-ink-700"
           >
-            <WifiOff size={16} className="shrink-0 text-amber-500" aria-hidden />
+            <WifiOff size={16} className="shrink-0 text-warning-700" aria-hidden />
             <span>
               <strong>Viewing cached recipe offline.</strong> All ingredient scaling, sensory cues,
               and cooking steps are ready on this device.
@@ -303,7 +301,7 @@ export function RecipeDetailInteractive({
                           <span className="text-[0.6875rem] text-ink-500">(approx)</span>
                         )}
                         {line.requiresManual && (
-                          <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[0.6875rem] font-medium text-amber-700">
+                          <span className="rounded bg-warning-100 px-1.5 py-0.5 text-[0.6875rem] font-medium text-warning-700">
                             Manual adjustment
                           </span>
                         )}
@@ -400,7 +398,7 @@ export function RecipeDetailInteractive({
                               className={`flex min-h-[58px] cursor-pointer items-start gap-3.5 rounded-2xl border p-3.5 transition-all sm:items-center ${
                                 isDone
                                   ? "border-primary-200 bg-primary-50/70 text-ink-900 shadow-none"
-                                  : "border-line-default/60 bg-white hover:border-line-default hover:bg-surface-50 shadow-xs"
+                                  : "border-line-default/60 bg-white hover:border-line-default hover:bg-surface-50"
                               }`}
                             >
                               <input
@@ -559,6 +557,13 @@ export function RecipeDetailInteractive({
                   </div>
 
                   <p className="text-[1rem] leading-[1.65] text-ink-900">{step.instruction}</p>
+
+                  {step.image && (
+                    <StepPhoto
+                      image={step.image}
+                      className="aspect-[16/10] max-w-md rounded-2xl bg-surface-200"
+                    />
+                  )}
 
                   {stepCues(step).length > 0 && (
                     <div className="flex items-start gap-2.5 rounded-2xl bg-white p-3.5 text-[0.875rem] leading-5 text-ink-700">

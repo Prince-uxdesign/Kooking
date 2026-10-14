@@ -4,7 +4,7 @@ import { formatRemaining, remainingMs } from "@/shared/domain/timers";
 import type { FinishCheck } from "@/shared/domain/cooking-session";
 
 const btn =
-  "inline-flex min-h-[48px] items-center justify-center rounded-full px-5 text-[0.9375rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900";
+  "inline-flex min-h-[48px] items-center justify-center rounded-full px-5 text-[0.9375rem] font-medium transition-colors";
 
 /**
  * Shown right above the controls when Finish can't go straight through:

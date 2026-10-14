@@ -3,12 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import seedJson from "@/content/seed/demo-tomato-rice.json";
 import { recipeSchema } from "@/shared/domain/recipe-schema";
 import { buildSearchIndex, searchRecipes, EMPTY_SEARCH } from "@/shared/domain/search";
-import {
-  LocalSessions,
-  LocalShopping,
-  LocalCookingHistory,
-  LocalKitchenChecks,
-} from "@/shared/data/local";
+import { LocalSessions, LocalShopping, LocalKitchenChecks } from "@/shared/data/local";
 import { createPersonalItem, emptyList } from "@/shared/domain/shopping";
 import { planSavedRecipesMerge } from "@/shared/domain/auth";
 

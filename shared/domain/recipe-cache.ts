@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { recipeSchema, type Recipe } from "./recipe-schema";
+import { recipeSchema } from "./recipe-schema";
 
 /**
  * Domain model for locally cached recipes (Phase 36).

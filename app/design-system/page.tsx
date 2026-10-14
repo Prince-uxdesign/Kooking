@@ -24,7 +24,6 @@ import {
   Progress,
   QuantityInput,
   RecipeCard,
-  RecipeCollectionSection,
   SearchInput,
   SectionHeading,
   Select,

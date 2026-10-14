@@ -1,3 +1,4 @@
+import { findListableRecipe, listableRecipeParams } from "@/features/recipes/find-listable-recipe";
 import { ChefHat, Clock, Users } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -12,10 +13,10 @@ import {
   getIngredientRepository,
   getRecipeRepository,
 } from "@/shared/data/catalog";
-import { StoreError } from "@/shared/data/repositories";
+
 import { categoryHref, getCategory } from "@/shared/domain/categories";
 import { difficultyLabel, formatMinutes, isListable, toSummary } from "@/shared/domain/discovery";
-import type { Recipe } from "@/shared/domain/recipe-schema";
+
 import { Badge } from "@/shared/ui/Badge";
 import { Chip } from "@/shared/ui/Chip";
 import { RecipeCollectionSection } from "@/shared/ui/RecipeCollectionSection";
@@ -23,26 +24,13 @@ import { RecipeImage } from "@/shared/ui/RecipeImage";
 
 type Params = { params: Promise<{ slug: string }> };
 
-async function findRecipe(slug: string): Promise<Recipe | null> {
-  try {
-    const recipe = await getRecipeRepository().getBySlug(slug);
-    return isListable(recipe) ? recipe : null;
-  } catch (error) {
-    if (error instanceof StoreError && error.code === "not-found") return null;
-    throw error;
-  }
-}
-
 /** Static catalog: unknown slugs are a true 404. Revisit when a CMS adapter lands. */
 export const dynamicParams = false;
 
-export async function generateStaticParams() {
-  const recipes = await getRecipeRepository().list();
-  return recipes.filter(isListable).map((r) => ({ slug: r.slug }));
-}
+export const generateStaticParams = listableRecipeParams;
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const recipe = await findRecipe((await params).slug);
+  const recipe = await findListableRecipe((await params).slug);
   return {
     title: recipe ? recipe.title : "Recipe not found",
     description: recipe?.description ?? "Authentic Nigerian recipe instructions and ingredients.",
@@ -62,7 +50,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
  */
 export default async function RecipeDetailPage({ params }: Params) {
   const { slug } = await params;
-  const recipe = await findRecipe(slug);
+  const recipe = await findListableRecipe(slug);
   if (!recipe) notFound();
 
   const [ingredientsList, collectionsList, allRecipes] = await Promise.all([

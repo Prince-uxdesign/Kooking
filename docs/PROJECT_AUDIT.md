@@ -12,7 +12,6 @@ shared/shell/         Single-source nav, AppShell, header, tabs, sidebar, page h
 shared/domain/        Zod schemas + pure rules (units, scaling, readiness, shopping,
                       session, user) + 8 colocated test suites
 shared/data/          Repository interfaces + memory and localStorage adapters
-shared/tokens/        TS mirror of CSS design tokens
 content/seed/         One explicit demo recipe (draft, demo:true) — the only content
 docs/                 12 decision/design/data/quality documents (this one included)
 ```

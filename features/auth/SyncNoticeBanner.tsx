@@ -25,7 +25,7 @@ export function SyncNoticeBanner() {
   return (
     <aside
       aria-label="Account backup notice"
-      className="flex items-start justify-between gap-3 rounded-2xl border border-line-default bg-surface-primary p-4 text-[0.875rem] shadow-xs"
+      className="flex items-start justify-between gap-3 rounded-2xl bg-surface-100 p-4 text-[0.875rem]"
     >
       <div className="flex items-start gap-3">
         <Cloud size={20} className="mt-0.5 text-primary-600 shrink-0" aria-hidden />
@@ -35,7 +35,7 @@ export function SyncNoticeBanner() {
             Your saved recipes are currently kept on this device.{" "}
             <Link
               href="/profile"
-              className="font-medium text-primary-600 underline underline-offset-2 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"
+              className="font-medium text-primary-600 underline underline-offset-2 hover:text-primary-700 rounded"
             >
               Sign in or create an account
             </Link>{" "}
@@ -47,7 +47,7 @@ export function SyncNoticeBanner() {
         type="button"
         onClick={() => setDismissed(true)}
         aria-label="Dismiss sync notice"
-        className="rounded-full p-1.5 text-ink-400 hover:bg-surface-secondary hover:text-ink-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink-600 hover:bg-surface-200 hover:text-ink-900"
       >
         <X size={16} aria-hidden />
       </button>

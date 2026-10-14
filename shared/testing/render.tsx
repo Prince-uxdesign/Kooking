@@ -3,7 +3,6 @@ import { createRoot, type Root } from "react-dom/client";
 import type { ReactElement } from "react";
 
 declare global {
-  // eslint-disable-next-line no-var
   var IS_REACT_ACT_ENVIRONMENT: boolean | undefined;
 }
 

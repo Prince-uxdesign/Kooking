@@ -1,0 +1,204 @@
+{
+  "id": "puff-puff",
+  "slug": "puff-puff",
+  "title": "Puff-Puff",
+  "description": "Soft, golden balls of sweet yeasted dough, deep-fried until puffed. The small chop everyone reaches for first.",
+  "image": {
+    "src": "/images/recipes/puff-puff.jpg",
+    "alt": "Tray of freshly fried golden puff-puff balls"
+  },
+  "categories": ["snacks"],
+  "difficulty": "easy",
+  "tags": ["party", "street-food"],
+  "baseServings": 6,
+  "timeMinutes": {
+    "prep": 50,
+    "cook": 20,
+    "total": 70
+  },
+  "equipment": [
+    {
+      "id": "bowl",
+      "name": "Large mixing bowl",
+      "category": "prep"
+    },
+    {
+      "id": "deep-pan",
+      "name": "Deep frying pan or wok",
+      "category": "cookware"
+    },
+    {
+      "id": "slotted-spoon",
+      "name": "Slotted spoon",
+      "category": "utensil"
+    },
+    {
+      "id": "paper",
+      "name": "Kitchen paper",
+      "category": "prep",
+      "notes": "For draining fried food"
+    },
+    {
+      "id": "cloth",
+      "name": "Clean tea towel or cling film",
+      "category": "prep"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "flour",
+      "ingredientId": "ng:flour",
+      "quantity": 500,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "sugar",
+      "ingredientId": "ng:sugar",
+      "quantity": 100,
+      "unit": "g",
+      "role": "required",
+      "scaling": "approximate",
+      "note": "Up to 150 g for sweeter puff-puff"
+    },
+    {
+      "id": "yeast",
+      "ingredientId": "ng:instant-yeast",
+      "quantity": 2,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "nutmeg",
+      "ingredientId": "ng:nutmeg",
+      "quantity": 0.5,
+      "unit": "tsp",
+      "role": "optional",
+      "scaling": "linear"
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": 0.5,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "water",
+      "ingredientId": "ng:water",
+      "quantity": 400,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "approximate",
+      "constraint": "Warm, not hot — hot water kills the yeast"
+    },
+    {
+      "id": "oil",
+      "ingredientId": "ng:vegetable-oil",
+      "quantity": 1,
+      "unit": "l",
+      "role": "required",
+      "scaling": "approximate",
+      "note": "About 6 cm deep"
+    }
+  ],
+  "steps": [
+    {
+      "id": "puff-puff-s1",
+      "order": 1,
+      "instruction": "Mix the flour, sugar, yeast, nutmeg and salt in a large bowl.",
+      "ingredientIds": ["flour", "sugar", "yeast", "nutmeg", "salt"],
+      "ingredientQuantities": {
+        "flour": 500,
+        "sugar": 100,
+        "yeast": 2,
+        "nutmeg": 0.5,
+        "salt": 0.5
+      },
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "puff-puff-s2",
+      "order": 2,
+      "instruction": "Pour in the warm water gradually and mix with your hand until you have a smooth, sticky, stretchy batter.",
+      "ingredientIds": ["water"],
+      "ingredientQuantities": {
+        "water": 400
+      },
+      "timer": {
+        "durationSeconds": 300,
+        "label": "Mix the batter"
+      },
+      "cues": {
+        "texture": "Smooth, sticky and stretchy — thicker than pancake batter."
+      }
+    },
+    {
+      "id": "puff-puff-s3",
+      "order": 3,
+      "instruction": "Cover the bowl and leave in a warm place to rise.",
+      "ingredientIds": [],
+      "timer": {
+        "durationSeconds": 2700,
+        "label": "Let it rise"
+      },
+      "cues": {
+        "visual": "Doubled in size and full of bubbles."
+      }
+    },
+    {
+      "id": "puff-puff-s4",
+      "order": 4,
+      "instruction": "Heat the oil in a deep pan.",
+      "ingredientIds": ["oil"],
+      "ingredientQuantities": {
+        "oil": 1
+      },
+      "heat": "medium",
+      "estimatedMinutes": 5,
+      "cues": {
+        "sound": "A small drop of batter sizzles and rises within a few seconds."
+      },
+      "safetyNote": "Keep the oil at medium — too hot browns the outside before the middle cooks."
+    },
+    {
+      "id": "puff-puff-s5",
+      "order": 5,
+      "instruction": "With a wet hand, squeeze batter up through your fist and pinch off balls into the oil (or use two spoons). Fry, turning, until golden all over.",
+      "ingredientIds": [],
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 180,
+        "label": "Fry a batch"
+      },
+      "cues": {
+        "visual": "Round, puffed and evenly golden."
+      },
+      "completionNote": "Break one open: the inside should be fluffy and cooked through."
+    },
+    {
+      "id": "puff-puff-s6",
+      "order": 6,
+      "instruction": "Drain on kitchen paper. Dust with sugar if you like and serve warm.",
+      "ingredientIds": [],
+      "estimatedMinutes": 1
+    }
+  ],
+  "notes": [
+    "Add a little chopped scotch bonnet to the batter for a savoury, spicy version.",
+    "Best eaten the same day."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Sisi Jemimah (sisijemimah.com); Immaculate Bites (africanbites.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

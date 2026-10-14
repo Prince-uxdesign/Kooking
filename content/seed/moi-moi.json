@@ -1,0 +1,256 @@
+{
+  "id": "moi-moi",
+  "slug": "moi-moi",
+  "title": "Moi Moi",
+  "description": "Steamed bean pudding: peeled black-eyed beans blended with peppers and onion, enriched with oil and crayfish, then steamed until silky and set.",
+  "image": {
+    "src": "/images/recipes/moi-moi.jpg",
+    "alt": "Cups of steamed orange moi moi with boiled egg in a steamer pot"
+  },
+  "categories": ["beans-legumes"],
+  "difficulty": "medium",
+  "tags": ["party"],
+  "baseServings": 6,
+  "timeMinutes": {
+    "prep": 65,
+    "cook": 50,
+    "total": 115
+  },
+  "equipment": [
+    {
+      "id": "blender",
+      "name": "Blender",
+      "category": "appliance"
+    },
+    {
+      "id": "bowl",
+      "name": "Large mixing bowl",
+      "category": "prep"
+    },
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "ramekins",
+      "name": "Heatproof ramekins, foil cups or moi moi leaves",
+      "category": "cookware"
+    },
+    {
+      "id": "whisk",
+      "name": "Whisk",
+      "category": "utensil"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "beans",
+      "ingredientId": "ng:black-eyed-beans",
+      "quantity": 500,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "tatashe",
+      "ingredientId": "ng:tatashe",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "seeded"
+    },
+    {
+      "id": "scotch",
+      "ingredientId": "ng:scotch-bonnet",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "approximate"
+    },
+    {
+      "id": "onion",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "quartered"
+    },
+    {
+      "id": "water",
+      "ingredientId": "ng:water",
+      "quantity": 500,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "approximate",
+      "note": "Warm stock works too"
+    },
+    {
+      "id": "oil",
+      "ingredientId": "ng:vegetable-oil",
+      "quantity": 120,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "crayfish",
+      "ingredientId": "ng:crayfish",
+      "quantity": 2,
+      "unit": "tbsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "cubes",
+      "ingredientId": "ng:stock-cube",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "required",
+      "scaling": "to-taste"
+    },
+    {
+      "id": "eggs",
+      "ingredientId": "ng:eggs",
+      "quantity": 3,
+      "unit": "piece",
+      "role": "optional",
+      "scaling": "discrete",
+      "preparation": "hard-boiled and sliced"
+    }
+  ],
+  "steps": [
+    {
+      "id": "moi-moi-s1",
+      "order": 1,
+      "instruction": "Soak the beans in plenty of water.",
+      "ingredientIds": ["beans"],
+      "ingredientQuantities": {
+        "beans": 500
+      },
+      "timer": {
+        "durationSeconds": 1800,
+        "label": "Soak the beans"
+      },
+      "cues": {
+        "texture": "Skins wrinkle and slip when rubbed."
+      }
+    },
+    {
+      "id": "moi-moi-s2",
+      "order": 2,
+      "instruction": "Rub handfuls of beans between your palms to loosen the skins. Add water, let the skins float up and pour them off. Repeat until the beans are white.",
+      "ingredientIds": [],
+      "estimatedMinutes": 20,
+      "cues": {
+        "visual": "Beans almost all white, with few dark eyes left."
+      }
+    },
+    {
+      "id": "moi-moi-s3",
+      "order": 3,
+      "instruction": "Blend the peeled beans with the tatashe, scotch bonnets, onion and about 250 ml water until very smooth.",
+      "ingredientIds": ["tatashe", "scotch", "onion", "water"],
+      "ingredientQuantities": {
+        "tatashe": 2,
+        "scotch": 2,
+        "onion": 1,
+        "water": 250
+      },
+      "estimatedMinutes": 5,
+      "cues": {
+        "texture": "Smooth, with no grit when rubbed between fingers."
+      }
+    },
+    {
+      "id": "moi-moi-s4",
+      "order": 4,
+      "instruction": "Pour into a bowl and whisk in the oil, crayfish, crumbled stock cubes and salt. Add warm water a little at a time until it pours like thick pancake batter.",
+      "ingredientIds": ["oil", "crayfish", "cubes", "salt", "water"],
+      "ingredientQuantities": {
+        "oil": 120,
+        "crayfish": 2,
+        "cubes": 2,
+        "salt": null,
+        "water": 250
+      },
+      "estimatedMinutes": 5,
+      "cues": {
+        "texture": "Falls from the spoon in a thick ribbon."
+      },
+      "image": {
+        "src": "/images/recipes/steps/moimoi-batter.jpg",
+        "alt": "Oil being poured into moi moi batter while it is whisked"
+      }
+    },
+    {
+      "id": "moi-moi-s5",
+      "order": 5,
+      "instruction": "Grease the ramekins, fill each about three-quarters full and push in a slice of egg.",
+      "ingredientIds": ["eggs"],
+      "ingredientQuantities": {
+        "eggs": 3
+      },
+      "estimatedMinutes": 5,
+      "image": {
+        "src": "/images/recipes/steps/moimoi-portion.jpg",
+        "alt": "Moi moi batter being spooned into small round containers"
+      }
+    },
+    {
+      "id": "moi-moi-s6",
+      "order": 6,
+      "instruction": "Stand the ramekins in a pot with boiling water a third of the way up their sides. Cover tightly and steam, topping up with boiling water if needed.",
+      "ingredientIds": [],
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 2700,
+        "label": "Steam the moi moi"
+      },
+      "cues": {
+        "texture": "Firm and springy when pressed."
+      },
+      "completionNote": "A skewer pushed into the centre comes out clean.",
+      "safetyNote": "Lift the lid away from you — the steam burns.",
+      "image": {
+        "src": "/images/recipes/steps/moimoi-steam.jpg",
+        "alt": "Containers of moi moi with egg sitting in a steamer pot"
+      }
+    },
+    {
+      "id": "moi-moi-s7",
+      "order": 7,
+      "instruction": "Turn off the heat and let them rest before turning out.",
+      "ingredientIds": [],
+      "timer": {
+        "durationSeconds": 300,
+        "label": "Rest before serving"
+      }
+    }
+  ],
+  "notes": [
+    "Peeling is the slow part. Soaked beans can also be pulsed briefly in a blender with water to loosen skins.",
+    "Serve with jollof rice, pap (ogi) or custard, or on its own."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Sisi Jemimah (sisijemimah.com); Nigerian Food TV (nigerianfoodtv.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

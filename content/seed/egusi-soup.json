@@ -1,0 +1,330 @@
+{
+  "id": "egusi-soup",
+  "slug": "egusi-soup",
+  "title": "Egusi Soup",
+  "description": "A rich, golden soup of ground melon seeds cooked in palm oil and pepper with tender beef, fish and fresh ugu leaves. Best with pounded yam or eba.",
+  "image": {
+    "src": "/images/recipes/egusi-soup.jpg",
+    "alt": "Bowl of egusi soup with assorted meats served beside a ball of pounded yam"
+  },
+  "categories": ["stews-soups"],
+  "difficulty": "medium",
+  "tags": ["party"],
+  "baseServings": 6,
+  "timeMinutes": {
+    "prep": 20,
+    "cook": 80,
+    "total": 100
+  },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "blender",
+      "name": "Blender",
+      "category": "appliance"
+    },
+    {
+      "id": "spoon",
+      "name": "Wooden spoon",
+      "category": "utensil"
+    },
+    {
+      "id": "board",
+      "name": "Chopping board and sharp knife",
+      "category": "prep"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "beef",
+      "ingredientId": "ng:beef",
+      "quantity": 800,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "cut into chunks"
+    },
+    {
+      "id": "ponmo",
+      "ingredientId": "ng:ponmo",
+      "quantity": 200,
+      "unit": "g",
+      "role": "optional",
+      "scaling": "linear",
+      "preparation": "cut into pieces"
+    },
+    {
+      "id": "stockfish",
+      "ingredientId": "ng:stockfish",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "optional",
+      "scaling": "discrete",
+      "preparation": "soaked and broken up"
+    },
+    {
+      "id": "onion-meat",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "chopped"
+    },
+    {
+      "id": "onion-pepper",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "quartered"
+    },
+    {
+      "id": "cubes",
+      "ingredientId": "ng:stock-cube",
+      "quantity": 3,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "water",
+      "ingredientId": "ng:water",
+      "quantity": 1,
+      "unit": "l",
+      "role": "required",
+      "scaling": "approximate"
+    },
+    {
+      "id": "egusi",
+      "ingredientId": "ng:egusi",
+      "quantity": 300,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "tatashe",
+      "ingredientId": "ng:tatashe",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "seeded"
+    },
+    {
+      "id": "scotch",
+      "ingredientId": "ng:scotch-bonnet",
+      "quantity": 3,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "approximate",
+      "note": "Use 1–2 for a milder soup"
+    },
+    {
+      "id": "palm-oil",
+      "ingredientId": "ng:palm-oil",
+      "quantity": 120,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "iru",
+      "ingredientId": "ng:iru",
+      "quantity": 1,
+      "unit": "tbsp",
+      "role": "optional",
+      "scaling": "linear"
+    },
+    {
+      "id": "crayfish",
+      "ingredientId": "ng:crayfish",
+      "quantity": 3,
+      "unit": "tbsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "smoked-fish",
+      "ingredientId": "ng:smoked-fish",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "optional",
+      "scaling": "discrete",
+      "preparation": "deboned and flaked"
+    },
+    {
+      "id": "ugu",
+      "ingredientId": "ng:ugu",
+      "quantity": 1,
+      "unit": "bunch",
+      "role": "substitutable",
+      "scaling": "approximate",
+      "preparation": "washed and sliced",
+      "substitutes": ["ng:spinach"]
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "required",
+      "scaling": "to-taste"
+    }
+  ],
+  "steps": [
+    {
+      "id": "egusi-soup-s1",
+      "order": 1,
+      "instruction": "Put the beef, ponmo and stockfish in a pot with the chopped onion, 2 stock cubes and a pinch of salt. Add the water, cover and boil until the beef is tender.",
+      "ingredientIds": ["beef", "ponmo", "stockfish", "onion-meat", "cubes", "water", "salt"],
+      "ingredientQuantities": {
+        "beef": 800,
+        "ponmo": 200,
+        "stockfish": 1,
+        "onion-meat": 1,
+        "cubes": 2,
+        "water": 1,
+        "salt": null
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 2400,
+        "label": "Boil the meat"
+      },
+      "completionNote": "A fork slides into the beef easily. Keep the stock."
+    },
+    {
+      "id": "egusi-soup-s2",
+      "order": 2,
+      "instruction": "While the meat cooks, coarsely blend the tatashe, scotch bonnets and quartered onion with a splash of water.",
+      "ingredientIds": ["tatashe", "scotch", "onion-pepper"],
+      "ingredientQuantities": {
+        "tatashe": 2,
+        "scotch": 3,
+        "onion-pepper": 1
+      },
+      "estimatedMinutes": 3,
+      "cues": {
+        "texture": "Coarse, like a rough salsa — not a smooth purée."
+      }
+    },
+    {
+      "id": "egusi-soup-s3",
+      "order": 3,
+      "instruction": "Mix the ground egusi with about 6 tablespoons of the meat stock to make a thick, mouldable paste.",
+      "ingredientIds": ["egusi"],
+      "ingredientQuantities": {
+        "egusi": 300
+      },
+      "estimatedMinutes": 3,
+      "cues": {
+        "texture": "Holds together when you squeeze it, like soft dough."
+      },
+      "image": {
+        "src": "/images/recipes/steps/egusi-seeds.jpg",
+        "alt": "Whole egusi melon seeds, which are ground for the soup"
+      }
+    },
+    {
+      "id": "egusi-soup-s4",
+      "order": 4,
+      "instruction": "In a clean pot, warm the palm oil for 2 minutes (don't let it smoke), then add the iru and the pepper blend. Fry until the oil separates.",
+      "ingredientIds": ["palm-oil", "iru"],
+      "ingredientQuantities": {
+        "palm-oil": 120,
+        "iru": 1
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 600,
+        "label": "Fry the pepper"
+      },
+      "cues": {
+        "visual": "Oil separates and floats on top of the pepper.",
+        "aroma": "The raw pepper smell is gone."
+      },
+      "safetyNote": "Palm oil gets very hot. If it starts smoking, take the pot off the heat."
+    },
+    {
+      "id": "egusi-soup-s5",
+      "order": 5,
+      "instruction": "Drop the egusi paste into the pot in small spoonfuls. Don't stir. Cover and cook on low so the lumps set.",
+      "ingredientIds": ["egusi"],
+      "ingredientQuantities": {
+        "egusi": 300
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 600,
+        "label": "Set the egusi"
+      },
+      "cues": {
+        "visual": "Lumps look firm and pale gold, with oil pooling around them."
+      }
+    },
+    {
+      "id": "egusi-soup-s6",
+      "order": 6,
+      "instruction": "Stir gently, then add the meat with about 500 ml of its stock, the flaked fish, crayfish and the last stock cube. Season with salt and simmer.",
+      "ingredientIds": ["crayfish", "smoked-fish", "cubes", "salt"],
+      "ingredientQuantities": {
+        "crayfish": 3,
+        "smoked-fish": 1,
+        "cubes": 1,
+        "salt": null
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 900,
+        "label": "Simmer the soup"
+      },
+      "cues": {
+        "texture": "Thick but loose enough to spoon over swallow."
+      },
+      "image": {
+        "src": "/images/recipes/steps/egusi-pot.jpg",
+        "alt": "Pot of finished egusi soup with lumps of ground melon seed"
+      }
+    },
+    {
+      "id": "egusi-soup-s7",
+      "order": 7,
+      "instruction": "Stir in the sliced ugu leaves and cook just until wilted. Turn off the heat.",
+      "ingredientIds": ["ugu"],
+      "ingredientQuantities": {
+        "ugu": 1
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 180,
+        "label": "Wilt the leaves"
+      },
+      "cues": {
+        "visual": "Leaves wilted but still bright green."
+      }
+    }
+  ],
+  "notes": [
+    "Serve with pounded yam, eba, amala or semolina.",
+    "Add more stock if the soup thickens too much as it stands.",
+    "Keeps 3 days in the fridge, or freeze in portions for up to 2 months."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: Nigerian Food TV (nigerianfoodtv.com); Eat Well Abi (eatwellabi.com); African Bites (africanbites.com); 9jafoodie (9jafoodie.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

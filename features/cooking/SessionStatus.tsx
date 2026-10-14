@@ -1,35 +1,17 @@
 "use client";
 
 import { CloudOff, RefreshCw, TriangleAlert } from "lucide-react";
-import { useEffect, useState } from "react";
 
-import { checkReachability } from "@/features/pwa/connectivity";
+import { usePwa } from "@/features/pwa";
 
-/** `navigator.onLine` combined with active reachability verification. */
+/**
+ * Whether the cook can reach the server: the app-wide connectivity state
+ * (`navigator.onLine` plus an active reachability check), not a second
+ * private copy of it.
+ */
 export function useOnlineStatus(): boolean {
-  const [online, setOnline] = useState(true);
-  useEffect(() => {
-    let active = true;
-
-    async function verify() {
-      if (typeof navigator !== "undefined" && !navigator.onLine) {
-        if (active) setOnline(false);
-        return;
-      }
-      const reachable = await checkReachability();
-      if (active) setOnline(reachable);
-    }
-
-    void verify();
-    window.addEventListener("online", verify);
-    window.addEventListener("offline", verify);
-    return () => {
-      active = false;
-      window.removeEventListener("online", verify);
-      window.removeEventListener("offline", verify);
-    };
-  }, []);
-  return online;
+  const { isOnline, isServerReachable } = usePwa();
+  return isOnline && isServerReachable;
 }
 
 /**

@@ -1,0 +1,296 @@
+{
+  "id": "coconut-rice",
+  "slug": "coconut-rice",
+  "title": "Coconut Rice",
+  "description": "Fragrant rice cooked in coconut milk with crayfish, thyme and a little heat from scotch bonnet. Creamy, savoury and lighter than jollof.",
+  "image": {
+    "src": "/images/recipes/coconut-rice.jpg",
+    "alt": "Plate of Nigerian coconut rice with prawns, sweet corn and diced peppers"
+  },
+  "categories": ["rice"],
+  "difficulty": "medium",
+  "tags": ["everyday", "one-pot"],
+  "baseServings": 6,
+  "timeMinutes": {
+    "prep": 15,
+    "cook": 40,
+    "total": 55
+  },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "sieve",
+      "name": "Sieve or colander",
+      "category": "prep"
+    },
+    {
+      "id": "spoon",
+      "name": "Wooden spoon",
+      "category": "utensil"
+    },
+    {
+      "id": "board",
+      "name": "Chopping board and sharp knife",
+      "category": "prep"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "rice",
+      "ingredientId": "ng:parboiled-rice",
+      "quantity": 500,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "rinsed"
+    },
+    {
+      "id": "coconut-milk",
+      "ingredientId": "ng:coconut-milk",
+      "quantity": 800,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "linear",
+      "note": "Two 400 ml tins",
+      "constraint": "Shake the tins well before opening"
+    },
+    {
+      "id": "water",
+      "ingredientId": "ng:water",
+      "quantity": 250,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "approximate"
+    },
+    {
+      "id": "oil",
+      "ingredientId": "ng:vegetable-oil",
+      "quantity": 3,
+      "unit": "tbsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "onion",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "finely chopped"
+    },
+    {
+      "id": "garlic",
+      "ingredientId": "ng:garlic",
+      "quantity": 2,
+      "unit": "clove",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "minced"
+    },
+    {
+      "id": "scotch",
+      "ingredientId": "ng:scotch-bonnet",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "approximate",
+      "preparation": "finely chopped"
+    },
+    {
+      "id": "crayfish",
+      "ingredientId": "ng:crayfish",
+      "quantity": 2,
+      "unit": "tbsp",
+      "role": "optional",
+      "scaling": "linear"
+    },
+    {
+      "id": "cubes",
+      "ingredientId": "ng:stock-cube",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "curry",
+      "ingredientId": "ng:curry-powder",
+      "quantity": 1,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "thyme",
+      "ingredientId": "ng:dried-thyme",
+      "quantity": 1,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "required",
+      "scaling": "to-taste"
+    },
+    {
+      "id": "tatashe",
+      "ingredientId": "ng:tatashe",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "optional",
+      "scaling": "discrete",
+      "preparation": "diced"
+    },
+    {
+      "id": "carrot",
+      "ingredientId": "ng:carrot",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "optional",
+      "scaling": "discrete",
+      "preparation": "diced"
+    },
+    {
+      "id": "spring-onion",
+      "ingredientId": "ng:spring-onion",
+      "quantity": 2,
+      "unit": "stalk",
+      "role": "garnish",
+      "scaling": "discrete",
+      "preparation": "sliced"
+    }
+  ],
+  "steps": [
+    {
+      "id": "coconut-rice-s1",
+      "order": 1,
+      "instruction": "Rinse the rice in several changes of water until the water runs mostly clear, then drain.",
+      "ingredientIds": ["rice"],
+      "ingredientQuantities": {
+        "rice": 500
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "id": "coconut-rice-s2",
+      "order": 2,
+      "instruction": "Heat the oil in your pot and fry the onion and garlic until soft.",
+      "ingredientIds": ["oil", "onion", "garlic"],
+      "ingredientQuantities": {
+        "oil": 3,
+        "onion": 1,
+        "garlic": 2
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 180,
+        "label": "Fry onion and garlic"
+      },
+      "cues": {
+        "aroma": "Sweet and fragrant, not burnt."
+      }
+    },
+    {
+      "id": "coconut-rice-s3",
+      "order": 3,
+      "instruction": "Add the scotch bonnet, curry, thyme, crayfish and crumbled stock cubes. Stir for a minute.",
+      "ingredientIds": ["scotch", "curry", "thyme", "crayfish", "cubes"],
+      "ingredientQuantities": {
+        "scotch": 1,
+        "curry": 1,
+        "thyme": 1,
+        "crayfish": 2,
+        "cubes": 2
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 60,
+        "label": "Toast the spices"
+      },
+      "cues": {
+        "aroma": "Warm curry and crayfish smell."
+      }
+    },
+    {
+      "id": "coconut-rice-s4",
+      "order": 4,
+      "instruction": "Pour in the coconut milk and water, season with salt and bring to a gentle boil.",
+      "ingredientIds": ["coconut-milk", "water", "salt"],
+      "ingredientQuantities": {
+        "coconut-milk": 800,
+        "water": 250,
+        "salt": null
+      },
+      "heat": "medium-high",
+      "estimatedMinutes": 5,
+      "completionNote": "Taste — it should be well seasoned, slightly salty."
+    },
+    {
+      "id": "coconut-rice-s5",
+      "order": 5,
+      "instruction": "Stir in the rice so it sits level under the liquid. Cover tightly and cook on low. Don't stir — coconut milk catches easily.",
+      "ingredientIds": ["rice"],
+      "ingredientQuantities": {
+        "rice": 500
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 1500,
+        "label": "Cook coconut rice"
+      },
+      "cues": {
+        "visual": "Liquid absorbed; small steam holes on the surface."
+      },
+      "completionNote": "Grains tender. If still firm, add 3 tbsp water and cook 5 more minutes."
+    },
+    {
+      "id": "coconut-rice-s6",
+      "order": 6,
+      "instruction": "Scatter the diced pepper and carrot over the top, cover again and let them steam.",
+      "ingredientIds": ["tatashe", "carrot"],
+      "ingredientQuantities": {
+        "tatashe": 1,
+        "carrot": 1
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 300,
+        "label": "Steam the vegetables"
+      }
+    },
+    {
+      "id": "coconut-rice-s7",
+      "order": 7,
+      "instruction": "Turn off the heat, fluff gently with a fork and finish with spring onion.",
+      "ingredientIds": ["spring-onion"],
+      "ingredientQuantities": {
+        "spring-onion": 2
+      },
+      "estimatedMinutes": 1
+    }
+  ],
+  "notes": [
+    "Lovely with fried fish, grilled chicken or fried plantain.",
+    "Full-fat coconut milk gives the creamiest result."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: Sisi Yemmie (sisiyemmie.com); Chef Lola's Kitchen (cheflolaskitchen.com); 9jafoodie (9jafoodie.com); Eat Well Abi (eatwellabi.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

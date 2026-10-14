@@ -198,6 +198,7 @@ describe("timer card (keyboard and screen reader)", () => {
 
 const step: StepDisplay = {
   id: "s2",
+  image: null,
   number: 2,
   total: 3,
   instruction: "Simmer the tomato base on medium heat until the oil rises.",

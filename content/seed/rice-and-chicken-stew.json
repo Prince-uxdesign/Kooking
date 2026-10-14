@@ -1,0 +1,384 @@
+{
+  "id": "rice-and-chicken-stew",
+  "slug": "rice-and-chicken-stew",
+  "title": "White Rice and Chicken Stew",
+  "description": "Sunday rice and stew: fluffy white rice with a deep red tomato and pepper stew, fried until the oil rises, full of seasoned, golden chicken.",
+  "image": {
+    "src": "/images/recipes/rice-and-chicken-stew.jpg",
+    "alt": "White rice topped with red Nigerian tomato stew and a fried chicken drumstick"
+  },
+  "categories": ["rice", "stews-soups"],
+  "difficulty": "medium",
+  "tags": ["everyday"],
+  "baseServings": 6,
+  "timeMinutes": {
+    "prep": 15,
+    "cook": 75,
+    "total": 90
+  },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "pot-2",
+      "name": "Second medium pot",
+      "category": "cookware"
+    },
+    {
+      "id": "blender",
+      "name": "Blender",
+      "category": "appliance"
+    },
+    {
+      "id": "sieve",
+      "name": "Sieve or colander",
+      "category": "prep"
+    },
+    {
+      "id": "deep-pan",
+      "name": "Deep frying pan or wok",
+      "category": "cookware"
+    },
+    {
+      "id": "spoon",
+      "name": "Wooden spoon",
+      "category": "utensil"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "chicken",
+      "ingredientId": "ng:chicken",
+      "quantity": 1.2,
+      "unit": "kg",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "cut into pieces"
+    },
+    {
+      "id": "onion-chicken",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "sliced"
+    },
+    {
+      "id": "garlic",
+      "ingredientId": "ng:garlic",
+      "quantity": 3,
+      "unit": "clove",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "crushed"
+    },
+    {
+      "id": "ginger",
+      "ingredientId": "ng:ginger",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "thumb-sized, grated"
+    },
+    {
+      "id": "thyme",
+      "ingredientId": "ng:dried-thyme",
+      "quantity": 1,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "curry",
+      "ingredientId": "ng:curry-powder",
+      "quantity": 1,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "cubes",
+      "ingredientId": "ng:stock-cube",
+      "quantity": 3,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "water-chicken",
+      "ingredientId": "ng:water",
+      "quantity": 500,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "approximate"
+    },
+    {
+      "id": "tomatoes",
+      "ingredientId": "ng:plum-tomatoes",
+      "quantity": 600,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "roughly chopped"
+    },
+    {
+      "id": "tatashe",
+      "ingredientId": "ng:tatashe",
+      "quantity": 3,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "seeded"
+    },
+    {
+      "id": "scotch",
+      "ingredientId": "ng:scotch-bonnet",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "approximate"
+    },
+    {
+      "id": "onion-stew",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "sliced"
+    },
+    {
+      "id": "paste",
+      "ingredientId": "ng:tomato-paste",
+      "quantity": 2,
+      "unit": "tbsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "oil",
+      "ingredientId": "ng:vegetable-oil",
+      "quantity": 150,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "linear",
+      "note": "Plus extra for frying the chicken"
+    },
+    {
+      "id": "bay",
+      "ingredientId": "ng:bay-leaf",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "required",
+      "scaling": "to-taste"
+    },
+    {
+      "id": "rice",
+      "ingredientId": "ng:parboiled-rice",
+      "quantity": 500,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "rinsed"
+    },
+    {
+      "id": "water-rice",
+      "ingredientId": "ng:water",
+      "quantity": 1,
+      "unit": "l",
+      "role": "required",
+      "scaling": "approximate"
+    }
+  ],
+  "steps": [
+    {
+      "id": "rice-and-chicken-stew-s1",
+      "order": 1,
+      "instruction": "Put the chicken in a pot with the sliced onion, garlic, ginger, thyme, curry, 2 stock cubes and a pinch of salt. Add the water, cover and boil until cooked through.",
+      "ingredientIds": [
+        "chicken",
+        "onion-chicken",
+        "garlic",
+        "ginger",
+        "thyme",
+        "curry",
+        "cubes",
+        "water-chicken",
+        "salt"
+      ],
+      "ingredientQuantities": {
+        "chicken": 1.2,
+        "onion-chicken": 1,
+        "garlic": 3,
+        "ginger": 1,
+        "thyme": 1,
+        "curry": 1,
+        "cubes": 2,
+        "water-chicken": 500,
+        "salt": null
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 1500,
+        "label": "Boil the chicken"
+      },
+      "completionNote": "Juices run clear and there's no pink at the bone. Keep the stock.",
+      "safetyNote": "Chicken must be cooked through before frying."
+    },
+    {
+      "id": "rice-and-chicken-stew-s2",
+      "order": 2,
+      "instruction": "Blend the tomatoes, tatashe and scotch bonnets until smooth.",
+      "ingredientIds": ["tomatoes", "tatashe", "scotch"],
+      "ingredientQuantities": {
+        "tomatoes": 600,
+        "tatashe": 3,
+        "scotch": 2
+      },
+      "estimatedMinutes": 3,
+      "image": {
+        "src": "/images/recipes/steps/pepper-base.jpg",
+        "alt": "Fresh tomatoes, peppers and onions for the stew base"
+      }
+    },
+    {
+      "id": "rice-and-chicken-stew-s3",
+      "order": 3,
+      "instruction": "Boil the blend uncovered in a second pot until it's reduced by about half.",
+      "ingredientIds": [],
+      "heat": "medium-high",
+      "timer": {
+        "durationSeconds": 1200,
+        "label": "Reduce pepper base"
+      },
+      "cues": {
+        "visual": "Thick, with very little watery liquid on top."
+      },
+      "safetyNote": "It spits as it thickens — half-cover the pot."
+    },
+    {
+      "id": "rice-and-chicken-stew-s4",
+      "order": 4,
+      "instruction": "Meanwhile, cook the rice: boil the rinsed rice in the salted water, covered, until tender, then drain any leftover water and keep covered.",
+      "ingredientIds": ["rice", "water-rice", "salt"],
+      "ingredientQuantities": {
+        "rice": 500,
+        "water-rice": 1,
+        "salt": null
+      },
+      "heat": "medium-low",
+      "timer": {
+        "durationSeconds": 1200,
+        "label": "Cook white rice"
+      },
+      "completionNote": "Grains soft right through but still separate."
+    },
+    {
+      "id": "rice-and-chicken-stew-s5",
+      "order": 5,
+      "instruction": "Lift the chicken out of the stock and pat dry. Fry in hot oil in batches until golden on all sides.",
+      "ingredientIds": ["chicken"],
+      "ingredientQuantities": {
+        "chicken": 1.2
+      },
+      "heat": "medium-high",
+      "timer": {
+        "durationSeconds": 300,
+        "label": "Fry chicken batch"
+      },
+      "cues": {
+        "visual": "Deep golden skin.",
+        "sound": "Loud, even sizzle — if quiet, the oil isn't hot enough."
+      },
+      "safetyNote": "Wet chicken makes hot oil spit. Pat it dry and lower pieces in away from you."
+    },
+    {
+      "id": "rice-and-chicken-stew-s6",
+      "order": 6,
+      "instruction": "Heat the stew oil in a clean pot and fry the sliced onion for 2 minutes, then add the tomato paste and fry until it darkens.",
+      "ingredientIds": ["oil", "onion-stew", "paste"],
+      "ingredientQuantities": {
+        "oil": 150,
+        "onion-stew": 1,
+        "paste": 2
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 300,
+        "label": "Fry onion and paste"
+      },
+      "cues": {
+        "visual": "Paste turns from bright red to brick red."
+      }
+    },
+    {
+      "id": "rice-and-chicken-stew-s7",
+      "order": 7,
+      "instruction": "Add the reduced pepper base, bay leaves and the last stock cube. Fry, stirring every few minutes, until the oil floats on top.",
+      "ingredientIds": ["bay", "cubes"],
+      "ingredientQuantities": {
+        "bay": 2,
+        "cubes": 1
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 900,
+        "label": "Fry the stew"
+      },
+      "cues": {
+        "visual": "Oil rises to the surface and the stew is deep red.",
+        "aroma": "No raw tomato smell."
+      }
+    },
+    {
+      "id": "rice-and-chicken-stew-s8",
+      "order": 8,
+      "instruction": "Stir in about 250 ml of the chicken stock and the fried chicken. Season with salt and simmer.",
+      "ingredientIds": ["salt"],
+      "ingredientQuantities": {
+        "salt": null
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 600,
+        "label": "Simmer stew"
+      },
+      "completionNote": "Stew coats the back of a spoon and the chicken is hot through."
+    },
+    {
+      "id": "rice-and-chicken-stew-s9",
+      "order": 9,
+      "instruction": "Serve the rice with the stew and chicken spooned over.",
+      "ingredientIds": [],
+      "estimatedMinutes": 2
+    }
+  ],
+  "notes": [
+    "The stew keeps a week in the fridge and freezes well — it's worth making a double batch.",
+    "Serve with fried plantain or a simple salad."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); KS Cuisine (kscuisine.com); Afrifood Network (afrifoodnetwork.com); My Active Kitchen (myactivekitchen.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

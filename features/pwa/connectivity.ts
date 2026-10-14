@@ -6,8 +6,6 @@
  * Performs lightweight, non-cached probes to verify actual reachability.
  */
 
-let lastReachability = true;
-
 /**
  * Actively probe the server's reachability.
  * Uses a tiny 204 no-content ping with a short timeout.
@@ -17,7 +15,6 @@ export async function checkReachability(timeoutMs = 3500): Promise<boolean> {
 
   // If the browser already knows the network interface is down, don't bother probing
   if (typeof navigator !== "undefined" && !navigator.onLine) {
-    lastReachability = false;
     return false;
   }
 
@@ -33,14 +30,8 @@ export async function checkReachability(timeoutMs = 3500): Promise<boolean> {
 
     clearTimeout(timer);
     const reachable = response.ok;
-    lastReachability = reachable;
     return reachable;
   } catch {
-    lastReachability = false;
     return false;
   }
-}
-
-export function getLastReachability(): boolean {
-  return lastReachability;
 }

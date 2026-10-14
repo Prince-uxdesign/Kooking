@@ -1,0 +1,122 @@
+{
+  "id": "eba",
+  "slug": "eba",
+  "title": "Eba",
+  "description": "Swallow made from garri and hot water, folded until smooth and firm. Ready in minutes and perfect with egusi, efo riro or okra soup.",
+  "image": {
+    "src": "/images/recipes/eba.jpg",
+    "alt": "Smooth ball of eba served beside a plate of green vegetable soup"
+  },
+  "categories": ["swallow"],
+  "difficulty": "easy",
+  "tags": ["everyday"],
+  "baseServings": 2,
+  "timeMinutes": {
+    "prep": 2,
+    "cook": 8,
+    "total": 10
+  },
+  "equipment": [
+    {
+      "id": "kettle",
+      "name": "Kettle or small pot",
+      "category": "cookware"
+    },
+    {
+      "id": "bowl",
+      "name": "Large mixing bowl",
+      "category": "prep"
+    },
+    {
+      "id": "spoon",
+      "name": "Wooden spoon",
+      "category": "utensil"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "water",
+      "ingredientId": "ng:water",
+      "quantity": 500,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "linear",
+      "constraint": "Must be freshly boiled"
+    },
+    {
+      "id": "garri",
+      "ingredientId": "ng:garri",
+      "quantity": 250,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "note": "Yellow or white garri both work"
+    }
+  ],
+  "steps": [
+    {
+      "id": "eba-s1",
+      "order": 1,
+      "instruction": "Bring the water to a rolling boil.",
+      "ingredientIds": ["water"],
+      "ingredientQuantities": {
+        "water": 500
+      },
+      "heat": "high",
+      "estimatedMinutes": 4,
+      "safetyNote": "Pour boiling water carefully, away from your body."
+    },
+    {
+      "id": "eba-s2",
+      "order": 2,
+      "instruction": "Pour about three-quarters of the water into a bowl. Sprinkle the garri evenly over it and leave it to soak without stirring.",
+      "ingredientIds": ["water", "garri"],
+      "ingredientQuantities": {
+        "water": 375,
+        "garri": 250
+      },
+      "timer": {
+        "durationSeconds": 60,
+        "label": "Let the garri soak"
+      },
+      "cues": {
+        "visual": "Garri sits on the water, then darkens as it absorbs."
+      },
+      "image": {
+        "src": "/images/recipes/steps/garri.jpg",
+        "alt": "Heap of yellow garri in a basin"
+      }
+    },
+    {
+      "id": "eba-s3",
+      "order": 3,
+      "instruction": "Stir and fold firmly with a wooden spoon, pressing it against the side of the bowl until smooth. Add a splash of the remaining hot water if it's too stiff.",
+      "ingredientIds": [],
+      "estimatedMinutes": 2,
+      "cues": {
+        "texture": "Smooth and soft but holds its shape, with no dry lumps."
+      }
+    },
+    {
+      "id": "eba-s4",
+      "order": 4,
+      "instruction": "Shape into balls with wet hands or a wet bowl and serve straight away.",
+      "ingredientIds": [],
+      "estimatedMinutes": 1
+    }
+  ],
+  "notes": [
+    "Less water gives firmer eba; more gives softer. Adjust to how you like it.",
+    "Serve with egusi soup, efo riro, okra or ogbono soup."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Sisi Jemimah (sisijemimah.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

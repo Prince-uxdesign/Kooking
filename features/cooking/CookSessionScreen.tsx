@@ -70,6 +70,8 @@ import {
 } from "./VoiceControl";
 
 const sessions = new LocalSessions();
+/** Stable identity while there's no session, so timer effects don't re-run on every render. */
+const NO_TIMERS: CookingSession["timers"] = [];
 
 const pill =
   "inline-flex min-h-[56px] items-center justify-center rounded-full px-6 text-[1rem] font-medium transition-colors disabled:pointer-events-none disabled:opacity-40";
@@ -115,7 +117,7 @@ export function CookSessionScreen({
 
   // Timers
   const session = view && "session" in view ? view.session : null;
-  const timers = session?.timers ?? [];
+  const timers = session?.timers ?? NO_TIMERS;
   const clockRef = useRef<TimerClock | null>(null);
   clockRef.current ??= createTimerClock();
   const clock = clockRef.current;

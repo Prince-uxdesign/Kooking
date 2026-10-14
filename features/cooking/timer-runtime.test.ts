@@ -43,7 +43,7 @@ describe("createTimerClock", () => {
 
   it("catches a timer that expired while the tab was in the background", () => {
     let wall = T0;
-    let mono = 0;
+    const mono = 0;
     const clock = createTimerClock(
       () => wall,
       () => mono,

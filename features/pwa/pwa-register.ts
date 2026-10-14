@@ -7,19 +7,31 @@
  * - Safe update strategy: never force-reloads while an active cooking session is running.
  */
 
-export interface ServiceWorkerController {
-  registration: ServiceWorkerRegistration | null;
-  updateAvailable: boolean;
-  applyUpdate: () => void;
-}
-
 type UpdateCallback = (reg: ServiceWorkerRegistration) => void;
 
 let registrationInstance: ServiceWorkerRegistration | null = null;
+/** The reload-on-takeover listener is added once, however many times an update is applied. */
+let reloadOnTakeover = false;
 const updateListeners = new Set<UpdateCallback>();
 
-export function registerServiceWorker(): Promise<ServiceWorkerRegistration | null> {
+/**
+ * Register the service worker. Production only by default: in development
+ * its cache-first rule for /_next/static/ would serve stale, un-hashed
+ * chunks. Anything registered earlier (e.g. from a production build on the
+ * same origin) is removed there.
+ */
+export function registerServiceWorker(
+  options: { enabled?: boolean } = {},
+): Promise<ServiceWorkerRegistration | null> {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) {
+    return Promise.resolve(null);
+  }
+  const enabled = options.enabled ?? process.env.NODE_ENV === "production";
+  if (!enabled) {
+    void navigator.serviceWorker
+      .getRegistrations()
+      .then((all) => all.forEach((r) => void r.unregister()))
+      .catch(() => undefined);
     return Promise.resolve(null);
   }
 
@@ -84,8 +96,9 @@ export function applyServiceWorkerUpdate(reg?: ServiceWorkerRegistration | null)
 
   targetReg.waiting.postMessage({ type: "SKIP_WAITING" });
 
-  let refreshing = false;
-  if (typeof navigator !== "undefined" && navigator.serviceWorker) {
+  if (!reloadOnTakeover && typeof navigator !== "undefined" && navigator.serviceWorker) {
+    reloadOnTakeover = true;
+    let refreshing = false;
     navigator.serviceWorker.addEventListener("controllerchange", () => {
       if (!refreshing) {
         refreshing = true;

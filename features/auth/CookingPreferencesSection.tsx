@@ -83,9 +83,9 @@ export function CookingPreferencesSection({
 
   if (!loaded) {
     return (
-      <div className="flex flex-col gap-3 rounded-3xl border border-line-default bg-surface-primary p-6">
-        <div className="h-6 w-40 rounded-lg bg-surface-secondary animate-pulse" />
-        <div className="h-28 rounded-2xl bg-surface-secondary animate-pulse mt-2" />
+      <div className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-6">
+        <div className="h-6 w-40 rounded-lg bg-white animate-pulse" />
+        <div className="h-28 rounded-2xl bg-white animate-pulse mt-2" />
       </div>
     );
   }
@@ -98,11 +98,11 @@ export function CookingPreferencesSection({
   };
 
   return (
-    <div className="flex flex-col gap-4 rounded-3xl border border-line-default bg-surface-primary p-6">
+    <div className="flex flex-col gap-4 rounded-3xl bg-surface-100 p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Settings2 size={20} className="text-primary-600" aria-hidden />
-          <h3 className="text-[1rem] font-semibold text-ink-900">Cooking Preferences</h3>
+          <h2 className="text-[1rem] font-semibold text-ink-900">Cooking Preferences</h2>
         </div>
         {savedFeedback && (
           <span
@@ -133,7 +133,7 @@ export function CookingPreferencesSection({
               aria-label="Decrease default servings"
               onClick={() => handleServingsDelta(-1)}
               disabled={currentServings <= 1}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-line-default bg-surface-primary text-ink-800 transition-colors hover:bg-surface-secondary disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink-800 transition-colors hover:bg-surface-200 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Minus size={16} aria-hidden />
             </button>
@@ -145,7 +145,7 @@ export function CookingPreferencesSection({
               aria-label="Increase default servings"
               onClick={() => handleServingsDelta(1)}
               disabled={currentServings >= 12}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-line-default bg-surface-primary text-ink-800 transition-colors hover:bg-surface-secondary disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink-800 transition-colors hover:bg-surface-200 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Plus size={16} aria-hidden />
             </button>
@@ -173,7 +173,7 @@ export function CookingPreferencesSection({
             type="checkbox"
             checked={prefs.screenWake}
             onChange={(e) => void update({ screenWake: e.target.checked })}
-            className="h-6 w-6 min-h-[44px] min-w-[44px] cursor-pointer rounded accent-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+            className="h-6 w-6 min-h-[44px] min-w-[44px] cursor-pointer rounded accent-primary-600"
           />
         </div>
 
@@ -198,7 +198,7 @@ export function CookingPreferencesSection({
             type="checkbox"
             checked={prefs.soundAlerts}
             onChange={(e) => void update({ soundAlerts: e.target.checked })}
-            className="h-6 w-6 min-h-[44px] min-w-[44px] cursor-pointer rounded accent-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+            className="h-6 w-6 min-h-[44px] min-w-[44px] cursor-pointer rounded accent-primary-600"
           />
         </div>
 
@@ -223,7 +223,7 @@ export function CookingPreferencesSection({
             type="checkbox"
             checked={prefs.readAloud}
             onChange={(e) => void update({ readAloud: e.target.checked })}
-            className="h-6 w-6 min-h-[44px] min-w-[44px] cursor-pointer rounded accent-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+            className="h-6 w-6 min-h-[44px] min-w-[44px] cursor-pointer rounded accent-primary-600"
           />
         </div>
       </div>

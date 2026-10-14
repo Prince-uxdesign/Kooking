@@ -174,6 +174,22 @@ export const stepCuesSchema = z
 
 export type StepCues = z.infer<typeof stepCuesSchema>;
 
+/**
+ * Recipe photo. Optional — UI renders an honest fallback when absent
+ * or when the file fails to load. Alt text is required: a photo
+ * without a description is not accepted.
+ */
+export const recipeImageSchema = z.object({
+  src: z
+    .string()
+    .min(1)
+    .max(500)
+    .regex(/^(\/(?!\/)|https:\/\/)/, "image src must be a site path or https URL"),
+  alt: z.string().min(1).max(200),
+});
+
+export type RecipeImage = z.infer<typeof recipeImageSchema>;
+
 export const recipeStepSchema = z.object({
   id: idSchema,
   order: z.number().int().min(1),
@@ -194,6 +210,8 @@ export const recipeStepSchema = z.object({
   completionNote: cueText.optional(),
   /** Safety-relevant warning for this step (hot oil, steam, raw meat…). */
   safetyNote: cueText.optional(),
+  /** Photo of what this step looks like. Optional; absent means no photo, never a stand-in. */
+  image: recipeImageSchema.optional(),
 });
 
 export type RecipeStep = z.infer<typeof recipeStepSchema>;
@@ -223,22 +241,6 @@ export type RecipeDifficulty = (typeof recipeDifficulties)[number];
 
 /** Path segments under /recipes that a recipe slug may never take. */
 export const RESERVED_RECIPE_SLUGS = ["categories", "collections"] as const;
-
-/**
- * Recipe photo. Optional — UI renders an honest fallback when absent
- * or when the file fails to load. Alt text is required: a photo
- * without a description is not accepted.
- */
-export const recipeImageSchema = z.object({
-  src: z
-    .string()
-    .min(1)
-    .max(500)
-    .regex(/^(\/(?!\/)|https:\/\/)/, "image src must be a site path or https URL"),
-  alt: z.string().min(1).max(200),
-});
-
-export type RecipeImage = z.infer<typeof recipeImageSchema>;
 
 /** Allowed lifecycle transitions. No skipping review, no silent publish. */
 export const STATUS_TRANSITIONS: Record<RecipeStatus, RecipeStatus[]> = {
@@ -471,8 +473,7 @@ export type Recipe = z.infer<typeof recipeSchema>;
 
 /** Formats Zod errors into clean, readable strings. */
 export function formatValidationErrors(error: z.ZodError): string[] {
-  const issues = error.issues ?? (error as any).errors ?? [];
-  return issues.map((e) => {
+  return error.issues.map((e) => {
     const path = e.path.length > 0 ? `[${e.path.join(".")}] ` : "";
     return `${path}${e.message}`;
   });

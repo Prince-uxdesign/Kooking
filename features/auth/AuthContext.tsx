@@ -12,6 +12,8 @@ export interface AuthContextValue {
   session: AuthSession | null;
   error: string | null;
   isRestoring: boolean;
+  /** An account backend is configured, so signing in or up can actually work. */
+  isAvailable: boolean;
   isCloudBacked: boolean;
   signIn: (email: string, password: string) => Promise<boolean>;
   signUp: (
@@ -168,6 +170,7 @@ export function AuthProvider({ children, authService }: AuthProviderProps) {
     session,
     error,
     isRestoring,
+    isAvailable: service.isAvailable,
     isCloudBacked: service.isCloudBacked,
     signIn,
     signUp,

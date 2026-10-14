@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import collectionsJson from "../../content/collections.json";
 import seedJson from "../../content/seed/demo-tomato-rice.json";
@@ -10,11 +12,11 @@ import {
   formatMinutes,
   greetingFor,
   isListable,
-  recipeHref,
   searchHref,
   selectHomeContent,
   toSummary,
 } from "./discovery";
+import { recipeHref } from "./navigation";
 import { backTargetFor } from "./navigation";
 import { recipeCategories, recipeSchema, type Recipe } from "./recipe-schema";
 
@@ -25,10 +27,10 @@ function variant(id: string, overrides: Partial<Recipe> = {}): Recipe {
 }
 
 describe("discovery: what may surface", () => {
-  it("lists published recipes and labelled demo fixtures, never real drafts", () => {
+  it("lists published, in-review and labelled demo recipes, never real drafts", () => {
     expect(isListable(seed)).toBe(true); // demo draft
     expect(isListable(variant("real-draft", { demo: false, status: "draft" }))).toBe(false);
-    expect(isListable(variant("in-review", { demo: false, status: "in_review" }))).toBe(false);
+    expect(isListable(variant("in-review", { demo: false, status: "in_review" }))).toBe(true);
     expect(
       isListable(variant("live", { demo: false, status: "published", testedBy: "Chef A" })),
     ).toBe(true);
@@ -70,11 +72,23 @@ describe("discovery: home content selection", () => {
     expect(selectHomeContent([])).toEqual({ featured: null, collection: [] });
   });
 
-  it("the shipped catalog parses and features the demo recipe", async () => {
+  it("the shipped catalog parses, is all real content with photos, and features jollof", async () => {
     const recipes = await getRecipeRepository().list();
     expect(recipes).toHaveLength(SEED_RECIPES.length);
-    expect(recipes.every((r) => r.demo && r.status === "draft")).toBe(true);
-    expect(selectHomeContent(recipes).featured?.slug).toBe("demo-tomato-rice");
+    // Real recipes awaiting a kitchen test: never demo, never claimed as tested.
+    expect(recipes.every((r) => !r.demo && r.status === "in_review" && !r.testedBy)).toBe(true);
+    expect(recipes.every(isListable)).toBe(true);
+    expect(recipes.every((r) => r.image)).toBe(true);
+    expect(selectHomeContent(recipes).featured?.slug).toBe("jollof-rice");
+  });
+
+  it("every shipped recipe and step photo exists in public/", async () => {
+    const missing = (await getRecipeRepository().list())
+      .flatMap((r) => [r.image, ...r.steps.map((s) => s.image)])
+      .filter((image) => image !== undefined)
+      .map((image) => image.src)
+      .filter((src) => !existsSync(join(process.cwd(), "public", src)));
+    expect(missing).toEqual([]);
   });
 });
 
@@ -88,7 +102,7 @@ describe("discovery: links", () => {
   });
 
   it("adds a validated back-link origin to recipe links", () => {
-    expect(recipeHref("demo-tomato-rice", "/recipes/categories/rice")).toBe(
+    expect(recipeHref("demo-tomato-rice", { from: "/recipes/categories/rice" })).toBe(
       "/recipes/demo-tomato-rice?from=%2Frecipes%2Fcategories%2Frice",
     );
   });

@@ -60,9 +60,3 @@ export function getSupabaseClient(): SupabaseClient | null {
     return null;
   }
 }
-
-/** Reset helper for testing environments */
-export function resetSupabaseClient(): void {
-  cachedClient = null;
-  probeRan = false;
-}

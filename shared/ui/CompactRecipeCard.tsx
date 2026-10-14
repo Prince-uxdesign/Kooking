@@ -110,7 +110,7 @@ export function CompactRecipeCard({
           {diffText && (
             <span className="inline-flex items-center">
               {timeLabel && (
-                <span aria-hidden className="mr-2 text-ink-400">
+                <span aria-hidden className="mr-2 text-ink-500">
                   ·
                 </span>
               )}
@@ -121,7 +121,7 @@ export function CompactRecipeCard({
           {category && !diffText && !meta && (
             <span className="inline-flex items-center">
               {timeLabel && (
-                <span aria-hidden className="mr-2 text-ink-400">
+                <span aria-hidden className="mr-2 text-ink-500">
                   ·
                 </span>
               )}

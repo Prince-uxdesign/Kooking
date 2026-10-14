@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { RecipeSummary } from "./discovery";
 import {
-  GUEST_OWNER,
   filterSaved,
   resolveSaved,
   salvageSavedEntries,
@@ -9,6 +8,7 @@ import {
   withSaved,
   withoutSaved,
 } from "./saved";
+import { GUEST_OWNER } from "./user";
 
 const e = (recipeId: string, savedAt: number, ownerId = GUEST_OWNER) => ({
   ownerId,

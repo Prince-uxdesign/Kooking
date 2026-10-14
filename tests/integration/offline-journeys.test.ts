@@ -11,15 +11,9 @@ import {
 import { startSession, transitionSession, type CookingSession } from "@/shared/domain/session";
 import { finishCooking } from "@/shared/domain/cooking-session";
 import { sessionToHistoryEntry } from "@/shared/domain/cooking-history";
-import {
-  emptyList,
-  addPersonalItem,
-  setItemChecked,
-  updateItem,
-  removeItem,
-} from "@/shared/domain/shopping";
+import { emptyList, addPersonalItem, setItemChecked, updateItem } from "@/shared/domain/shopping";
 import { mergeShoppingLists } from "@/shared/domain/shopping-sync";
-import { remainingMs, applyTimerAction, type SessionTimer } from "@/shared/domain/timers";
+import { remainingMs, applyTimerAction } from "@/shared/domain/timers";
 import { checkReachability } from "@/features/pwa/connectivity";
 import { applyServiceWorkerUpdate } from "@/features/pwa/pwa-register";
 

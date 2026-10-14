@@ -45,7 +45,7 @@ export function sanitizeString(text: string): string {
   if (!text) return text;
   let sanitized = text;
   for (const pattern of SECRET_PATTERNS) {
-    sanitized = sanitized.replace(pattern, (match, prefix, secret) => {
+    sanitized = sanitized.replace(pattern, (_match, prefix, secret) => {
       if (prefix && secret) {
         return `${prefix}[REDACTED]`;
       }

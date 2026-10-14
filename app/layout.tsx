@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/features/auth/AuthContext";
 import { OfflineBanner, PwaProvider, UpdateBanner } from "@/features/pwa";
 
 /** Self-hosted at build time by next/font — no runtime request to Google. */
@@ -25,7 +26,6 @@ export const metadata: Metadata = {
     "kitchen check",
     "Nigerian food",
   ],
-  manifest: "/manifest.webmanifest",
   icons: {
     icon: [
       { url: "/icons/icon.svg", type: "image/svg+xml" },
@@ -72,9 +72,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <PwaProvider>
-          <UpdateBanner />
-          <OfflineBanner />
-          {children}
+          <AuthProvider>
+            <UpdateBanner />
+            <OfflineBanner />
+            {children}
+          </AuthProvider>
         </PwaProvider>
       </body>
     </html>

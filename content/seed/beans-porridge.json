@@ -1,0 +1,223 @@
+{
+  "id": "beans-porridge",
+  "slug": "beans-porridge",
+  "title": "Beans and Plantain Porridge",
+  "description": "Ewa riro: soft, creamy brown beans cooked down with palm oil, pepper and crayfish, with chunks of sweet ripe plantain stirred through.",
+  "image": {
+    "src": "/images/recipes/beans-porridge.jpg",
+    "alt": "Plate of beans porridge ringed with slices of fried ripe plantain"
+  },
+  "categories": ["beans-legumes", "plantain"],
+  "difficulty": "easy",
+  "tags": ["one-pot", "everyday"],
+  "baseServings": 4,
+  "timeMinutes": {
+    "prep": 10,
+    "cook": 90,
+    "total": 100
+  },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "blender",
+      "name": "Blender",
+      "category": "appliance"
+    },
+    {
+      "id": "sieve",
+      "name": "Sieve or colander",
+      "category": "prep"
+    },
+    {
+      "id": "spoon",
+      "name": "Wooden spoon",
+      "category": "utensil"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "beans",
+      "ingredientId": "ng:honey-beans",
+      "quantity": 500,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "picked and rinsed"
+    },
+    {
+      "id": "water",
+      "ingredientId": "ng:water",
+      "quantity": 2.5,
+      "unit": "l",
+      "role": "required",
+      "scaling": "approximate",
+      "note": "Keep a kettle hot to top up"
+    },
+    {
+      "id": "onion",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "chopped"
+    },
+    {
+      "id": "tatashe",
+      "ingredientId": "ng:tatashe",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "seeded"
+    },
+    {
+      "id": "scotch",
+      "ingredientId": "ng:scotch-bonnet",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "approximate"
+    },
+    {
+      "id": "palm-oil",
+      "ingredientId": "ng:palm-oil",
+      "quantity": 100,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "crayfish",
+      "ingredientId": "ng:crayfish",
+      "quantity": 2,
+      "unit": "tbsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "cubes",
+      "ingredientId": "ng:stock-cube",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "plantain",
+      "ingredientId": "ng:ripe-plantain",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "optional",
+      "scaling": "discrete",
+      "preparation": "peeled, cut into chunks"
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "required",
+      "scaling": "to-taste"
+    }
+  ],
+  "steps": [
+    {
+      "id": "beans-porridge-s1",
+      "order": 1,
+      "instruction": "Spread the beans on a tray and pick out any stones or damaged beans. Rinse well.",
+      "ingredientIds": ["beans"],
+      "ingredientQuantities": {
+        "beans": 500
+      },
+      "estimatedMinutes": 8
+    },
+    {
+      "id": "beans-porridge-s2",
+      "order": 2,
+      "instruction": "Boil the beans in 1 litre of water for 10 minutes, then drain and discard the water.",
+      "ingredientIds": ["beans", "water"],
+      "ingredientQuantities": {
+        "beans": 500,
+        "water": 1
+      },
+      "preparationNotes": "This first boil-and-drain makes the beans easier to digest.",
+      "heat": "high",
+      "timer": {
+        "durationSeconds": 600,
+        "label": "First boil"
+      }
+    },
+    {
+      "id": "beans-porridge-s3",
+      "order": 3,
+      "instruction": "Return the beans to the pot with 1.5 litres of fresh water and the onion. Cover and cook until soft, topping up with hot water if it runs low.",
+      "ingredientIds": ["water", "onion"],
+      "ingredientQuantities": {
+        "water": 1.5,
+        "onion": 1
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 3600,
+        "label": "Cook the beans"
+      },
+      "completionNote": "A bean squashes easily between two fingers."
+    },
+    {
+      "id": "beans-porridge-s4",
+      "order": 4,
+      "instruction": "Blend the tatashe and scotch bonnets. Add to the beans with the palm oil, crayfish, stock cubes and plantain. Simmer.",
+      "ingredientIds": ["tatashe", "scotch", "palm-oil", "crayfish", "cubes", "plantain"],
+      "ingredientQuantities": {
+        "tatashe": 1,
+        "scotch": 2,
+        "palm-oil": 100,
+        "crayfish": 2,
+        "cubes": 2,
+        "plantain": 2
+      },
+      "heat": "medium-low",
+      "timer": {
+        "durationSeconds": 900,
+        "label": "Simmer the porridge"
+      },
+      "cues": {
+        "visual": "Plantain soft and the porridge orange-red."
+      }
+    },
+    {
+      "id": "beans-porridge-s5",
+      "order": 5,
+      "instruction": "Mash some of the beans against the side of the pot to thicken. Season with salt and stir well.",
+      "ingredientIds": ["salt"],
+      "ingredientQuantities": {
+        "salt": null
+      },
+      "heat": "low",
+      "estimatedMinutes": 5,
+      "cues": {
+        "texture": "Thick and creamy, with some whole beans."
+      }
+    }
+  ],
+  "notes": [
+    "Honey beans (oloyin) are naturally sweet; black-eyed beans work too and cook a little faster.",
+    "Serve with bread, fried plantain or garri soaked in cold water."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Sisi Jemimah (sisijemimah.com); Eat Well Abi (eatwellabi.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

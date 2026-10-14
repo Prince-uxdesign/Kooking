@@ -81,7 +81,6 @@ export function createScreenWake(
   /** Bumped whenever an in-flight request stops being relevant. */
   let generation = 0;
   let inflight: number | null = null;
-  let failures = 0;
   let systemReleases = 0;
   let lostBefore = false;
   let disposed = false;
@@ -126,7 +125,6 @@ export function createScreenWake(
       }
       if (s) {
         sentinel = s;
-        failures = 0;
         const onRelease = () => {
           if (sentinel !== s) return; // our own release, or a stale one
           sentinel = null;
@@ -148,9 +146,7 @@ export function createScreenWake(
         lostBefore = false;
         return;
       }
-      failures++;
       const name = (error as { name?: string } | null)?.name;
-      if (name === "SecurityError") failures = MAX_ATTEMPTS;
       lostBefore = true;
       set({
         status: "unavailable",
@@ -180,7 +176,6 @@ export function createScreenWake(
     setWanted(next: boolean): void {
       if (!api || disposed || next === wanted) return;
       wanted = next;
-      failures = 0;
       systemReleases = 0;
       if (next) {
         acquire();
@@ -202,7 +197,6 @@ export function createScreenWake(
         return;
       }
       // Coming back is a user-driven event, so it gets a fresh budget.
-      failures = 0;
       systemReleases = 0;
       acquire();
     },
@@ -210,7 +204,6 @@ export function createScreenWake(
     /** The cook pressed Try again. */
     retry(): void {
       if (!api || disposed || !wanted) return;
-      failures = 0;
       systemReleases = 0;
       acquire();
     },

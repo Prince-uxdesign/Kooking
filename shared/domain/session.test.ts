@@ -2,11 +2,10 @@ import { describe, expect, it } from "vitest";
 import { recipeSchema } from "./recipe-schema";
 import { remainingMs } from "./timers";
 import {
-  pauseTimer,
+  applySessionTimer,
   rehydrateSession,
   sessionFreshness,
   startSession,
-  startTimer,
   transitionSession,
 } from "./session";
 import seedJson from "../../content/seed/demo-tomato-rice.json";
@@ -60,19 +59,19 @@ describe("transitions", () => {
 
 describe("timers", () => {
   it("tracks remaining time across pause with explicit clocks", () => {
-    const running = startTimer(start(), "timer:demo-step-2", NOW);
+    const running = applySessionTimer(start(), "timer:demo-step-2", "start", NOW);
     const timer = running.timers[0];
     expect(timer.status).toBe("running");
     expect(timer.endsAt).toBe(NOW + 600_000);
 
-    const paused = pauseTimer(running, "timer:demo-step-2", NOW + 60_000);
+    const paused = applySessionTimer(running, "timer:demo-step-2", "pause", NOW + 60_000);
     expect(paused.timers[0]).toMatchObject({ status: "paused", remainingMs: 540_000 });
   });
 });
 
 describe("rehydrateSession", () => {
   it("completes timers that elapsed while away", () => {
-    const running = startTimer(start(), "timer:demo-step-2", NOW);
+    const running = applySessionTimer(start(), "timer:demo-step-2", "start", NOW);
     const back = rehydrateSession(running, NOW + 700_000);
     expect(back.timers[0]).toMatchObject({
       status: "done",
@@ -82,7 +81,7 @@ describe("rehydrateSession", () => {
   });
 
   it("recomputes remaining for timers still running", () => {
-    const running = startTimer(start(), "timer:demo-step-2", NOW);
+    const running = applySessionTimer(start(), "timer:demo-step-2", "start", NOW);
     const back = rehydrateSession(running, NOW + 60_000);
     expect(back.timers[0]).toMatchObject({ status: "running", endsAt: NOW + 600_000 });
     expect(remainingMs(back.timers[0], NOW + 60_000)).toBe(540_000);

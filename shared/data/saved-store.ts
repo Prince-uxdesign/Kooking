@@ -1,7 +1,8 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { GUEST_OWNER, sortSaved, withSaved, withoutSaved } from "@/shared/domain/saved";
+import { sortSaved, withSaved, withoutSaved } from "@/shared/domain/saved";
+import { GUEST_OWNER } from "@/shared/domain/user";
 import type { SavedRecipe } from "@/shared/domain/user";
 import { LocalSaved, SAVED_KEY } from "./local";
 import type { SavedRepository } from "./repositories";

@@ -24,18 +24,12 @@ import {
   resolveSession,
   stepDisplay,
 } from "@/shared/domain/cooking-session";
-import {
-  applySessionTimer,
-  goToStep,
-  settleSessionTimers,
-  transitionSession,
-} from "@/shared/domain/session";
+import { applySessionTimer, settleSessionTimers, transitionSession } from "@/shared/domain/session";
 import { stepSpeech } from "@/shared/domain/step-speech";
 import { planVoiceCommand } from "@/shared/domain/voice-plan";
 import { parseAlternatives } from "@/shared/domain/voice-commands";
 import { sessionToHistoryEntry } from "@/shared/domain/cooking-history";
-import { emptyList, createPersonalItem, addPersonalItem } from "@/shared/domain/shopping";
-import { createGuest } from "@/shared/domain/user";
+import { emptyList, addPersonalItem } from "@/shared/domain/shopping";
 
 /**
  * PHASE 39: CRITICAL END-TO-END JOURNEY 1 — DISCOVER AND COOK
@@ -106,9 +100,7 @@ describe("Phase 39: Comprehensive End-to-End Journey 1 (Discover and Cook)", () 
     // -------------------------------------------------------------------------
     // Step 1: Open Kooking as an anonymous user
     // -------------------------------------------------------------------------
-    const guest = createGuest("device-guest-qa-1", now);
-    expect(guest.id).toBe("device-guest-qa-1");
-    expect(guest.kind).toBe("guest");
+    const guest = { id: "device-guest-qa-1" };
 
     const initialHistory = await localHistory.list();
     expect(initialHistory).toEqual([]);

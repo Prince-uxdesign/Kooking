@@ -19,15 +19,13 @@ import {
 } from "lucide-react";
 import type { CueKind } from "@/shared/domain/cues";
 import { memo, type Ref } from "react";
+import { StepPhoto } from "@/shared/ui/StepPhoto";
 import {
   stepList,
   type ProgressSummary,
   type StepDisplay,
   type StepIngredient,
 } from "@/shared/domain/cooking-session";
-
-const focusRing =
-  "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900";
 
 function Progress({ progress, done }: { progress: ProgressSummary; done: boolean[] }) {
   return (
@@ -289,7 +287,7 @@ export const CookingStep = memo(function CookingStep({
             type="button"
             onClick={onPause}
             disabled={busy}
-            className={`inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-full bg-white/10 px-4 text-[0.9375rem] font-medium text-white hover:bg-white/20 disabled:opacity-40 ${focusRing}`}
+            className={`inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-full bg-white/10 px-4 text-[0.9375rem] font-medium text-white hover:bg-white/20 disabled:opacity-40`}
           >
             <Pause aria-hidden size={18} strokeWidth={1.75} />
             Pause
@@ -349,6 +347,14 @@ export const CookingStep = memo(function CookingStep({
       >
         {step.instruction}
       </p>
+
+      {step.image && (
+        <StepPhoto
+          key={step.image.src}
+          image={step.image}
+          className="aspect-[4/3] max-w-xl rounded-3xl bg-white/5 sm:aspect-[16/10]"
+        />
+      )}
 
       {speechSlot}
       {voiceHelpSlot}
@@ -442,7 +448,7 @@ export const CookingStep = memo(function CookingStep({
             onClick={onPrevious}
             disabled={step.isFirst || paused || busy}
             aria-label="Back to previous step"
-            className={`inline-flex min-h-14 shrink-0 items-center justify-center gap-2 rounded-full bg-white/10 px-5 text-[1rem] font-medium text-white hover:bg-white/20 disabled:opacity-30 ${focusRing}`}
+            className={`inline-flex min-h-14 shrink-0 items-center justify-center gap-2 rounded-full bg-white/10 px-5 text-[1rem] font-medium text-white hover:bg-white/20 disabled:opacity-30`}
           >
             <ArrowLeft aria-hidden size={20} strokeWidth={1.75} />
             Back
@@ -453,7 +459,7 @@ export const CookingStep = memo(function CookingStep({
               type="button"
               onClick={onResume}
               disabled={busy}
-              className={`inline-flex min-h-14 flex-[1_1_10rem] items-center justify-center gap-2 rounded-full bg-primary-500 text-[1.0625rem] font-medium text-ink-900 hover:bg-primary-400 disabled:opacity-50 ${focusRing}`}
+              className={`inline-flex min-h-14 flex-[1_1_10rem] items-center justify-center gap-2 rounded-full bg-primary-500 text-[1.0625rem] font-medium text-ink-900 hover:bg-primary-400 disabled:opacity-50`}
             >
               <Play aria-hidden size={20} strokeWidth={2} />
               Resume cooking
@@ -463,7 +469,7 @@ export const CookingStep = memo(function CookingStep({
               type="button"
               onClick={onFinish}
               disabled={busy}
-              className={`inline-flex min-h-14 flex-[1_1_10rem] items-center justify-center gap-2 rounded-full bg-primary-500 text-[1.0625rem] font-medium text-ink-900 hover:bg-primary-400 disabled:opacity-50 ${focusRing}`}
+              className={`inline-flex min-h-14 flex-[1_1_10rem] items-center justify-center gap-2 rounded-full bg-primary-500 text-[1.0625rem] font-medium text-ink-900 hover:bg-primary-400 disabled:opacity-50`}
             >
               <Check aria-hidden size={20} strokeWidth={2.25} />
               Finish cooking
@@ -473,7 +479,7 @@ export const CookingStep = memo(function CookingStep({
               type="button"
               onClick={onNext}
               disabled={busy}
-              className={`inline-flex min-h-14 flex-[1_1_10rem] items-center justify-center gap-2 rounded-full bg-primary-500 text-[1.0625rem] font-medium text-ink-900 hover:bg-primary-400 disabled:opacity-50 ${focusRing}`}
+              className={`inline-flex min-h-14 flex-[1_1_10rem] items-center justify-center gap-2 rounded-full bg-primary-500 text-[1.0625rem] font-medium text-ink-900 hover:bg-primary-400 disabled:opacity-50`}
             >
               Done, next step
               <ArrowRight aria-hidden size={20} strokeWidth={2} />

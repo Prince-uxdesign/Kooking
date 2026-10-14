@@ -3,7 +3,7 @@
 /*
  * Kooking design tokens — "Clean Kitchen".
  * Source of truth for values. Rules for using them: docs/DESIGN_SYSTEM.md.
- * Mirror: shared/tokens/tokens.ts (keep in sync).
+ * Contrast of the pairs the app uses is checked in shared/ui/contrast.test.ts.
  */
 @theme {
   /* Primary — Fresh green. Bright fills (500) carry DARK ink text, never white.

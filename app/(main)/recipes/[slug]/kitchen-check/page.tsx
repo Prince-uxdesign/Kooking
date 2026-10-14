@@ -1,34 +1,20 @@
+import { findListableRecipe, listableRecipeParams } from "@/features/recipes/find-listable-recipe";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { KitchenCheckScreen } from "@/features/kitchen-check/KitchenCheckScreen";
-import { getIngredientRepository, getRecipeRepository } from "@/shared/data/catalog";
-import { StoreError } from "@/shared/data/repositories";
-import { isListable } from "@/shared/domain/discovery";
-import type { Recipe } from "@/shared/domain/recipe-schema";
+import { getIngredientRepository } from "@/shared/data/catalog";
+
 import { Loading } from "@/shared/ui/States";
 
 type Params = { params: Promise<{ slug: string }> };
 
-async function findRecipe(slug: string): Promise<Recipe | null> {
-  try {
-    const recipe = await getRecipeRepository().getBySlug(slug);
-    return isListable(recipe) ? recipe : null;
-  } catch (error) {
-    if (error instanceof StoreError && error.code === "not-found") return null;
-    throw error;
-  }
-}
-
 export const dynamicParams = false;
 
-export async function generateStaticParams() {
-  const recipes = await getRecipeRepository().list();
-  return recipes.filter(isListable).map((r) => ({ slug: r.slug }));
-}
+export const generateStaticParams = listableRecipeParams;
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const recipe = await findRecipe((await params).slug);
+  const recipe = await findListableRecipe((await params).slug);
   return { title: recipe ? `Kitchen Check · ${recipe.title}` : "Recipe not found" };
 }
 
@@ -38,7 +24,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
  * `?from=`.
  */
 export default async function KitchenCheckPage({ params }: Params) {
-  const recipe = await findRecipe((await params).slug);
+  const recipe = await findListableRecipe((await params).slug);
   if (!recipe) notFound();
 
   const ingredients = await getIngredientRepository().list();

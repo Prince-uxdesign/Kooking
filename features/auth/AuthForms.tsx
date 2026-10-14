@@ -3,13 +3,13 @@
 import React, { useState } from "react";
 import { AlertCircle, CheckCircle2, Eye, EyeOff, Loader2 } from "lucide-react";
 import { validateEmail, validatePassword } from "@/shared/domain/auth";
+import { fieldClasses } from "@/shared/ui/TextInput";
 import { useAuth } from "./AuthContext";
 
-const inputClass =
-  "w-full rounded-2xl border border-line-default bg-surface-primary px-4 py-3 text-[1rem] leading-6 text-ink-900 placeholder:text-ink-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20";
+const inputClass = fieldClasses;
 const labelClass = "block text-[0.875rem] font-medium text-ink-700 mb-1.5";
 const buttonClass =
-  "inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-primary-500 px-6 text-[1rem] font-medium text-ink-900 transition-colors hover:bg-primary-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:opacity-50";
+  "inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-primary-500 px-6 text-[1rem] font-medium text-ink-900 transition-colors hover:bg-primary-400 disabled:opacity-50";
 
 /* ------------------------------------------------------------------ */
 /* Sign In Form                                                       */
@@ -60,7 +60,7 @@ export function SignInForm({ onSwitchToSignUp, onSwitchToForgot, onSuccess }: Si
       {activeError && (
         <div
           role="alert"
-          className="flex items-start gap-2.5 rounded-2xl bg-error-50 p-3.5 text-[0.875rem] leading-5 text-error-700"
+          className="flex items-start gap-2.5 rounded-2xl bg-error-100 p-3.5 text-[0.875rem] leading-5 text-error-700"
         >
           <AlertCircle size={18} className="mt-0.5 shrink-0" aria-hidden />
           <span>{activeError}</span>
@@ -101,7 +101,7 @@ export function SignInForm({ onSwitchToSignUp, onSwitchToForgot, onSuccess }: Si
             <button
               type="button"
               onClick={onSwitchToForgot}
-              className="text-[0.8125rem] font-medium text-primary-600 underline underline-offset-2 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"
+              className="text-[0.8125rem] font-medium text-primary-600 underline underline-offset-2 hover:text-primary-700 rounded"
             >
               Forgot password?
             </button>
@@ -131,7 +131,7 @@ export function SignInForm({ onSwitchToSignUp, onSwitchToForgot, onSuccess }: Si
             onClick={() => setShowPassword(!showPassword)}
             aria-label={showPassword ? "Hide password" : "Show password"}
             aria-pressed={showPassword}
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2 text-ink-400 hover:text-ink-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+            className="absolute right-1 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-ink-600 hover:text-ink-900"
           >
             {showPassword ? <EyeOff size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
           </button>
@@ -161,7 +161,7 @@ export function SignInForm({ onSwitchToSignUp, onSwitchToForgot, onSuccess }: Si
           <button
             type="button"
             onClick={onSwitchToSignUp}
-            className="font-semibold text-primary-600 underline underline-offset-2 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"
+            className="font-semibold text-primary-600 underline underline-offset-2 hover:text-primary-700 rounded"
           >
             Create an account
           </button>
@@ -220,7 +220,7 @@ export function SignUpForm({ onSwitchToSignIn, onSuccess }: SignUpFormProps) {
 
   if (verificationNotice) {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-2xl bg-surface-secondary p-6 text-center">
+      <div className="flex flex-col items-center gap-3 rounded-2xl bg-white p-6 text-center">
         <CheckCircle2 size={36} className="text-primary-600" aria-hidden />
         <h3 className="text-[1.125rem] font-semibold text-ink-900">Check your email</h3>
         <p className="text-[0.875rem] leading-6 text-ink-600">
@@ -247,7 +247,7 @@ export function SignUpForm({ onSwitchToSignIn, onSuccess }: SignUpFormProps) {
       {activeError && (
         <div
           role="alert"
-          className="flex items-start gap-2.5 rounded-2xl bg-error-50 p-3.5 text-[0.875rem] leading-5 text-error-700"
+          className="flex items-start gap-2.5 rounded-2xl bg-error-100 p-3.5 text-[0.875rem] leading-5 text-error-700"
         >
           <AlertCircle size={18} className="mt-0.5 shrink-0" aria-hidden />
           <span>{activeError}</span>
@@ -307,7 +307,7 @@ export function SignUpForm({ onSwitchToSignIn, onSuccess }: SignUpFormProps) {
             onClick={() => setShowPassword(!showPassword)}
             aria-label={showPassword ? "Hide password" : "Show password"}
             aria-pressed={showPassword}
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2 text-ink-400 hover:text-ink-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+            className="absolute right-1 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-ink-600 hover:text-ink-900"
           >
             {showPassword ? <EyeOff size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
           </button>
@@ -340,7 +340,7 @@ export function SignUpForm({ onSwitchToSignIn, onSuccess }: SignUpFormProps) {
           <button
             type="button"
             onClick={onSwitchToSignIn}
-            className="font-semibold text-primary-600 underline underline-offset-2 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"
+            className="font-semibold text-primary-600 underline underline-offset-2 hover:text-primary-700 rounded"
           >
             Sign in
           </button>
@@ -386,7 +386,7 @@ export function ForgotPasswordForm({ onBackToSignIn }: ForgotPasswordFormProps) 
 
   if (submitted) {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-2xl bg-surface-secondary p-6 text-center">
+      <div className="flex flex-col items-center gap-3 rounded-2xl bg-white p-6 text-center">
         <CheckCircle2 size={36} className="text-primary-600" aria-hidden />
         <h3 className="text-[1.125rem] font-semibold text-ink-900">Reset email sent</h3>
         <p className="text-[0.875rem] leading-6 text-ink-600">
@@ -413,7 +413,7 @@ export function ForgotPasswordForm({ onBackToSignIn }: ForgotPasswordFormProps) 
       {activeError && (
         <div
           role="alert"
-          className="flex items-start gap-2.5 rounded-2xl bg-error-50 p-3.5 text-[0.875rem] leading-5 text-error-700"
+          className="flex items-start gap-2.5 rounded-2xl bg-error-100 p-3.5 text-[0.875rem] leading-5 text-error-700"
         >
           <AlertCircle size={18} className="mt-0.5 shrink-0" aria-hidden />
           <span>{activeError}</span>
@@ -467,7 +467,7 @@ export function ForgotPasswordForm({ onBackToSignIn }: ForgotPasswordFormProps) 
           <button
             type="button"
             onClick={onBackToSignIn}
-            className="font-semibold text-primary-600 underline underline-offset-2 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded"
+            className="font-semibold text-primary-600 underline underline-offset-2 hover:text-primary-700 rounded"
           >
             Sign in
           </button>

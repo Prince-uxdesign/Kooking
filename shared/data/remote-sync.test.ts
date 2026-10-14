@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from "vitest";
-import { clearAccountLocalData, COOKING_HISTORY_KEY, LocalCookingHistory } from "./local";
+import { clearAccountLocalData, LocalCookingHistory } from "./local";
 import { MemorySyncAdapter } from "./remote-sync";
 import type { CookingHistoryEntry } from "@/shared/domain/cooking-history";
 import type { ShoppingList } from "@/shared/domain/shopping";

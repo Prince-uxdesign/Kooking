@@ -1,7 +1,326 @@
 [
-  { "id": "demo:long-grain-rice", "name": "Long-grain rice", "category": "grains" },
-  { "id": "demo:tomato-paste", "name": "Tomato paste", "category": "vegetables" },
-  { "id": "demo:tomato-puree", "name": "Tomato purée", "category": "vegetables" },
-  { "id": "demo:salt", "name": "Salt", "category": "seasoning" },
-  { "id": "demo:plantain", "name": "Plantain", "category": "produce" }
+  {
+    "id": "demo:long-grain-rice",
+    "name": "Long-grain rice",
+    "category": "grains"
+  },
+  {
+    "id": "demo:tomato-paste",
+    "name": "Tomato paste",
+    "category": "vegetables"
+  },
+  {
+    "id": "demo:tomato-puree",
+    "name": "Tomato purée",
+    "category": "vegetables"
+  },
+  {
+    "id": "demo:salt",
+    "name": "Salt",
+    "category": "seasoning"
+  },
+  {
+    "id": "demo:plantain",
+    "name": "Plantain",
+    "category": "produce"
+  },
+  {
+    "id": "ng:parboiled-rice",
+    "name": "Long-grain parboiled rice",
+    "category": "grains",
+    "aliases": ["rice", "parboiled rice"]
+  },
+  {
+    "id": "ng:plum-tomatoes",
+    "name": "Plum tomatoes",
+    "category": "vegetables",
+    "aliases": ["tomatoes", "tomato"]
+  },
+  {
+    "id": "ng:tatashe",
+    "name": "Red bell pepper (tatashe)",
+    "category": "vegetables",
+    "aliases": ["tatashe", "bell pepper", "red pepper"]
+  },
+  {
+    "id": "ng:scotch-bonnet",
+    "name": "Scotch bonnet pepper (ata rodo)",
+    "category": "vegetables",
+    "aliases": ["ata rodo", "atarodo", "chilli", "pepper"]
+  },
+  {
+    "id": "ng:onion",
+    "name": "Onion",
+    "category": "vegetables",
+    "aliases": ["onions", "alubosa"]
+  },
+  {
+    "id": "ng:tomato-paste",
+    "name": "Tomato paste",
+    "category": "vegetables",
+    "aliases": ["tin tomato", "tomato puree"]
+  },
+  {
+    "id": "ng:vegetable-oil",
+    "name": "Vegetable oil",
+    "category": "oils",
+    "aliases": ["groundnut oil", "cooking oil"]
+  },
+  {
+    "id": "ng:palm-oil",
+    "name": "Palm oil",
+    "category": "oils",
+    "aliases": ["red oil", "epo pupa"]
+  },
+  {
+    "id": "ng:chicken-stock",
+    "name": "Chicken stock",
+    "category": "other",
+    "aliases": ["stock", "broth"]
+  },
+  {
+    "id": "ng:stock-cube",
+    "name": "Stock cube",
+    "category": "seasoning",
+    "aliases": ["maggi", "knorr", "bouillon"]
+  },
+  {
+    "id": "ng:curry-powder",
+    "name": "Curry powder",
+    "category": "seasoning",
+    "aliases": ["curry"]
+  },
+  {
+    "id": "ng:dried-thyme",
+    "name": "Dried thyme",
+    "category": "seasoning",
+    "aliases": ["thyme"]
+  },
+  {
+    "id": "ng:bay-leaf",
+    "name": "Bay leaf",
+    "category": "seasoning",
+    "aliases": ["bay leaves"]
+  },
+  {
+    "id": "ng:salt",
+    "name": "Salt",
+    "category": "seasoning"
+  },
+  {
+    "id": "ng:butter",
+    "name": "Butter",
+    "category": "dairy"
+  },
+  {
+    "id": "ng:chicken",
+    "name": "Chicken pieces",
+    "category": "poultry",
+    "aliases": ["chicken", "adiye"]
+  },
+  {
+    "id": "ng:coconut-milk",
+    "name": "Coconut milk",
+    "category": "other",
+    "aliases": ["coconut"]
+  },
+  {
+    "id": "ng:crayfish",
+    "name": "Ground crayfish",
+    "category": "seafood",
+    "aliases": ["crayfish", "ede"]
+  },
+  {
+    "id": "ng:garlic",
+    "name": "Garlic",
+    "category": "vegetables"
+  },
+  {
+    "id": "ng:ginger",
+    "name": "Fresh ginger",
+    "category": "vegetables",
+    "aliases": ["ginger", "atale"]
+  },
+  {
+    "id": "ng:carrot",
+    "name": "Carrot",
+    "category": "vegetables",
+    "aliases": ["carrots"]
+  },
+  {
+    "id": "ng:green-beans",
+    "name": "Green beans",
+    "category": "vegetables"
+  },
+  {
+    "id": "ng:sweet-corn",
+    "name": "Sweet corn",
+    "category": "vegetables",
+    "aliases": ["corn", "agbado"]
+  },
+  {
+    "id": "ng:green-peas",
+    "name": "Green peas",
+    "category": "vegetables",
+    "aliases": ["peas"]
+  },
+  {
+    "id": "ng:spring-onion",
+    "name": "Spring onion",
+    "category": "vegetables",
+    "aliases": ["green onion", "scallion"]
+  },
+  {
+    "id": "ng:prawns",
+    "name": "Prawns",
+    "category": "seafood",
+    "aliases": ["shrimp", "shrimps"]
+  },
+  {
+    "id": "ng:beef",
+    "name": "Beef",
+    "category": "meat",
+    "aliases": ["meat", "eran"]
+  },
+  {
+    "id": "ng:goat-meat",
+    "name": "Goat meat",
+    "category": "meat",
+    "aliases": ["goat", "ewure", "chevon"]
+  },
+  {
+    "id": "ng:ponmo",
+    "name": "Cow skin (ponmo)",
+    "category": "meat",
+    "aliases": ["ponmo", "kpomo", "cow skin"]
+  },
+  {
+    "id": "ng:egusi",
+    "name": "Ground egusi (melon seeds)",
+    "category": "staples",
+    "aliases": ["egusi", "melon seeds"]
+  },
+  {
+    "id": "ng:iru",
+    "name": "Locust beans (iru)",
+    "category": "seasoning",
+    "aliases": ["iru", "ogiri", "dawadawa", "locust beans"]
+  },
+  {
+    "id": "ng:stockfish",
+    "name": "Stockfish",
+    "category": "fish",
+    "aliases": ["okporoko", "panla"]
+  },
+  {
+    "id": "ng:smoked-fish",
+    "name": "Smoked dried fish",
+    "category": "fish",
+    "aliases": ["dry fish", "eja kika"]
+  },
+  {
+    "id": "ng:ugu",
+    "name": "Fluted pumpkin leaves (ugu)",
+    "category": "herbs",
+    "aliases": ["ugu", "ugwu", "pumpkin leaves"]
+  },
+  {
+    "id": "ng:spinach",
+    "name": "Spinach (efo tete)",
+    "category": "vegetables",
+    "aliases": ["efo", "efo tete", "shoko", "green"]
+  },
+  {
+    "id": "ng:pepper-soup-spice",
+    "name": "Pepper soup spice mix",
+    "category": "seasoning",
+    "aliases": ["pepper soup spice", "uda", "uziza"]
+  },
+  {
+    "id": "ng:scent-leaf",
+    "name": "Scent leaf (efirin)",
+    "category": "herbs",
+    "aliases": ["efirin", "nchanwu", "scent leaves"]
+  },
+  {
+    "id": "ng:basil",
+    "name": "Fresh basil",
+    "category": "herbs"
+  },
+  {
+    "id": "ng:garri",
+    "name": "Garri",
+    "category": "staples",
+    "aliases": ["gari", "eba"]
+  },
+  {
+    "id": "ng:honey-beans",
+    "name": "Brown beans (ewa oloyin)",
+    "category": "legumes",
+    "aliases": ["oloyin", "honey beans", "ewa", "beans"]
+  },
+  {
+    "id": "ng:black-eyed-beans",
+    "name": "Black-eyed beans",
+    "category": "legumes",
+    "aliases": ["beans", "cowpeas", "ewa"]
+  },
+  {
+    "id": "ng:ripe-plantain",
+    "name": "Ripe plantain",
+    "category": "produce",
+    "aliases": ["plantain", "dodo", "ogede"]
+  },
+  {
+    "id": "ng:eggs",
+    "name": "Eggs",
+    "category": "protein",
+    "aliases": ["egg"]
+  },
+  {
+    "id": "ng:flour",
+    "name": "All-purpose flour",
+    "category": "flour",
+    "aliases": ["plain flour"]
+  },
+  {
+    "id": "ng:sugar",
+    "name": "Granulated sugar",
+    "category": "staples",
+    "aliases": ["sugar"]
+  },
+  {
+    "id": "ng:instant-yeast",
+    "name": "Instant dry yeast",
+    "category": "staples",
+    "aliases": ["yeast"]
+  },
+  {
+    "id": "ng:nutmeg",
+    "name": "Ground nutmeg",
+    "category": "seasoning",
+    "aliases": ["nutmeg"]
+  },
+  {
+    "id": "ng:water",
+    "name": "Water",
+    "category": "other"
+  },
+  {
+    "id": "ng:zobo-leaves",
+    "name": "Dried hibiscus (zobo leaves)",
+    "category": "herbs",
+    "aliases": ["zobo", "sorrel", "hibiscus", "roselle"]
+  },
+  {
+    "id": "ng:pineapple",
+    "name": "Pineapple",
+    "category": "fruit"
+  },
+  {
+    "id": "ng:cloves",
+    "name": "Whole cloves",
+    "category": "seasoning",
+    "aliases": ["kanafuru", "konafuru"]
+  }
 ]

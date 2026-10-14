@@ -16,6 +16,7 @@ import { useOptionalAuth } from "@/features/auth/AuthContext";
 import { LocalShopping } from "@/shared/data/local";
 import { getRemoteSyncService } from "@/shared/data/remote-sync";
 import { kitchenCheckHref, recipeHref } from "@/shared/domain/navigation";
+import { GUEST_OWNER } from "@/shared/domain/user";
 import {
   addPersonalItem,
   clearCompleted,
@@ -106,7 +107,7 @@ export function ShoppingListScreen() {
   const params = useSearchParams();
   const auth = useOptionalAuth();
   const user = auth?.user ?? null;
-  const ownerId = user?.id ?? "guest";
+  const ownerId = user?.id ?? GUEST_OWNER;
   const isAuthenticated = auth?.status === "authenticated" && Boolean(user);
 
   const [list, setList] = useState<ShoppingList | null>(null);
@@ -129,7 +130,7 @@ export function ShoppingListScreen() {
 
         // If authenticated, check if there are guest items from before signing in to merge
         if (isAuthenticated && user?.id) {
-          const guestList = await shopping.load("guest");
+          const guestList = await shopping.load(GUEST_OWNER);
           if (guestList && guestList.items.length > 0) {
             const mergedWithGuest = mergeShoppingLists(
               currentList ?? emptyList(ownerId, Date.now()),
@@ -139,7 +140,7 @@ export function ShoppingListScreen() {
             currentList = mergedWithGuest.mergedList;
             await shopping.store(currentList);
             // Clear guest items so they don't re-merge indefinitely
-            await shopping.store(emptyList("guest", Date.now()));
+            await shopping.store(emptyList(GUEST_OWNER, Date.now()));
           }
         }
 
@@ -334,7 +335,7 @@ export function ShoppingListScreen() {
           {syncStatus === "guest" && (
             <span
               title="Items are saved privately on this browser"
-              className="inline-flex items-center gap-1.5 rounded-full bg-surface-secondary px-3 py-1 text-[0.8125rem] text-ink-600"
+              className="inline-flex items-center gap-1.5 rounded-full bg-surface-100 px-3 py-1 text-[0.8125rem] text-ink-600"
             >
               <HardDrive size={15} aria-hidden />
               Saved on this device
@@ -357,9 +358,9 @@ export function ShoppingListScreen() {
               type="button"
               onClick={() => void triggerSync()}
               title="Saved locally on this device. Click to retry syncing with your account."
-              className="inline-flex items-center gap-1.5 rounded-full bg-surface-secondary px-3 py-1 text-[0.8125rem] text-ink-600 transition-colors hover:bg-surface-200"
+              className="inline-flex items-center gap-1.5 rounded-full bg-surface-100 px-3 py-1 text-[0.8125rem] text-ink-600 transition-colors hover:bg-surface-200"
             >
-              <CloudOff size={15} className="text-ink-400" aria-hidden />
+              <CloudOff size={15} className="text-ink-500" aria-hidden />
               <span>Offline · saved on device (Retry)</span>
             </button>
           )}

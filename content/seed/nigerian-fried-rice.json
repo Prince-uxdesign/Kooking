@@ -1,0 +1,305 @@
+{
+  "id": "nigerian-fried-rice",
+  "slug": "nigerian-fried-rice",
+  "title": "Nigerian Fried Rice",
+  "description": "Party-style fried rice: curry-yellow grains stir-fried with carrots, green beans, sweet corn, peas and prawns. Jollof's partner at every Nigerian celebration.",
+  "image": {
+    "src": "/images/recipes/nigerian-fried-rice.jpg",
+    "alt": "Pan of Nigerian fried rice with carrots, sweet corn and peas topped with chicken"
+  },
+  "categories": ["rice"],
+  "difficulty": "medium",
+  "tags": ["party"],
+  "baseServings": 6,
+  "timeMinutes": {
+    "prep": 25,
+    "cook": 45,
+    "total": 70
+  },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "wok",
+      "name": "Wok or large wide frying pan",
+      "category": "cookware"
+    },
+    {
+      "id": "sieve",
+      "name": "Sieve or colander",
+      "category": "prep"
+    },
+    {
+      "id": "board",
+      "name": "Chopping board and sharp knife",
+      "category": "prep"
+    },
+    {
+      "id": "tray",
+      "name": "Large tray or baking sheet",
+      "category": "prep",
+      "notes": "For cooling the rice"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "rice",
+      "ingredientId": "ng:parboiled-rice",
+      "quantity": 500,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "rinsed"
+    },
+    {
+      "id": "stock",
+      "ingredientId": "ng:chicken-stock",
+      "quantity": 750,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "curry",
+      "ingredientId": "ng:curry-powder",
+      "quantity": 2,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "thyme",
+      "ingredientId": "ng:dried-thyme",
+      "quantity": 1,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "cubes",
+      "ingredientId": "ng:stock-cube",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "oil",
+      "ingredientId": "ng:vegetable-oil",
+      "quantity": 4,
+      "unit": "tbsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "prawns",
+      "ingredientId": "ng:prawns",
+      "quantity": 250,
+      "unit": "g",
+      "role": "optional",
+      "scaling": "linear",
+      "preparation": "peeled"
+    },
+    {
+      "id": "onion",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "diced"
+    },
+    {
+      "id": "carrot",
+      "ingredientId": "ng:carrot",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "diced small"
+    },
+    {
+      "id": "green-beans",
+      "ingredientId": "ng:green-beans",
+      "quantity": 150,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "sliced small"
+    },
+    {
+      "id": "corn",
+      "ingredientId": "ng:sweet-corn",
+      "quantity": 150,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "peas",
+      "ingredientId": "ng:green-peas",
+      "quantity": 100,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "spring-onion",
+      "ingredientId": "ng:spring-onion",
+      "quantity": 4,
+      "unit": "stalk",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "sliced"
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "required",
+      "scaling": "to-taste"
+    }
+  ],
+  "steps": [
+    {
+      "id": "nigerian-fried-rice-s1",
+      "order": 1,
+      "instruction": "Rinse the rice until the water runs mostly clear, then drain.",
+      "ingredientIds": ["rice"],
+      "ingredientQuantities": {
+        "rice": 500
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "id": "nigerian-fried-rice-s2",
+      "order": 2,
+      "instruction": "Bring the stock to a boil with 1 tsp curry, the thyme and stock cubes. Stir in the rice, cover and cook until just tender and the liquid is gone.",
+      "ingredientIds": ["stock", "curry", "thyme", "cubes", "rice"],
+      "ingredientQuantities": {
+        "stock": 750,
+        "curry": 1,
+        "thyme": 1,
+        "cubes": 2,
+        "rice": 500
+      },
+      "heat": "medium-low",
+      "timer": {
+        "durationSeconds": 1200,
+        "label": "Cook the rice"
+      },
+      "completionNote": "Firm-tender, not soft — it cooks again in the pan."
+    },
+    {
+      "id": "nigerian-fried-rice-s3",
+      "order": 3,
+      "instruction": "Spread the rice out on a tray and let it cool and steam off.",
+      "ingredientIds": [],
+      "estimatedMinutes": 10,
+      "cues": {
+        "texture": "Grains separate easily, not sticky."
+      }
+    },
+    {
+      "id": "nigerian-fried-rice-s4",
+      "order": 4,
+      "instruction": "Heat 1 tbsp oil in the wok over high heat and stir-fry the prawns until pink. Lift them out.",
+      "ingredientIds": ["oil", "prawns"],
+      "ingredientQuantities": {
+        "oil": 1,
+        "prawns": 250
+      },
+      "heat": "high",
+      "timer": {
+        "durationSeconds": 150,
+        "label": "Fry prawns"
+      },
+      "cues": {
+        "visual": "Pink and curled into a C."
+      }
+    },
+    {
+      "id": "nigerian-fried-rice-s5",
+      "order": 5,
+      "instruction": "Add another tbsp of oil, then the onion, carrot and green beans. Stir-fry so they stay crisp.",
+      "ingredientIds": ["oil", "onion", "carrot", "green-beans"],
+      "ingredientQuantities": {
+        "oil": 1,
+        "onion": 1,
+        "carrot": 2,
+        "green-beans": 150
+      },
+      "heat": "high",
+      "timer": {
+        "durationSeconds": 180,
+        "label": "Stir-fry vegetables"
+      },
+      "cues": {
+        "visual": "Bright colours, still with some crunch."
+      }
+    },
+    {
+      "id": "nigerian-fried-rice-s6",
+      "order": 6,
+      "instruction": "Add the corn, peas and remaining curry and stir for a minute.",
+      "ingredientIds": ["corn", "peas", "curry"],
+      "ingredientQuantities": {
+        "corn": 150,
+        "peas": 100,
+        "curry": 1
+      },
+      "heat": "high",
+      "timer": {
+        "durationSeconds": 60,
+        "label": "Add corn and peas"
+      }
+    },
+    {
+      "id": "nigerian-fried-rice-s7",
+      "order": 7,
+      "instruction": "Add the remaining oil and the rice, a few handfuls at a time, tossing until everything is evenly yellow and hot. Return the prawns and season with salt.",
+      "ingredientIds": ["oil", "salt"],
+      "ingredientQuantities": {
+        "oil": 2,
+        "salt": null
+      },
+      "heat": "high",
+      "timer": {
+        "durationSeconds": 300,
+        "label": "Fry the rice"
+      },
+      "cues": {
+        "sound": "The rice crackles lightly against the pan."
+      }
+    },
+    {
+      "id": "nigerian-fried-rice-s8",
+      "order": 8,
+      "instruction": "Turn off the heat and fold in the spring onion.",
+      "ingredientIds": ["spring-onion"],
+      "ingredientQuantities": {
+        "spring-onion": 4
+      },
+      "estimatedMinutes": 1
+    }
+  ],
+  "notes": [
+    "Day-old cooked rice fries even better — start from step 4.",
+    "If your wok is small, fry the rice in two batches so it fries rather than steams."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Sisi Jemimah (sisijemimah.com); 9jafoodie (9jafoodie.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

@@ -51,9 +51,9 @@ Applies from this phase on. Tooling is minimal on purpose: prettier, eslint (JS)
 ```
 npm run format        # write canonical style
 npm run format:check  # CI gate for style
-npm run lint          # eslint (JS graph; TS covered by typecheck)
-npm run typecheck     # tsc --noEmit, includes tests
-npm test              # vitest run (unit + domain)
+npm run lint          # eslint: typescript-eslint recommended + react-hooks (0 warnings allowed)
+npm run typecheck     # tsc --noEmit incl. tests; noUnusedLocals/Parameters are errors
+npm test              # vitest run: unit, domain, component (jsdom + axe) and tests/integration
 npm run build         # production build + route validation
 npm run check         # all of the above, in order
 npm run dev           # local dev server

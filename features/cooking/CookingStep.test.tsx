@@ -31,6 +31,7 @@ const step: StepDisplay = {
   preparationNotes: null,
   completionNote: null,
   safetyNote: null,
+  image: null,
   readinessCheck: "Oil gathers at the edges.",
   isFirst: false,
   isLast: false,

@@ -10,9 +10,6 @@ import {
   type VoiceListener,
 } from "./voice-recognition";
 
-const ring =
-  "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900";
-
 /** What happened to the last thing the cook said. Shown briefly; never stored. */
 export type VoiceFeedback =
   | { tone: "recognized"; heard: string }
@@ -118,7 +115,7 @@ export function MicButton({
       title={on ? "Stop listening" : "Voice commands"}
       className={`inline-flex min-h-[56px] min-w-[56px] shrink-0 items-center justify-center rounded-full transition-colors ${
         on ? "bg-white text-ink-900 hover:bg-white/90" : "bg-white/10 text-white hover:bg-white/20"
-      } ${ring}`}
+      }`}
     >
       {/* Same icon both ways: the white fill, aria-pressed and the "Mic on" text carry the state. */}
       <Mic aria-hidden size={22} strokeWidth={on ? 2.25 : 1.75} />
@@ -204,7 +201,7 @@ export function VoiceStatus({
           <button
             type="button"
             onClick={onStop}
-            className={`inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-full bg-white px-4 text-[0.9375rem] font-medium text-ink-900 hover:bg-white/90 ${ring}`}
+            className={`inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-full bg-white px-4 text-[0.9375rem] font-medium text-ink-900 hover:bg-white/90`}
           >
             <MicOff aria-hidden size={18} strokeWidth={2} />
             Stop
@@ -213,7 +210,7 @@ export function VoiceStatus({
           <button
             type="button"
             onClick={onRetry}
-            className={`inline-flex min-h-[48px] shrink-0 items-center rounded-full bg-white/10 px-4 text-[0.9375rem] font-medium text-white hover:bg-white/20 ${ring}`}
+            className={`inline-flex min-h-[48px] shrink-0 items-center rounded-full bg-white/10 px-4 text-[0.9375rem] font-medium text-white hover:bg-white/20`}
           >
             Try again
           </button>
@@ -254,7 +251,7 @@ export function VoiceHelp({ state }: { state: ListenState | null }) {
   return (
     <details className="text-[0.875rem] text-white/70">
       <summary
-        className={`inline-flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-full px-1 underline-offset-4 hover:underline ${ring}`}
+        className={`inline-flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-full px-1 underline-offset-4 hover:underline`}
       >
         <Mic aria-hidden size={16} strokeWidth={1.75} />
         Voice commands: what you can say

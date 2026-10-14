@@ -7,7 +7,6 @@ import { sortSaved, withSaved, withoutSaved } from "@/shared/domain/saved";
 import type {
   HistoryRepository,
   ManageableRecipeRepository,
-  RecipeRepository,
   SavedRepository,
   SessionRepository,
   ShoppingRepository,

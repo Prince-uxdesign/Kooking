@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { iconForRecipe } from "@/features/recipes/category-icons";
-import { recipeHref, type RecipeSummary } from "@/shared/domain/discovery";
+import type { RecipeSummary } from "@/shared/domain/discovery";
+import { recipeHref } from "@/shared/domain/navigation";
 import { RecipeCard } from "./RecipeCard";
 
 export interface RecipeGridProps {
@@ -43,7 +44,7 @@ export function RecipeGrid({
             <li key={recipe.id} className="min-w-0">
               <RecipeCard
                 title={recipe.title}
-                href={from ? recipeHref(recipe.slug, from) : undefined}
+                href={from ? recipeHref(recipe.slug, { from }) : undefined}
                 minutes={recipe.totalMinutes}
                 difficulty={recipe.difficulty}
                 categories={recipe.categories}

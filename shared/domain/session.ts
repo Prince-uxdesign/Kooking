@@ -138,17 +138,6 @@ export function startSession(args: {
   });
 }
 
-/** Display names for a snapshot, refreshed from a catalog lookup. */
-export function nameSnapshot(session: CookingSession, names: Map<string, string>): CookingSession {
-  return {
-    ...session,
-    snapshot: session.snapshot.map((line) => ({
-      ...line,
-      name: names.get(line.lineId) ?? line.name,
-    })),
-  };
-}
-
 /**
  * Explicitly updates an active/paused session's servings and snapshots fresh quantities.
  * Must be initiated by user confirmation — never applied silently — and only
@@ -306,19 +295,6 @@ export function applySessionTimer(
     timers: session.timers.map((t) => (t.id === timerId ? applyTimerAction(t, action, now) : t)),
   };
 }
-
-export const startTimer = (s: CookingSession, id: string, now: number) =>
-  applySessionTimer(s, id, "start", now);
-export const pauseTimer = (s: CookingSession, id: string, now: number) =>
-  applySessionTimer(s, id, "pause", now);
-export const resumeTimer = (s: CookingSession, id: string, now: number) =>
-  applySessionTimer(s, id, "resume", now);
-export const cancelTimer = (s: CookingSession, id: string, now: number) =>
-  applySessionTimer(s, id, "cancel", now);
-export const resetTimer = (s: CookingSession, id: string, now: number) =>
-  applySessionTimer(s, id, "reset", now);
-export const acknowledgeTimer = (s: CookingSession, id: string, now: number) =>
-  applySessionTimer(s, id, "acknowledge", now);
 
 /** At most this many cook-added timers can be live (running or paused) at once. */
 export const MAX_EXTRA_TIMERS = 6;

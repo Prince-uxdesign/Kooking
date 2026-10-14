@@ -1,0 +1,211 @@
+{
+  "id": "goat-meat-pepper-soup",
+  "slug": "goat-meat-pepper-soup",
+  "title": "Goat Meat Pepper Soup",
+  "description": "A light, fiery broth of goat meat simmered with pepper soup spices and scent leaf. Warming, aromatic and a Friday-evening favourite.",
+  "image": {
+    "src": "/images/recipes/goat-meat-pepper-soup.jpg",
+    "alt": "Bowl of goat meat pepper soup with two bread rolls on the side"
+  },
+  "categories": ["stews-soups"],
+  "difficulty": "easy",
+  "tags": ["one-pot"],
+  "baseServings": 4,
+  "timeMinutes": {
+    "prep": 15,
+    "cook": 75,
+    "total": 90
+  },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "board",
+      "name": "Chopping board and sharp knife",
+      "category": "prep"
+    },
+    {
+      "id": "mortar",
+      "name": "Mortar and pestle",
+      "category": "prep",
+      "notes": "For crushing the scotch bonnets",
+      "optional": true
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "goat",
+      "ingredientId": "ng:goat-meat",
+      "quantity": 1,
+      "unit": "kg",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "cut into chunks, washed"
+    },
+    {
+      "id": "onion",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "chopped"
+    },
+    {
+      "id": "cubes",
+      "ingredientId": "ng:stock-cube",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "water",
+      "ingredientId": "ng:water",
+      "quantity": 1.5,
+      "unit": "l",
+      "role": "required",
+      "scaling": "approximate"
+    },
+    {
+      "id": "spice",
+      "ingredientId": "ng:pepper-soup-spice",
+      "quantity": 2,
+      "unit": "tbsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "scotch",
+      "ingredientId": "ng:scotch-bonnet",
+      "quantity": 3,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "approximate",
+      "preparation": "crushed",
+      "note": "Pepper soup should be hot; use 1 for mild"
+    },
+    {
+      "id": "crayfish",
+      "ingredientId": "ng:crayfish",
+      "quantity": 1,
+      "unit": "tbsp",
+      "role": "optional",
+      "scaling": "linear"
+    },
+    {
+      "id": "scent-leaf",
+      "ingredientId": "ng:scent-leaf",
+      "quantity": 1,
+      "unit": "bunch",
+      "role": "substitutable",
+      "scaling": "approximate",
+      "preparation": "leaves torn",
+      "substitutes": ["ng:basil"]
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "required",
+      "scaling": "to-taste"
+    }
+  ],
+  "steps": [
+    {
+      "id": "goat-meat-pepper-soup-s1",
+      "order": 1,
+      "instruction": "Put the goat meat in the pot with the onion, stock cubes and a pinch of salt. Cover and let it steam in its own juices, stirring once.",
+      "ingredientIds": ["goat", "onion", "cubes", "salt"],
+      "ingredientQuantities": {
+        "goat": 1,
+        "onion": 1,
+        "cubes": 2,
+        "salt": null
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 600,
+        "label": "Steam the meat"
+      },
+      "cues": {
+        "visual": "The meat releases liquid and turns grey-brown."
+      }
+    },
+    {
+      "id": "goat-meat-pepper-soup-s2",
+      "order": 2,
+      "instruction": "Add the water, bring to a boil, then lower the heat, cover and simmer until the goat is tender.",
+      "ingredientIds": ["water"],
+      "ingredientQuantities": {
+        "water": 1.5
+      },
+      "heat": "medium-low",
+      "timer": {
+        "durationSeconds": 2700,
+        "label": "Simmer the goat"
+      },
+      "completionNote": "Tender when pierced but still holding its shape. Older goat may need 15 minutes more."
+    },
+    {
+      "id": "goat-meat-pepper-soup-s3",
+      "order": 3,
+      "instruction": "Stir in the pepper soup spice, crushed scotch bonnets and crayfish. Simmer uncovered.",
+      "ingredientIds": ["spice", "scotch", "crayfish"],
+      "ingredientQuantities": {
+        "spice": 2,
+        "scotch": 3,
+        "crayfish": 1
+      },
+      "heat": "medium-low",
+      "timer": {
+        "durationSeconds": 600,
+        "label": "Simmer with spices"
+      },
+      "cues": {
+        "aroma": "Warm, peppery and slightly smoky."
+      },
+      "image": {
+        "src": "/images/recipes/steps/pepper-soup-spices.jpg",
+        "alt": "Pepper soup spices such as uda pods for sale at a market"
+      }
+    },
+    {
+      "id": "goat-meat-pepper-soup-s4",
+      "order": 4,
+      "instruction": "Taste and adjust the salt. Add the scent leaf and simmer for 2 more minutes.",
+      "ingredientIds": ["scent-leaf", "salt"],
+      "ingredientQuantities": {
+        "scent-leaf": 1,
+        "salt": null
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 120,
+        "label": "Add scent leaf"
+      },
+      "cues": {
+        "aroma": "Fresh, minty-basil smell from the leaves."
+      }
+    }
+  ],
+  "notes": [
+    "Serve hot on its own, with boiled yam, agidi or soft white bread.",
+    "Swap goat for catfish: skip the long simmer and cook the fish in the spiced broth for 10 minutes."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Sisi Jemimah (sisijemimah.com); 9jafoodie (9jafoodie.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

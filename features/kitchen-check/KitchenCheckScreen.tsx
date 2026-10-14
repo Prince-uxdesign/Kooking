@@ -19,6 +19,7 @@ import {
   type KitchenCheckRecord,
 } from "@/shared/domain/kitchen-check";
 import { recipeHref } from "@/shared/domain/navigation";
+import { GUEST_OWNER } from "@/shared/domain/user";
 import type { ResumeSummary } from "@/shared/domain/recovery";
 import type { Recipe } from "@/shared/domain/recipe-schema";
 import { BottomSheet } from "@/shared/ui/BottomSheet";
@@ -28,7 +29,6 @@ import { KitchenCheckRow } from "./KitchenCheckRow";
 
 const checks = new LocalKitchenChecks();
 const shopping = new LocalShopping();
-const OWNER_ID = "guest";
 
 type Notice = { tone: "info" | "error"; text: string; href?: string; hrefLabel?: string };
 
@@ -114,7 +114,7 @@ export function KitchenCheckScreen({
 
   const shopForMissing = async () => {
     try {
-      const existing = await shopping.load(OWNER_ID);
+      const existing = await shopping.load(GUEST_OWNER);
       const result = addShortagesToList(existing?.items ?? [], {
         recipe,
         servings,
@@ -123,8 +123,8 @@ export function KitchenCheckScreen({
         ingredientCategories,
       });
       await shopping.store({
-        id: existing?.id ?? `list_${OWNER_ID}`,
-        ownerId: OWNER_ID,
+        id: existing?.id ?? `list_${GUEST_OWNER}`,
+        ownerId: GUEST_OWNER,
         items: result.items,
         updatedAt: Date.now(),
       });

@@ -96,6 +96,7 @@ describe("Phase 39: Responsive and Accessibility QA across Viewports", () => {
               preparationNotes: null,
               completionNote: null,
               safetyNote: null,
+              image: null,
             }}
             progress={{
               current: 1,

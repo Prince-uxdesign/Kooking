@@ -1,0 +1,150 @@
+{
+  "id": "dodo",
+  "slug": "dodo",
+  "title": "Dodo (Fried Plantain)",
+  "description": "Sweet ripe plantain fried until caramelised and golden at the edges. The side that goes with everything.",
+  "image": {
+    "src": "/images/recipes/dodo.jpg",
+    "alt": "Plate of golden fried plantain slices arranged in a circle"
+  },
+  "categories": ["plantain", "sides"],
+  "difficulty": "easy",
+  "tags": ["everyday"],
+  "baseServings": 4,
+  "timeMinutes": {
+    "prep": 5,
+    "cook": 10,
+    "total": 15
+  },
+  "equipment": [
+    {
+      "id": "deep-pan",
+      "name": "Deep frying pan or wok",
+      "category": "cookware"
+    },
+    {
+      "id": "slotted-spoon",
+      "name": "Slotted spoon",
+      "category": "utensil"
+    },
+    {
+      "id": "paper",
+      "name": "Kitchen paper",
+      "category": "prep",
+      "notes": "For draining fried food"
+    },
+    {
+      "id": "board",
+      "name": "Chopping board and sharp knife",
+      "category": "prep"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "plantain",
+      "ingredientId": "ng:ripe-plantain",
+      "quantity": 3,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "note": "Yellow with plenty of black spots",
+      "constraint": "Must be ripe — green plantain won't caramelise"
+    },
+    {
+      "id": "oil",
+      "ingredientId": "ng:vegetable-oil",
+      "quantity": 500,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "approximate",
+      "note": "About 2 cm deep in the pan"
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "optional",
+      "scaling": "to-taste"
+    }
+  ],
+  "steps": [
+    {
+      "id": "dodo-s1",
+      "order": 1,
+      "instruction": "Cut off both ends of each plantain, slit the skin lengthwise and peel. Slice diagonally about 1 cm thick and toss with a little salt.",
+      "ingredientIds": ["plantain", "salt"],
+      "ingredientQuantities": {
+        "plantain": 3,
+        "salt": null
+      },
+      "estimatedMinutes": 5
+    },
+    {
+      "id": "dodo-s2",
+      "order": 2,
+      "instruction": "Heat the oil in the pan. Test with one slice.",
+      "ingredientIds": ["oil"],
+      "ingredientQuantities": {
+        "oil": 500
+      },
+      "heat": "medium-high",
+      "estimatedMinutes": 3,
+      "cues": {
+        "sound": "The test slice sizzles steadily straight away."
+      },
+      "safetyNote": "Never leave hot oil unattended. Keep a lid nearby."
+    },
+    {
+      "id": "dodo-s3",
+      "order": 3,
+      "instruction": "Lay the slices in the oil in a single layer and fry until golden underneath.",
+      "ingredientIds": [],
+      "heat": "medium-high",
+      "timer": {
+        "durationSeconds": 150,
+        "label": "Fry first side"
+      },
+      "cues": {
+        "visual": "Deep golden with darker caramelised edges."
+      },
+      "image": {
+        "src": "/images/recipes/steps/plantain-frying.jpg",
+        "alt": "Plantain slices bubbling in hot oil in a pan"
+      }
+    },
+    {
+      "id": "dodo-s4",
+      "order": 4,
+      "instruction": "Turn each slice and fry the other side.",
+      "ingredientIds": [],
+      "heat": "medium-high",
+      "timer": {
+        "durationSeconds": 120,
+        "label": "Fry second side"
+      },
+      "completionNote": "Both sides golden brown and soft inside."
+    },
+    {
+      "id": "dodo-s5",
+      "order": 5,
+      "instruction": "Lift out with a slotted spoon and drain on kitchen paper. Repeat with the rest.",
+      "ingredientIds": [],
+      "estimatedMinutes": 1
+    }
+  ],
+  "notes": [
+    "The riper the plantain, the sweeter the dodo — and the faster it browns, so watch the heat.",
+    "Serve with jollof rice, beans porridge, eggs or stew."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Sisi Jemimah (sisijemimah.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

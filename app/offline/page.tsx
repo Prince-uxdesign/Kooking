@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { LocalSessions, LocalShopping } from "@/shared/data/local";
 import { type CookingSession } from "@/shared/domain/session";
 import { type ShoppingList } from "@/shared/domain/shopping";
+import { GUEST_OWNER } from "@/shared/domain/user";
 import { buttonClasses } from "@/shared/ui/Button";
 
 const sessions = new LocalSessions();
@@ -29,7 +30,7 @@ export default function OfflinePage() {
     async function loadLocalData() {
       try {
         const session = await sessions.latestResumable();
-        const list = await shopping.load("guest");
+        const list = await shopping.load(GUEST_OWNER);
         if (!mounted) return;
         setActiveSession(session);
         setShoppingList(list);
@@ -61,7 +62,7 @@ export default function OfflinePage() {
 
   return (
     <div className="mx-auto flex min-h-[70vh] w-full max-w-xl flex-col items-center justify-center px-4 py-12 text-center">
-      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-primary-700">
         <WifiOff size={32} strokeWidth={2.2} />
       </div>
 
@@ -76,7 +77,7 @@ export default function OfflinePage() {
       {reconnectFailed && (
         <div
           role="status"
-          className="mt-4 flex items-center gap-2 rounded-2xl bg-error-50 px-4 py-2.5 text-sm text-error-700"
+          className="mt-4 flex items-center gap-2 rounded-2xl bg-error-100 px-4 py-2.5 text-sm text-error-700"
         >
           <AlertCircle size={16} className="shrink-0" />
           <span>Still offline. We will reconnect automatically when signal returns.</span>
@@ -101,14 +102,14 @@ export default function OfflinePage() {
 
       {/* Available Offline Actions */}
       <div className="mt-10 w-full space-y-3 text-left">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-ink-400">
+        <h2 className="text-[0.8125rem] font-semibold uppercase tracking-wider text-ink-500">
           Available on this device
         </h2>
 
         {activeSession ? (
           <Link
             href={`/cook/${activeSession.id}`}
-            className="flex items-center justify-between rounded-2xl border border-primary-200 bg-primary-50/50 p-4 transition-colors hover:bg-primary-50"
+            className="flex items-center justify-between rounded-2xl bg-primary-100 p-4 transition-colors hover:bg-primary-200"
           >
             <div className="flex items-center gap-3">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-500 text-ink-900">
@@ -121,16 +122,16 @@ export default function OfflinePage() {
                 </div>
               </div>
             </div>
-            <ArrowRight size={18} className="text-ink-400" />
+            <ArrowRight size={18} className="text-ink-500" />
           </Link>
         ) : null}
 
         <Link
           href="/lists"
-          className="flex items-center justify-between rounded-2xl border border-ink-100 bg-white p-4 shadow-sm transition-colors hover:border-ink-200 hover:bg-ink-50/50"
+          className="flex items-center justify-between rounded-2xl bg-surface-100 p-4 transition-colors hover:bg-surface-200"
         >
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-200 text-ink-700">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-ink-700">
               <ShoppingBasket size={20} />
             </span>
             <div>
@@ -142,7 +143,7 @@ export default function OfflinePage() {
               </div>
             </div>
           </div>
-          <ArrowRight size={18} className="text-ink-400" />
+          <ArrowRight size={18} className="text-ink-500" />
         </Link>
       </div>
     </div>

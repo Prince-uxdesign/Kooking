@@ -14,6 +14,20 @@ const nextConfig: NextConfig = {
       { source: "/recipes/collections", destination: "/recipes", permanent: false },
     ];
   },
+  /**
+   * The design-system showcase is an internal reference. In production it
+   * is answered as a genuine 404 (a layout-level notFound() would stream a
+   * 200 behind the root loading boundary).
+   */
+  async rewrites() {
+    return {
+      // Before the filesystem, or the real page would win.
+      beforeFiles:
+        process.env.NODE_ENV === "production"
+          ? [{ source: "/design-system/:path*", destination: "/__not-found__" }]
+          : [],
+    };
+  },
   async headers() {
     return [
       {

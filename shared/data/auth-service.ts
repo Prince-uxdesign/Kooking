@@ -21,6 +21,8 @@ export interface PasswordResetResult {
 }
 
 export interface AuthPort {
+  /** Accounts can be created and signed in to (false when no backend is configured). */
+  readonly isAvailable: boolean;
   readonly isCloudBacked: boolean;
   getSession(): Promise<AuthSession | null>;
   signIn(email: string, password: string): Promise<AuthResult>;
@@ -35,6 +37,7 @@ export interface AuthPort {
 /* ------------------------------------------------------------------ */
 
 export class SupabaseAuthAdapter implements AuthPort {
+  readonly isAvailable = true;
   readonly isCloudBacked = true;
 
   async getSession(): Promise<AuthSession | null> {
@@ -251,10 +254,11 @@ export class SupabaseAuthAdapter implements AuthPort {
 }
 
 /* ------------------------------------------------------------------ */
-/* Memory / Local fallback adapter (offline / tests / unconfigured)  */
+/* In-memory adapter: a test double only, never used by the app      */
 /* ------------------------------------------------------------------ */
 
 export class MemoryAuthAdapter implements AuthPort {
+  readonly isAvailable = true;
   readonly isCloudBacked = false;
   private currentSession: AuthSession | null = null;
   private users = new Map<
@@ -377,19 +381,43 @@ export class MemoryAuthAdapter implements AuthPort {
 /* Factory                                                            */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Used when no backend is configured. It never pretends: there is no
+ * session, and every attempt says plainly that accounts aren't available,
+ * instead of "creating" an account that disappears on refresh.
+ */
+export class UnavailableAuthAdapter implements AuthPort {
+  readonly isAvailable = false;
+  readonly isCloudBacked = false;
+  private static readonly MESSAGE =
+    "Accounts aren't available in this version of Kooking. Everything else works without one.";
+
+  async getSession(): Promise<AuthSession | null> {
+    return null;
+  }
+  async signIn(): Promise<AuthResult> {
+    return { session: null, user: null, error: UnavailableAuthAdapter.MESSAGE };
+  }
+  async signUp(): Promise<AuthResult> {
+    return { session: null, user: null, error: UnavailableAuthAdapter.MESSAGE };
+  }
+  async signOut(): Promise<{ error: string | null }> {
+    return { error: null };
+  }
+  async resetPassword(): Promise<PasswordResetResult> {
+    return { success: false, error: UnavailableAuthAdapter.MESSAGE };
+  }
+  onAuthStateChange(): () => void {
+    return () => {};
+  }
+}
+
 let activeAuthPort: AuthPort | null = null;
 
 export function getAuthService(): AuthPort {
   if (activeAuthPort) return activeAuthPort;
-
-  if (isSupabaseConfigured()) {
-    activeAuthPort = new SupabaseAuthAdapter();
-  } else {
-    activeAuthPort = new MemoryAuthAdapter();
-  }
+  activeAuthPort = isSupabaseConfigured()
+    ? new SupabaseAuthAdapter()
+    : new UnavailableAuthAdapter();
   return activeAuthPort;
-}
-
-export function setTestAuthService(port: AuthPort | null): void {
-  activeAuthPort = port;
 }

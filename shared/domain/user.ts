@@ -1,22 +1,16 @@
 import { z } from "zod";
 
 /**
- * Users are guests first and only in MVP. No passwords, no OAuth,
- * no remote profiles — a stable device id owns saves, lists,
- * and sessions until optional accounts arrive.
+ * Owners. Everything a cook keeps (saved recipes, lists, sessions) is
+ * scoped to an owner id: the device's guest owner until they choose to
+ * sign in, then their account id (see `shared/domain/auth.ts`).
  */
 
-export const guestUserSchema = z.object({
-  id: z.string().min(1).max(100),
-  kind: z.literal("guest"),
-  createdAt: z.number().int().nonnegative(),
-});
-
-export type GuestUser = z.infer<typeof guestUserSchema>;
-
-export function createGuest(id: string, now: number): GuestUser {
-  return guestUserSchema.parse({ id, kind: "guest", createdAt: now });
-}
+/**
+ * The owner id for data kept on this device before (or without) an account.
+ * An authenticated user's id replaces it as the owner once sign-in exists.
+ */
+export const GUEST_OWNER = "guest";
 
 export const savedRecipeSchema = z.object({
   ownerId: z.string().min(1).max(100),
@@ -25,10 +19,3 @@ export const savedRecipeSchema = z.object({
 });
 
 export type SavedRecipe = z.infer<typeof savedRecipeSchema>;
-
-/** Toggle-save over an id set. Pure; storage lives in shared/data. */
-export function toggleSavedId(savedIds: string[], recipeId: string): string[] {
-  return savedIds.includes(recipeId)
-    ? savedIds.filter((id) => id !== recipeId)
-    : [...savedIds, recipeId];
-}

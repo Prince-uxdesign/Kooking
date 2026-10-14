@@ -1,0 +1,181 @@
+{
+  "id": "zobo",
+  "slug": "zobo",
+  "title": "Zobo Drink",
+  "description": "Deep red hibiscus drink brewed with pineapple, ginger and cloves, then sweetened and served ice-cold.",
+  "image": {
+    "src": "/images/recipes/zobo.jpg",
+    "alt": "Glass of chilled deep-red zobo drink with ice"
+  },
+  "categories": ["drinks"],
+  "difficulty": "easy",
+  "tags": ["party"],
+  "baseServings": 8,
+  "timeMinutes": {
+    "prep": 10,
+    "cook": 60,
+    "total": 70
+  },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "sieve",
+      "name": "Sieve or colander",
+      "category": "prep"
+    },
+    {
+      "id": "jug",
+      "name": "Large jug or bottles",
+      "category": "prep"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "zobo",
+      "ingredientId": "ng:zobo-leaves",
+      "quantity": 100,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "water",
+      "ingredientId": "ng:water",
+      "quantity": 2.5,
+      "unit": "l",
+      "role": "required",
+      "scaling": "approximate"
+    },
+    {
+      "id": "pineapple",
+      "ingredientId": "ng:pineapple",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "peeled and chopped (keep the peel)"
+    },
+    {
+      "id": "ginger",
+      "ingredientId": "ng:ginger",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "thumb-sized, sliced"
+    },
+    {
+      "id": "cloves",
+      "ingredientId": "ng:cloves",
+      "quantity": 1,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "sugar",
+      "ingredientId": "ng:sugar",
+      "quantity": 150,
+      "unit": "g",
+      "role": "required",
+      "scaling": "approximate",
+      "note": "Sweeten to taste"
+    }
+  ],
+  "steps": [
+    {
+      "id": "zobo-s1",
+      "order": 1,
+      "instruction": "Rinse the dried zobo leaves in a sieve to wash off any dust or sand.",
+      "ingredientIds": ["zobo"],
+      "ingredientQuantities": {
+        "zobo": 100
+      },
+      "estimatedMinutes": 2,
+      "image": {
+        "src": "/images/recipes/steps/zobo-leaves.jpg",
+        "alt": "Dried red hibiscus (zobo) leaves heaped for sale"
+      }
+    },
+    {
+      "id": "zobo-s2",
+      "order": 2,
+      "instruction": "Put the zobo, pineapple and its peel, ginger, cloves and water in the pot and bring to a boil.",
+      "ingredientIds": ["zobo", "pineapple", "ginger", "cloves", "water"],
+      "ingredientQuantities": {
+        "zobo": 100,
+        "pineapple": 1,
+        "ginger": 2,
+        "cloves": 1,
+        "water": 2.5
+      },
+      "heat": "high",
+      "estimatedMinutes": 8
+    },
+    {
+      "id": "zobo-s3",
+      "order": 3,
+      "instruction": "Lower the heat, cover and simmer.",
+      "ingredientIds": [],
+      "heat": "medium-low",
+      "timer": {
+        "durationSeconds": 1200,
+        "label": "Simmer the zobo"
+      },
+      "cues": {
+        "visual": "Liquid is a deep wine red.",
+        "aroma": "Spiced, fruity and tart."
+      }
+    },
+    {
+      "id": "zobo-s4",
+      "order": 4,
+      "instruction": "Turn off the heat and leave to cool and steep.",
+      "ingredientIds": [],
+      "estimatedMinutes": 30,
+      "cues": {
+        "texture": "Warm to the touch, not hot."
+      }
+    },
+    {
+      "id": "zobo-s5",
+      "order": 5,
+      "instruction": "Strain through a fine sieve, pressing on the solids. Stir in the sugar until dissolved, taste and adjust.",
+      "ingredientIds": ["sugar"],
+      "ingredientQuantities": {
+        "sugar": 150
+      },
+      "estimatedMinutes": 3,
+      "image": {
+        "src": "/images/recipes/steps/zobo-pot.jpg",
+        "alt": "Freshly strained zobo in a pot with a ladle"
+      }
+    },
+    {
+      "id": "zobo-s6",
+      "order": 6,
+      "instruction": "Chill well and serve over ice.",
+      "ingredientIds": [],
+      "estimatedMinutes": 1
+    }
+  ],
+  "notes": [
+    "Keeps up to 4 days in the fridge.",
+    "Swap some of the sugar for pineapple juice for a fruitier drink."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Sisi Jemimah (sisijemimah.com); 9jafoodie (9jafoodie.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

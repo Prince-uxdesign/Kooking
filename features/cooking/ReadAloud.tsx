@@ -28,9 +28,7 @@ import {
   type VoiceLike,
 } from "./read-aloud";
 
-const ring =
-  "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900";
-const btn = `inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white/10 px-5 text-[1rem] font-medium text-white transition-colors hover:bg-white/20 disabled:pointer-events-none disabled:opacity-40 ${ring}`;
+const btn = `inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white/10 px-5 text-[1rem] font-medium text-white transition-colors hover:bg-white/20 disabled:pointer-events-none disabled:opacity-40`;
 
 function statusLine(state: ReadAloudState, stepNumber: number, readKey?: string) {
   // Voice answers (Phase 30) use their own keys; don't call them "step N".
@@ -183,7 +181,7 @@ export function ReadAloudBar({
       {voices.length > 0 && (
         <details className="group text-[0.875rem] text-white/70">
           <summary
-            className={`inline-flex min-h-[44px] cursor-pointer list-none items-center rounded-full px-1 underline-offset-4 hover:underline ${ring}`}
+            className={`inline-flex min-h-[44px] cursor-pointer list-none items-center rounded-full px-1 underline-offset-4 hover:underline`}
           >
             Voice: {voices.find((v) => v.voiceURI === voiceURI)?.name ?? "Device default"}
           </summary>
@@ -193,7 +191,7 @@ export function ReadAloudBar({
               value={voiceURI ?? ""}
               onChange={(e) => onVoice(e.target.value || null)}
               style={{ colorScheme: "dark" }}
-              className={`min-h-[52px] w-full max-w-md rounded-full bg-white/10 px-4 text-[1rem] text-white ${ring}`}
+              className={`min-h-[52px] w-full max-w-md rounded-full bg-white/10 px-4 text-[1rem] text-white`}
             >
               <option value="">Device default</option>
               {voices.map((v) => (

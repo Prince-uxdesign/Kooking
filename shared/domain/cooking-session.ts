@@ -411,6 +411,8 @@ export interface StepDisplay {
   /** What to check before moving on. Separate from any timer. */
   completionNote: string | null;
   safetyNote: string | null;
+  /** Photo of the step, when the recipe has one. */
+  image: { src: string; alt: string } | null;
   /** The line to repeat when a timer runs out (completion, else first cue). */
   readinessCheck: string | null;
   isFirst: boolean;
@@ -458,6 +460,7 @@ export function stepDisplay(session: CookingSession, index: number): StepDisplay
     preparationNotes: step.preparationNotes?.trim() || null,
     completionNote: step.completionNote?.trim() || null,
     safetyNote: step.safetyNote?.trim() || null,
+    image: step.image ?? null,
     readinessCheck: readinessCheck(step),
     isFirst: index === 0,
     isLast: index === session.steps.length - 1,

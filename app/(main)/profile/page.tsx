@@ -8,7 +8,7 @@ export default function ProfilePage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="Account"
+        title="Profile"
         description="Optional cross-device sync and backup for your recipes."
       />
       <ProfileScreen />

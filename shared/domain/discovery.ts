@@ -38,12 +38,13 @@ export function toSummary(recipe: Recipe): RecipeSummary {
 }
 
 /**
- * What may appear in discovery: published recipes, plus demo fixtures
- * (which the UI labels as demo). Real drafts and in-review content
- * never surface to cooks.
+ * What may appear in discovery: published recipes, real recipes in
+ * review (shown to cooks during the user-testing phase — no tested
+ * claim is ever rendered for them), and demo fixtures (labelled as
+ * demo). Drafts never surface.
  */
 export function isListable(recipe: Recipe): boolean {
-  return recipe.status === "published" || recipe.demo;
+  return recipe.status === "published" || recipe.status === "in_review" || recipe.demo;
 }
 
 export interface HomeContent {
@@ -60,12 +61,6 @@ export function selectHomeContent(recipes: Recipe[], collectionSize = 6): HomeCo
   const listable = recipes.filter(isListable).map(toSummary);
   const [featured = null, ...rest] = listable;
   return { featured, collection: rest.slice(0, collectionSize) };
-}
-
-/** Recipe page link; `from` (an internal path) drives its back link. */
-export function recipeHref(slug: string, from?: string): string {
-  const base = `/recipes/${encodeURIComponent(slug)}`;
-  return from ? `${base}?${new URLSearchParams({ from }).toString()}` : base;
 }
 
 /** Search entry point. Empty queries land on Explore without a `q`. */

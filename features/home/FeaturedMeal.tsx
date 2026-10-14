@@ -1,5 +1,6 @@
 import { iconForRecipe } from "@/features/recipes/category-icons";
-import { recipeHref, type RecipeSummary } from "@/shared/domain/discovery";
+import type { RecipeSummary } from "@/shared/domain/discovery";
+import { recipeHref } from "@/shared/domain/navigation";
 import { FeaturedRecipeCard } from "@/shared/ui/FeaturedRecipeCard";
 
 /**
@@ -22,7 +23,7 @@ export function FeaturedMeal({
       </h2>
       <FeaturedRecipeCard
         title={recipe.title}
-        href={recipeHref(recipe.slug, "/")}
+        href={recipeHref(recipe.slug, { from: "/" })}
         image={recipe.image}
         minutes={recipe.totalMinutes}
         servings={recipe.servings}

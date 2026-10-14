@@ -1,0 +1,358 @@
+{
+  "id": "jollof-rice",
+  "slug": "jollof-rice",
+  "title": "Party Jollof Rice",
+  "description": "Nigeria's celebration rice: long-grain rice cooked right through in a fried tomato and pepper base until every grain is orange, separate and smoky at the bottom of the pot.",
+  "image": {
+    "src": "/images/recipes/jollof-rice.jpg",
+    "alt": "Plate of orange Nigerian jollof rice surrounded by slices of fried plantain"
+  },
+  "categories": ["rice"],
+  "difficulty": "medium",
+  "tags": ["party"],
+  "baseServings": 6,
+  "timeMinutes": {
+    "prep": 20,
+    "cook": 60,
+    "total": 80
+  },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "blender",
+      "name": "Blender",
+      "category": "appliance"
+    },
+    {
+      "id": "sieve",
+      "name": "Sieve or colander",
+      "category": "prep"
+    },
+    {
+      "id": "spoon",
+      "name": "Wooden spoon",
+      "category": "utensil"
+    },
+    {
+      "id": "foil",
+      "name": "Foil or baking paper",
+      "category": "prep",
+      "notes": "Seals the pot so the rice steams",
+      "optional": true
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "rice",
+      "ingredientId": "ng:parboiled-rice",
+      "quantity": 600,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "rinsed",
+      "constraint": "Drain well so no extra water goes into the pot"
+    },
+    {
+      "id": "tomatoes",
+      "ingredientId": "ng:plum-tomatoes",
+      "quantity": 400,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear",
+      "preparation": "roughly chopped"
+    },
+    {
+      "id": "tatashe",
+      "ingredientId": "ng:tatashe",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "seeded"
+    },
+    {
+      "id": "scotch",
+      "ingredientId": "ng:scotch-bonnet",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "approximate",
+      "note": "Use 1 for a milder pot"
+    },
+    {
+      "id": "onion-blend",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "quartered"
+    },
+    {
+      "id": "onion-slice",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "thinly sliced"
+    },
+    {
+      "id": "paste",
+      "ingredientId": "ng:tomato-paste",
+      "quantity": 70,
+      "unit": "g",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "oil",
+      "ingredientId": "ng:vegetable-oil",
+      "quantity": 120,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "stock",
+      "ingredientId": "ng:chicken-stock",
+      "quantity": 750,
+      "unit": "ml",
+      "role": "substitutable",
+      "scaling": "linear",
+      "substitutes": ["ng:water"],
+      "note": "If using water, add 1 extra stock cube",
+      "constraint": "Must be hot when it goes in"
+    },
+    {
+      "id": "cubes",
+      "ingredientId": "ng:stock-cube",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "curry",
+      "ingredientId": "ng:curry-powder",
+      "quantity": 1,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "thyme",
+      "ingredientId": "ng:dried-thyme",
+      "quantity": 1,
+      "unit": "tsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "bay",
+      "ingredientId": "ng:bay-leaf",
+      "quantity": 3,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "required",
+      "scaling": "to-taste"
+    },
+    {
+      "id": "butter",
+      "ingredientId": "ng:butter",
+      "quantity": 1,
+      "unit": "tbsp",
+      "role": "optional",
+      "scaling": "linear",
+      "note": "Gives the finished rice a glossy finish"
+    }
+  ],
+  "steps": [
+    {
+      "id": "jollof-rice-s1",
+      "order": 1,
+      "instruction": "Rinse the rice in a bowl of cold water, rubbing it between your hands. Pour off the cloudy water and repeat 3–4 times, then drain in a sieve.",
+      "ingredientIds": ["rice"],
+      "ingredientQuantities": {
+        "rice": 600
+      },
+      "estimatedMinutes": 5,
+      "completionNote": "The rinse water runs almost clear."
+    },
+    {
+      "id": "jollof-rice-s2",
+      "order": 2,
+      "instruction": "Blend the tomatoes, tatashe, scotch bonnets and the quartered onion until completely smooth.",
+      "ingredientIds": ["tomatoes", "tatashe", "scotch", "onion-blend"],
+      "ingredientQuantities": {
+        "tomatoes": 400,
+        "tatashe": 2,
+        "scotch": 2,
+        "onion-blend": 1
+      },
+      "estimatedMinutes": 3,
+      "cues": {
+        "texture": "Smooth and pourable, with no visible chunks."
+      },
+      "image": {
+        "src": "/images/recipes/steps/pepper-base.jpg",
+        "alt": "Fresh tomatoes, peppers and onions broken down for a stew base"
+      }
+    },
+    {
+      "id": "jollof-rice-s3",
+      "order": 3,
+      "instruction": "Pour the blend into a pot and boil it uncovered, stirring now and then, until it has reduced by about half.",
+      "ingredientIds": [],
+      "heat": "medium-high",
+      "timer": {
+        "durationSeconds": 900,
+        "label": "Reduce pepper base"
+      },
+      "cues": {
+        "visual": "Thick like a sauce; a spoon dragged through leaves a trail."
+      },
+      "safetyNote": "The blend spits as it thickens. Half-cover the pot and stir with a long spoon."
+    },
+    {
+      "id": "jollof-rice-s4",
+      "order": 4,
+      "instruction": "In your large pot, heat the oil and fry the sliced onion until soft.",
+      "ingredientIds": ["oil", "onion-slice"],
+      "ingredientQuantities": {
+        "oil": 120,
+        "onion-slice": 1
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 180,
+        "label": "Fry onions"
+      },
+      "cues": {
+        "sound": "A steady, gentle sizzle.",
+        "visual": "Onions soft and see-through, not brown."
+      }
+    },
+    {
+      "id": "jollof-rice-s5",
+      "order": 5,
+      "instruction": "Add the tomato paste and fry it, stirring often, until it changes from bright red to a deeper brick red.",
+      "ingredientIds": ["paste"],
+      "ingredientQuantities": {
+        "paste": 70
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 300,
+        "label": "Fry tomato paste"
+      },
+      "cues": {
+        "visual": "Darker, brick-red colour.",
+        "aroma": "The sharp, tinny smell is gone."
+      },
+      "safetyNote": "Paste spatters in hot oil. Keep your hand back and stir with a long spoon."
+    },
+    {
+      "id": "jollof-rice-s6",
+      "order": 6,
+      "instruction": "Stir in the reduced pepper base, curry, thyme, bay leaves and crumbled stock cubes. Fry, stirring every few minutes, until the oil rises to the top.",
+      "ingredientIds": ["curry", "thyme", "bay", "cubes"],
+      "ingredientQuantities": {
+        "curry": 1,
+        "thyme": 1,
+        "bay": 3,
+        "cubes": 2
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 600,
+        "label": "Fry the base"
+      },
+      "cues": {
+        "visual": "A layer of red oil gathers on the surface and at the edges."
+      },
+      "completionNote": "The base looks glossy and thick, not watery."
+    },
+    {
+      "id": "jollof-rice-s7",
+      "order": 7,
+      "instruction": "Pour in the hot stock, season with salt and bring to a boil. Taste: it should be slightly saltier than you'd like, because the rice absorbs it.",
+      "ingredientIds": ["stock", "salt"],
+      "ingredientQuantities": {
+        "stock": 750,
+        "salt": null
+      },
+      "heat": "high",
+      "estimatedMinutes": 4
+    },
+    {
+      "id": "jollof-rice-s8",
+      "order": 8,
+      "instruction": "Stir in the drained rice so it sits level and is just covered by the liquid. Cover with foil, then the lid, and cook on low heat. Don't stir.",
+      "ingredientIds": ["rice"],
+      "ingredientQuantities": {
+        "rice": 600
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 1800,
+        "label": "Steam the jollof"
+      },
+      "cues": {
+        "visual": "No liquid left at the sides; grains swollen and orange."
+      },
+      "completionNote": "Grains are tender with a slight bite. If still hard, sprinkle over 4 tbsp water, re-cover and cook 5 minutes more."
+    },
+    {
+      "id": "jollof-rice-s9",
+      "order": 9,
+      "instruction": "For the smoky party flavour, turn the heat up for a few minutes without stirring so the bottom layer toasts.",
+      "ingredientIds": [],
+      "heat": "medium-high",
+      "timer": {
+        "durationSeconds": 240,
+        "label": "Toast the bottom"
+      },
+      "cues": {
+        "aroma": "Smoky and toasty. Turn off straight away if it smells acrid."
+      }
+    },
+    {
+      "id": "jollof-rice-s10",
+      "order": 10,
+      "instruction": "Turn off the heat, add the butter and fluff the rice from the bottom up with a fork. Remove the bay leaves and serve.",
+      "ingredientIds": ["butter"],
+      "ingredientQuantities": {
+        "butter": 1
+      },
+      "estimatedMinutes": 2
+    }
+  ],
+  "notes": [
+    "Use parboiled long-grain rice: it holds its shape through the long steam.",
+    "Serve with fried plantain (dodo), coleslaw or moi moi and your choice of chicken or beef.",
+    "Leftovers keep 3 days in the fridge; reheat with a splash of water."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Nigerian Food TV (nigerianfoodtv.com); The Guardian Nigeria, 'Let's cook party rice'. Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

@@ -23,12 +23,10 @@ import {
 import type { NotificationState } from "./timer-alerts";
 import { useTimerClock } from "./useTimerClock";
 
-const ring =
-  "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900";
-const big = `inline-flex min-h-[56px] items-center justify-center gap-2 rounded-full px-5 text-[1.0625rem] font-medium transition-colors ${ring}`;
+const big = `inline-flex min-h-[56px] items-center justify-center gap-2 rounded-full px-5 text-[1.0625rem] font-medium transition-colors`;
 const primaryBtn = `${big} bg-primary-500 text-ink-900 hover:bg-primary-400`;
 const quietBtn = `${big} bg-white/10 text-white hover:bg-white/20`;
-const smallBtn = `inline-flex min-h-[44px] max-w-full items-center gap-2 py-2 text-left rounded-full bg-white/10 px-4 text-[0.875rem] font-medium text-white hover:bg-white/20 ${ring}`;
+const smallBtn = `inline-flex min-h-[44px] max-w-full items-center gap-2 py-2 text-left rounded-full bg-white/10 px-4 text-[0.875rem] font-medium text-white hover:bg-white/20`;
 
 const timerName = (t: SessionTimer) => t.label ?? "Timer";
 
@@ -302,7 +300,7 @@ export function OtherTimersBar({
             <button
               type="button"
               onClick={() => onOpen(t.stepId)}
-              className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 text-[0.9375rem] ${ring} ${
+              className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 text-[0.9375rem] ${
                 done ? "bg-primary-500 text-ink-900" : "bg-white/10 text-white hover:bg-white/20"
               }`}
             >

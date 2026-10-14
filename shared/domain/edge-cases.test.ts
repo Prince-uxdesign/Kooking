@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import seedJson from "../../content/seed/demo-tomato-rice.json";
-import { createCookingSession, resolveSession, type CatalogEntry } from "./cooking-session";
+import { resolveSession, type CatalogEntry } from "./cooking-session";
 import { evaluateCookingReadiness, resolveServings } from "./kitchen-check";
 import { evaluateRecipeReadiness } from "./readiness";
-import { recipeSchema, validateRecipe, type Recipe } from "./recipe-schema";
-import { calculateScalingRatio, clampServings, scaleRecipe } from "./scaling";
+import { validateRecipe, type Recipe } from "./recipe-schema";
+import { calculateScalingRatio, clampServings } from "./scaling";
 import { addSessionTimer, rehydrateSession, startSession, transitionSession } from "./session";
 import { mergeRecipeNeeds, type RecipeNeed } from "./shopping";
 import { isExpired, remainingMs, settleTimers, TimerError } from "./timers";

@@ -45,9 +45,9 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
 
   if (loading) {
     return (
-      <div className="flex flex-col gap-3 rounded-3xl border border-line-default bg-surface-primary p-6">
-        <div className="h-6 w-36 rounded-lg bg-surface-secondary animate-pulse" />
-        <div className="h-20 rounded-2xl bg-surface-secondary animate-pulse mt-2" />
+      <div className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-6">
+        <div className="h-6 w-36 rounded-lg bg-white animate-pulse" />
+        <div className="h-20 rounded-2xl bg-white animate-pulse mt-2" />
       </div>
     );
   }
@@ -61,11 +61,11 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
   };
 
   return (
-    <div className="flex flex-col gap-4 rounded-3xl border border-line-default bg-surface-primary p-6">
+    <div className="flex flex-col gap-4 rounded-3xl bg-surface-100 p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <History size={20} className="text-primary-600" aria-hidden />
-          <h3 className="text-[1rem] font-semibold text-ink-900">Cooking History</h3>
+          <h2 className="text-[1rem] font-semibold text-ink-900">Cooking History</h2>
         </div>
         <span className="text-[0.8125rem] text-ink-500">
           {entries.length} {entries.length === 1 ? "session" : "sessions"}
@@ -77,8 +77,8 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
       </p>
 
       {entries.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line-default bg-surface-secondary/40 py-8 px-4 text-center">
-          <Utensils size={28} className="text-ink-400" aria-hidden />
+        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white py-8 px-4 text-center">
+          <Utensils size={28} className="text-ink-500" aria-hidden />
           <p className="text-[0.9375rem] font-medium text-ink-800">No cooking history yet</p>
           <p className="max-w-xs text-[0.8125rem] text-ink-500 leading-5">
             When you cook a recipe in Cooking Mode, your session details and completion records will
@@ -100,7 +100,7 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
             return (
               <li
                 key={entry.sessionId}
-                className="flex flex-col gap-3 rounded-2xl border border-line-default bg-surface-secondary/30 p-4 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-3 rounded-2xl bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex flex-col gap-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -114,12 +114,12 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
                       </span>
                     )}
                     {isAbandoned && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-[0.75rem] font-medium text-amber-700">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-warning-100 px-2.5 py-0.5 text-[0.75rem] font-medium text-warning-700">
                         Ended early
                       </span>
                     )}
                     {!isCompleted && !isAbandoned && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-surface-secondary px-2.5 py-0.5 text-[0.75rem] text-ink-600">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-0.5 text-[0.75rem] text-ink-600">
                         Interrupted
                       </span>
                     )}
@@ -147,7 +147,7 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
 
                 <Link
                   href={`/recipes/${entry.recipeSlug}`}
-                  className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full border border-line-default bg-surface-primary px-4 text-[0.8125rem] font-medium text-ink-800 transition-colors hover:bg-surface-secondary"
+                  className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full bg-white px-4 text-[0.8125rem] font-medium text-ink-800 transition-colors hover:bg-surface-200"
                 >
                   <RotateCcw size={14} aria-hidden />
                   Cook again

@@ -340,17 +340,21 @@ describe("search: shipped catalog", () => {
     }
   });
 
-  it("finds the demo recipe by name, ingredient, and category", async () => {
+  it("finds shipped recipes by name, ingredient, and local name", async () => {
     const live = buildSearchIndex(
       (await getRecipeRepository().list()).filter(isListable),
       await getIngredientRepository().list(),
     );
     const find = (q: string) => searchRecipes(live, { ...EMPTY_SEARCH, q });
-    expect(find("tomato rice")).toHaveLength(1);
-    expect(find("plantain")[0]?.reason).toBe("Optional: plantain");
-    expect(find("salt")[0]?.reason).toBe("Optional: salt");
-    // Tomato purée is only a substitute — the recipe doesn't contain it.
-    expect(find("puree")).toEqual([]);
+    const slugs = (q: string) => find(q).map((r) => r.summary.slug);
+    expect(slugs("jollof")[0]).toBe("jollof-rice");
+    expect(slugs("egusi")[0]).toBe("egusi-soup");
+    expect(slugs("zobo")[0]).toBe("zobo");
+    // Ingredient matches come from structured lines, including local names.
+    expect(slugs("coconut milk")).toContain("coconut-rice");
+    expect(slugs("iru")).toEqual(expect.arrayContaining(["efo-riro", "egusi-soup"]));
+    // Spinach is only a substitute in egusi — that recipe doesn't contain it.
+    expect(slugs("spinach")).not.toContain("egusi-soup");
   });
 
   it("unknown ingredient ids are skipped, not guessed", () => {

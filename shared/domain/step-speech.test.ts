@@ -31,6 +31,7 @@ const base: StepDisplay = {
   preparationNotes: null,
   completionNote: null,
   safetyNote: null,
+  image: null,
   readinessCheck: null,
   isFirst: false,
   isLast: false,

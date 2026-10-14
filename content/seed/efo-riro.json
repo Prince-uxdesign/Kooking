@@ -1,0 +1,289 @@
+{
+  "id": "efo-riro",
+  "slug": "efo-riro",
+  "title": "Efo Riro",
+  "description": "Yoruba vegetable soup: spinach cooked into a palm-oil pepper sauce with iru, crayfish and assorted meats. Bold, savoury and quick once the meat is ready.",
+  "image": {
+    "src": "/images/recipes/efo-riro.jpg",
+    "alt": "Bowl of efo riro vegetable soup with assorted meats next to a ball of eba"
+  },
+  "categories": ["stews-soups"],
+  "difficulty": "medium",
+  "tags": ["everyday"],
+  "baseServings": 4,
+  "timeMinutes": {
+    "prep": 20,
+    "cook": 40,
+    "total": 60
+  },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Large heavy-bottomed pot with a tight lid",
+      "category": "cookware",
+      "notes": "A thin pot scorches the base"
+    },
+    {
+      "id": "blender",
+      "name": "Blender",
+      "category": "appliance"
+    },
+    {
+      "id": "sieve",
+      "name": "Sieve or colander",
+      "category": "prep"
+    },
+    {
+      "id": "board",
+      "name": "Chopping board and sharp knife",
+      "category": "prep"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "spinach",
+      "ingredientId": "ng:spinach",
+      "quantity": 800,
+      "unit": "g",
+      "role": "substitutable",
+      "scaling": "linear",
+      "preparation": "washed and chopped",
+      "substitutes": ["ng:ugu"]
+    },
+    {
+      "id": "tatashe",
+      "ingredientId": "ng:tatashe",
+      "quantity": 3,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "seeded"
+    },
+    {
+      "id": "scotch",
+      "ingredientId": "ng:scotch-bonnet",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "approximate"
+    },
+    {
+      "id": "onion-blend",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "quartered"
+    },
+    {
+      "id": "onion-slice",
+      "ingredientId": "ng:onion",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete",
+      "preparation": "sliced"
+    },
+    {
+      "id": "palm-oil",
+      "ingredientId": "ng:palm-oil",
+      "quantity": 100,
+      "unit": "ml",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "iru",
+      "ingredientId": "ng:iru",
+      "quantity": 2,
+      "unit": "tbsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "crayfish",
+      "ingredientId": "ng:crayfish",
+      "quantity": 2,
+      "unit": "tbsp",
+      "role": "required",
+      "scaling": "linear"
+    },
+    {
+      "id": "cubes",
+      "ingredientId": "ng:stock-cube",
+      "quantity": 2,
+      "unit": "piece",
+      "role": "required",
+      "scaling": "discrete"
+    },
+    {
+      "id": "beef",
+      "ingredientId": "ng:beef",
+      "quantity": 500,
+      "unit": "g",
+      "role": "optional",
+      "scaling": "linear",
+      "preparation": "boiled and seasoned",
+      "note": "Any cooked assorted meat works"
+    },
+    {
+      "id": "ponmo",
+      "ingredientId": "ng:ponmo",
+      "quantity": 200,
+      "unit": "g",
+      "role": "optional",
+      "scaling": "linear",
+      "preparation": "boiled, cut up"
+    },
+    {
+      "id": "smoked-fish",
+      "ingredientId": "ng:smoked-fish",
+      "quantity": 1,
+      "unit": "piece",
+      "role": "optional",
+      "scaling": "discrete",
+      "preparation": "deboned"
+    },
+    {
+      "id": "salt",
+      "ingredientId": "ng:salt",
+      "quantity": null,
+      "unit": null,
+      "role": "required",
+      "scaling": "to-taste"
+    }
+  ],
+  "steps": [
+    {
+      "id": "efo-riro-s1",
+      "order": 1,
+      "instruction": "Pour boiling water over the chopped spinach in a sieve, then squeeze out as much water as you can.",
+      "ingredientIds": ["spinach"],
+      "ingredientQuantities": {
+        "spinach": 800
+      },
+      "estimatedMinutes": 8,
+      "cues": {
+        "texture": "Squeezed until no more water drips out."
+      },
+      "safetyNote": "Let it cool a little before squeezing."
+    },
+    {
+      "id": "efo-riro-s2",
+      "order": 2,
+      "instruction": "Pulse the tatashe, scotch bonnets and quartered onion in the blender until coarse — not smooth.",
+      "ingredientIds": ["tatashe", "scotch", "onion-blend"],
+      "ingredientQuantities": {
+        "tatashe": 3,
+        "scotch": 2,
+        "onion-blend": 1
+      },
+      "estimatedMinutes": 2,
+      "image": {
+        "src": "/images/recipes/steps/efo-base.jpg",
+        "alt": "Coarsely blended pepper and onion beside sliced leaves and cooked ponmo"
+      }
+    },
+    {
+      "id": "efo-riro-s3",
+      "order": 3,
+      "instruction": "Boil the pepper mix in a pot uncovered until most of its water has cooked off.",
+      "ingredientIds": [],
+      "heat": "medium-high",
+      "timer": {
+        "durationSeconds": 900,
+        "label": "Reduce the pepper"
+      },
+      "cues": {
+        "visual": "Thick and paste-like."
+      }
+    },
+    {
+      "id": "efo-riro-s4",
+      "order": 4,
+      "instruction": "Push the pepper aside or tip it into a bowl. Heat the palm oil for 2 minutes, then fry the sliced onion and iru.",
+      "ingredientIds": ["palm-oil", "onion-slice", "iru"],
+      "ingredientQuantities": {
+        "palm-oil": 100,
+        "onion-slice": 1,
+        "iru": 2
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 120,
+        "label": "Fry onion and iru"
+      },
+      "cues": {
+        "aroma": "Savoury and pungent — that's the iru doing its job."
+      },
+      "safetyNote": "Don't let the palm oil smoke."
+    },
+    {
+      "id": "efo-riro-s5",
+      "order": 5,
+      "instruction": "Stir in the reduced pepper, crayfish and stock cubes. Fry until the oil floats on top.",
+      "ingredientIds": ["crayfish", "cubes"],
+      "ingredientQuantities": {
+        "crayfish": 2,
+        "cubes": 2
+      },
+      "heat": "medium",
+      "timer": {
+        "durationSeconds": 600,
+        "label": "Fry the sauce"
+      },
+      "cues": {
+        "visual": "Oil separates and shines on top."
+      }
+    },
+    {
+      "id": "efo-riro-s6",
+      "order": 6,
+      "instruction": "Add the cooked beef, ponmo and smoked fish. Season with salt and simmer.",
+      "ingredientIds": ["beef", "ponmo", "smoked-fish", "salt"],
+      "ingredientQuantities": {
+        "beef": 500,
+        "ponmo": 200,
+        "smoked-fish": 1,
+        "salt": null
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 300,
+        "label": "Simmer with meat"
+      }
+    },
+    {
+      "id": "efo-riro-s7",
+      "order": 7,
+      "instruction": "Stir in the squeezed spinach and cook uncovered just until hot through.",
+      "ingredientIds": ["spinach"],
+      "ingredientQuantities": {
+        "spinach": 800
+      },
+      "heat": "low",
+      "timer": {
+        "durationSeconds": 180,
+        "label": "Cook the spinach"
+      },
+      "cues": {
+        "visual": "Spinach coated in sauce and still deep green."
+      }
+    }
+  ],
+  "notes": [
+    "Boil and season the meat ahead (or use leftover stewed meat) to keep this quick.",
+    "Serve with eba, pounded yam, amala or white rice."
+  ],
+  "provenance": {
+    "source": "Compiled by Kooking from published Nigerian home-cooking recipes",
+    "author": "Kooking editorial",
+    "reviewNotes": "Method cross-checked against: All Nigerian Recipes (allnigerianrecipes.com); Sisi Jemimah (sisijemimah.com); Immaculate Bites (africanbites.com). Awaiting a Kooking kitchen test before it can be marked tested."
+  },
+  "contentVersion": 1,
+  "status": "in_review",
+  "demo": false,
+  "createdAt": "2026-10-14T09:00:00.000Z",
+  "updatedAt": "2026-10-14T09:00:00.000Z"
+}

@@ -32,7 +32,7 @@ export function OfflineBanner() {
         className="w-full bg-ink-900 px-4 py-2 text-center text-xs text-white/90 sm:text-sm"
       >
         <div className="mx-auto flex max-w-[1120px] items-center justify-center gap-2">
-          <WifiOff size={15} className="shrink-0 text-amber-400" />
+          <WifiOff size={15} className="shrink-0 text-white" />
           <span>
             <strong>Offline mode:</strong> Active sessions, cached recipes, and shopping lists
             remain available on this device.

@@ -20,11 +20,6 @@ export const shoppingSyncStatusSchema = z.enum(["guest", "synced", "syncing", "o
 
 export type ShoppingSyncStatus = z.infer<typeof shoppingSyncStatusSchema>;
 
-export interface SyncTombstone {
-  itemId: string;
-  deletedAt: number;
-}
-
 export interface MergeShoppingResult {
   mergedList: ShoppingList;
   /** Number of items added or updated from remote */
@@ -36,7 +31,7 @@ export interface MergeShoppingResult {
 /**
  * Resolves item timestamp, falling back to createdAt if updatedAt is unset.
  */
-export function itemTimestamp(item: ShoppingItem): number {
+function itemTimestamp(item: ShoppingItem): number {
   return item.updatedAt ?? item.createdAt;
 }
 

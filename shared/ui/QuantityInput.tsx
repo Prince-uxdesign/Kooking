@@ -71,7 +71,7 @@ export function QuantityInput({
       <span role="status" className="sr-only">
         {said}
       </span>
-      <div className="flex items-center gap-1 rounded-full bg-white p-1 shadow-xs">
+      <div className="flex items-center gap-1 rounded-full bg-white p-1">
         <button
           type="button"
           aria-label={`Decrease ${label} to ${decreaseTarget}`}

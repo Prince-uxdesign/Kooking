@@ -12,9 +12,6 @@ import {
   type WakeState,
 } from "./screen-wake";
 
-const ring =
-  "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900";
-
 /**
  * Owns one wake lock for as long as Cooking Mode is mounted. `sessionStatus`
  * is null whenever there's no live session on screen (loading, finished,
@@ -134,7 +131,7 @@ export function ScreenWakeControl(props: ScreenWakeControlProps) {
         type="button"
         aria-pressed={enabled}
         onClick={onToggle}
-        className={`inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white/10 px-4 text-[0.875rem] font-medium text-white transition-colors hover:bg-white/20 ${ring}`}
+        className={`inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white/10 px-4 text-[0.875rem] font-medium text-white transition-colors hover:bg-white/20`}
       >
         {enabled ? (
           <Monitor aria-hidden size={18} strokeWidth={1.75} />
@@ -154,7 +151,7 @@ export function ScreenWakeControl(props: ScreenWakeControlProps) {
           <button
             type="button"
             onClick={onRetry}
-            className={`inline-flex min-h-[44px] items-center rounded-full px-3 text-[0.8125rem] font-medium text-white underline underline-offset-4 hover:bg-white/10 ${ring}`}
+            className={`inline-flex min-h-[44px] items-center rounded-full px-3 text-[0.8125rem] font-medium text-white underline underline-offset-4 hover:bg-white/10`}
           >
             Try again
           </button>

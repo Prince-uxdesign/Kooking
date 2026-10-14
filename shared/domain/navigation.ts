@@ -52,7 +52,10 @@ export function recipeHref(
   slug: string,
   opts: { servings?: number | null; from?: string | null } = {},
 ): string {
-  return withParams(`/recipes/${slug}`, { servings: opts.servings, from: opts.from });
+  return withParams(`/recipes/${encodeURIComponent(slug)}`, {
+    servings: opts.servings,
+    from: opts.from,
+  });
 }
 
 /** Kitchen Check for a recipe at a specific serving count. */
@@ -60,7 +63,7 @@ export function kitchenCheckHref(
   slug: string,
   opts: { servings: number; from?: string | null },
 ): string {
-  return withParams(`/recipes/${slug}/kitchen-check`, {
+  return withParams(`/recipes/${encodeURIComponent(slug)}/kitchen-check`, {
     servings: opts.servings,
     from: opts.from,
   });

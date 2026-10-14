@@ -2,7 +2,7 @@
 
 Status: **Implemented.** Tokens, shared components, app shell, and Home use this language.
 Showcase: `/design-system`.
-Source of truth for values: `app/globals.css` (`@theme`). Mirror: `shared/tokens/tokens.ts`.
+Source of truth for values: `app/globals.css` (`@theme`). There is no second copy to keep in sync.
 **Every screen, past or future, follows this document.** If a screen needs something this file doesn't cover, add it here first, then build it.
 
 > Supersedes "Fresh Market" (bold weights, shadows, glows, gradients, pastel tiles). That direction read as generic and over-decorated. Don't bring any of it back.
@@ -218,3 +218,15 @@ No fabricated ratings, reviews, popularity, calories, difficulty, or endorsement
 - [ ] Shared components and `buttonClasses()` only; no ad-hoc hex values
 - [ ] 44px targets, labels, visible focus, status = icon + text
 - [ ] Checked at 320 and 1280; `npm run check` green
+
+## 12. Landing page (`/welcome`)
+
+The marketing page (`app/(marketing)/welcome`, components in `features/landing/`) has its own, warmer register, set by product direction (references: opencollective.com and an editorial review-card layout). The app screens keep everything above. On the landing page only:
+
+- **Type:** display headings are Inter **800** with tight tracking (`-0.04em`); section eyebrows are set in braces, e.g. `{How it works}`. Body stays 400.
+- **Texture:** `Wash` draws a watercolour band with torn-paper edges (SVG noise, green or cream) behind one section at a time. `Highlight` draws a marker stroke behind 1–3 key words (keep them short: they don't wrap).
+- **Cards:** white with a 1px `line-default` border on white, or white on a wash/gray band. Still no drop shadows.
+- **Photography:** real people cooking and real Nigerian dishes from Unsplash (free licence), hot-linked from Unsplash's CDN and credited in the footer (`PHOTOS` in `content.ts`). People photos are scenes, never the face of a named story or quote. Avoid shots with brand packaging.
+- **Motion:** fade + ≤ 16px rise on scroll (`Reveal`), marker strokes that draw in, colour-only scroll fill (manifesto), sticky scrollytelling (How it works), slow drift on hero cards, photo and testimonial marquees (pause on hover/focus), and the Cooking Mode band widening to full bleed. Everything stops at its final state under reduced motion, and nothing is hidden without JS.
+- **Live demos run on real code:** Kitchen Check and the servings card call `scaleAmount`/`formatQuantity`.
+- **Honesty (§10):** no star ratings, review counts or user numbers. The case studies and the testimonial wall are labelled illustrative until real, consented reviews exist; testimonial avatars are initials, not stock faces.

@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
+import { describe, expect, it, vi, beforeEach } from "vitest";
 import manifest from "@/app/manifest";
 import { checkReachability } from "./connectivity";
 import {
@@ -9,7 +9,7 @@ import {
   isInstallDismissed,
   isRunningStandalone,
 } from "./install-prompt";
-import { applyServiceWorkerUpdate, onServiceWorkerUpdate } from "./pwa-register";
+import { applyServiceWorkerUpdate } from "./pwa-register";
 import fs from "fs";
 import path from "path";
 
