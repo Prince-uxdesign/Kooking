@@ -1,4 +1,4 @@
-import { categoryHref, getCategory, isRecipeCategory } from "./categories";
+import { categoryHref, getCategory } from "./categories";
 import { collectionHref } from "./collections";
 import type { Recipe, RecipeCategory, RecipeDifficulty, RecipeImage } from "./recipe-schema";
 
@@ -125,12 +125,6 @@ export function greetingFor(hour: number): string {
   return "Good evening";
 }
 
-/** The trimmed search query from Explore's URL, or null. */
-export function exploreQuery(q: string | string[] | undefined): string | null {
-  const value = (Array.isArray(q) ? q[0] : q)?.trim().replace(/\s+/g, " ").slice(0, 100);
-  return value ? value : null;
-}
-
 const DIFFICULTY_LABELS: Record<RecipeDifficulty, string> = {
   easy: "Easy",
   medium: "Medium",
@@ -139,33 +133,4 @@ const DIFFICULTY_LABELS: Record<RecipeDifficulty, string> = {
 
 export function difficultyLabel(difficulty: RecipeDifficulty | undefined): string | null {
   return difficulty ? DIFFICULTY_LABELS[difficulty] : null;
-}
-
-export interface BackTarget {
-  href: string;
-  label: string;
-}
-
-/**
- * Where a recipe page's back link goes, from its `?from=` param.
- * Only known internal discovery routes are honoured (no open
- * redirects); anything else falls back to Explore.
- */
-export function backTargetFor(
-  from: string | null | undefined,
-  collectionTitles: Record<string, string> = {},
-): BackTarget {
-  const fallback = { href: "/recipes", label: "Explore" };
-  if (!from) return fallback;
-  if (from === "/") return { href: "/", label: "Home" };
-  if (from === "/recipes") return fallback;
-  const category = /^\/recipes\/categories\/([a-z0-9-]+)$/.exec(from)?.[1];
-  if (category && isRecipeCategory(category)) {
-    return { href: categoryHref(category), label: getCategory(category).label };
-  }
-  const collection = /^\/recipes\/collections\/([a-z0-9-]+)$/.exec(from)?.[1];
-  if (collection && collectionTitles[collection]) {
-    return { href: collectionHref(collection), label: collectionTitles[collection] };
-  }
-  return fallback;
 }

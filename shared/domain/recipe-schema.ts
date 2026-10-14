@@ -34,9 +34,50 @@ export const reusableIngredientSchema = z.object({
   category: z.string().min(1).max(60).optional(),
   defaultUnit: unitSchema.optional(),
   notes: z.string().max(500).optional(),
+  /** Other names cooks search by (e.g. local names). Search-only; never shown as a claim. */
+  aliases: z.array(z.string().min(1).max(60)).max(10).default([]),
 });
 
 export type ReusableIngredient = z.infer<typeof reusableIngredientSchema>;
+
+/**
+ * One ingredient line as used by one recipe. References the catalog
+ * by id; all recipe-specific behavior lives here.
+ */
+export const recipeEquipmentSchema = z.object({
+  id: idSchema,
+  name: z.string().min(1).max(120),
+  category: z.string().min(1).max(60).optional(),
+  notes: z.string().max(300).optional(),
+  optional: z.boolean().default(false),
+});
+
+export type RecipeEquipment = z.infer<typeof recipeEquipmentSchema>;
+
+export const recipeStatus = ["draft", "in_review", "tested", "approved", "published"] as const;
+
+export type RecipeStatus = (typeof recipeStatus)[number];
+
+export const statusChangeSchema = z.object({
+  fromStatus: z.enum(recipeStatus),
+  toStatus: z.enum(recipeStatus),
+  timestamp: z.string().datetime({ message: "timestamp must be an ISO 8601 string" }),
+  by: z.string().min(1).max(120),
+  notes: z.string().max(500).optional(),
+});
+
+export type StatusChange = z.infer<typeof statusChangeSchema>;
+
+export const recipeProvenanceSchema = z.object({
+  source: z.string().min(1).max(200).optional(),
+  author: z.string().min(1).max(120).optional(),
+  reviewedBy: z.string().min(1).max(120).optional(),
+  reviewNotes: z.string().max(1000).optional(),
+  license: z.string().max(100).optional(),
+  statusHistory: z.array(statusChangeSchema).optional(),
+});
+
+export type RecipeProvenance = z.infer<typeof recipeProvenanceSchema>;
 
 /**
  * One ingredient line as used by one recipe. References the catalog
@@ -53,6 +94,11 @@ export const recipeIngredientSchema = z
     scaling: z.enum(SCALING_BEHAVIORS),
     substitutes: z.array(z.string().min(1).max(120)).max(8).optional(),
     note: z.string().max(500).optional(),
+    constraint: z.string().max(300).optional(),
+    garnishRequired: z
+      .boolean()
+      .optional()
+      .describe("When role is garnish, set true if omission is forbidden"),
   })
   .superRefine((line, ctx) => {
     if (line.scaling === "to-taste" && line.quantity !== null) {
@@ -85,6 +131,12 @@ export const recipeIngredientSchema = z
         message: "only substitutable lines may carry substitutes",
       });
     }
+    if (line.substitutes && line.substitutes.includes(line.ingredientId)) {
+      ctx.addIssue({
+        code: "custom",
+        message: `substitute list cannot contain the ingredient itself ('${line.ingredientId}')`,
+      });
+    }
   });
 
 export type RecipeIngredient = z.infer<typeof recipeIngredientSchema>;
@@ -108,6 +160,7 @@ export const recipeStepSchema = z.object({
   order: z.number().int().min(1),
   instruction: z.string().min(1).max(2000),
   ingredientIds: z.array(idSchema).max(20).default([]),
+  ingredientQuantities: z.record(z.string(), z.number().nullable()).optional(),
   preparationNotes: z.string().max(500).optional(),
   heat: z.enum(heatLevels).optional(),
   estimatedMinutes: z.number().positive().max(1440).optional(),
@@ -160,10 +213,6 @@ export const recipeImageSchema = z.object({
 
 export type RecipeImage = z.infer<typeof recipeImageSchema>;
 
-export const recipeStatus = ["draft", "in_review", "tested", "approved", "published"] as const;
-
-export type RecipeStatus = (typeof recipeStatus)[number];
-
 /** Allowed lifecycle transitions. No skipping review, no silent publish. */
 export const STATUS_TRANSITIONS: Record<RecipeStatus, RecipeStatus[]> = {
   draft: ["in_review"],
@@ -214,20 +263,37 @@ export const recipeSchema = z
       .refine((t) => t.total === t.prep + t.cook, {
         message: "total must equal prep + cook — derive, don't decorate",
       }),
+    equipment: z.array(recipeEquipmentSchema).default([]),
     ingredients: z.array(recipeIngredientSchema).min(1).max(60),
     steps: z.array(recipeStepSchema).min(1).max(60),
+    notes: z.array(z.string().min(1).max(500)).max(20).default([]),
     contentVersion: z.number().int().min(1),
     status: z.enum(recipeStatus),
+    provenance: recipeProvenanceSchema.optional(),
     /** Demo/seed content. Can never be published; trivially replaceable. */
     demo: z.boolean().default(false),
     /** Who tested it. Required once past review — never fabricated. */
     testedBy: z.string().min(1).max(120).optional(),
+    createdAt: z
+      .string()
+      .datetime({ message: "createdAt must be an ISO 8601 timestamp" })
+      .optional(),
+    updatedAt: z
+      .string()
+      .datetime({ message: "updatedAt must be an ISO 8601 timestamp" })
+      .optional(),
   })
   .superRefine((recipe, ctx) => {
     const lineIds = new Set(recipe.ingredients.map((i) => i.id));
     if (lineIds.size !== recipe.ingredients.length) {
       ctx.addIssue({ code: "custom", message: "ingredient line ids must be unique" });
     }
+
+    const eqIds = new Set(recipe.equipment.map((e) => e.id));
+    if (eqIds.size !== recipe.equipment.length) {
+      ctx.addIssue({ code: "custom", message: "equipment ids must be unique" });
+    }
+
     const orders = recipe.steps.map((s) => s.order).sort((a, b) => a - b);
     orders.forEach((order, index) => {
       if (order !== index + 1) {
@@ -237,10 +303,12 @@ export const recipeSchema = z
         });
       }
     });
+
     const stepIds = new Set(recipe.steps.map((s) => s.id));
     if (stepIds.size !== recipe.steps.length) {
       ctx.addIssue({ code: "custom", message: "step ids must be unique" });
     }
+
     for (const step of recipe.steps) {
       for (const ref of step.ingredientIds) {
         if (!lineIds.has(ref)) {
@@ -250,10 +318,60 @@ export const recipeSchema = z
           });
         }
       }
+      if (step.ingredientQuantities) {
+        for (const [ref, qty] of Object.entries(step.ingredientQuantities)) {
+          if (!lineIds.has(ref)) {
+            ctx.addIssue({
+              code: "custom",
+              message: `step ${step.order} ingredientQuantities references unknown ingredient line '${ref}'`,
+            });
+          }
+          if (qty !== null && (qty <= 0 || !Number.isFinite(qty))) {
+            ctx.addIssue({
+              code: "custom",
+              message: `step ${step.order} ingredient quantity for '${ref}' must be a finite positive number or null`,
+            });
+          }
+        }
+      }
     }
-    if (recipe.demo && recipe.status === "published") {
-      ctx.addIssue({ code: "custom", message: "demo content can never be published" });
+
+    // Substitution integrity within the recipe
+    for (const ingredient of recipe.ingredients) {
+      if (ingredient.substitutes) {
+        for (const sub of ingredient.substitutes) {
+          if (sub === ingredient.ingredientId || sub === ingredient.id) {
+            ctx.addIssue({
+              code: "custom",
+              message: `ingredient line '${ingredient.id}' cannot list itself as a substitute`,
+            });
+          }
+        }
+      }
     }
+
+    // Timestamp chronology
+    if (recipe.createdAt && recipe.updatedAt) {
+      if (new Date(recipe.updatedAt).getTime() < new Date(recipe.createdAt).getTime()) {
+        ctx.addIssue({
+          code: "custom",
+          message: "updatedAt cannot be earlier than createdAt",
+        });
+      }
+    }
+
+    // Demo lifecycle honesty
+    if (
+      recipe.demo &&
+      (recipe.status === "tested" || recipe.status === "approved" || recipe.status === "published")
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: `demo content cannot be marked as '${recipe.status}' — must remain in draft or in_review`,
+      });
+    }
+
+    // Status verification requirement
     if (
       (recipe.status === "tested" ||
         recipe.status === "approved" ||
@@ -265,6 +383,73 @@ export const recipeSchema = z
         message: `status '${recipe.status}' requires testedBy`,
       });
     }
+
+    // Publication integrity
+    if (recipe.status === "published" && !recipe.createdAt) {
+      ctx.addIssue({
+        code: "custom",
+        message: "published recipes must have a createdAt timestamp",
+      });
+    }
   });
 
 export type Recipe = z.infer<typeof recipeSchema>;
+
+/** Formats Zod errors into clean, readable strings. */
+export function formatValidationErrors(error: z.ZodError): string[] {
+  const issues = error.issues ?? (error as any).errors ?? [];
+  return issues.map((e) => {
+    const path = e.path.length > 0 ? `[${e.path.join(".")}] ` : "";
+    return `${path}${e.message}`;
+  });
+}
+
+/** Parses raw data into a validated Recipe or returns formatted error messages. */
+export function validateRecipe(
+  raw: unknown,
+): { success: true; data: Recipe } | { success: false; errors: string[] } {
+  const result = recipeSchema.safeParse(raw);
+  if (result.success) {
+    return { success: true, data: result.data };
+  }
+  return { success: false, errors: formatValidationErrors(result.error) };
+}
+
+/**
+ * Validates that all ingredient and substitute references in a recipe
+ * exist within the provided reusable ingredient catalog.
+ */
+export function validateRecipeAgainstCatalog(
+  recipe: Recipe,
+  catalog: ReusableIngredient[] | Iterable<string> | Set<string>,
+): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  const knownIds =
+    catalog instanceof Set
+      ? catalog
+      : Array.isArray(catalog)
+        ? new Set(catalog.map((i) => i.id))
+        : new Set(catalog);
+
+  for (const line of recipe.ingredients) {
+    if (!knownIds.has(line.ingredientId)) {
+      errors.push(
+        `Ingredient '${line.ingredientId}' (line '${line.id}') does not exist in the ingredient catalog`,
+      );
+    }
+    if (line.substitutes) {
+      for (const sub of line.substitutes) {
+        if (sub.includes(":") && !knownIds.has(sub)) {
+          errors.push(
+            `Substitute reference '${sub}' (for line '${line.id}') does not exist in the ingredient catalog`,
+          );
+        }
+      }
+    }
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
+}

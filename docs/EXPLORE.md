@@ -4,14 +4,14 @@ Status: **Implemented and verified.** Discovery for people who know the dish (se
 
 ## 1. Routes
 
-| Route                               | Purpose                                                                       | Rendering                  |
-| ----------------------------------- | ----------------------------------------------------------------------------- | -------------------------- |
-| `/recipes`                          | Explore landing: intro, search pill, category chips, collections, all recipes | Dynamic (reads `?q=`)      |
-| `/recipes/categories/[category]`    | One category's recipes; chip row switches category in place                   | Static; unknown id → 404   |
-| `/recipes/collections/[collection]` | One collection's recipes; chip row switches collection                        | Static; unknown slug → 404 |
-| `/recipes/[slug]`                   | Recipe stub; back link returns to where the card was tapped                   | Static                     |
+| Route                               | Purpose                                                           | Rendering                  |
+| ----------------------------------- | ----------------------------------------------------------------- | -------------------------- |
+| `/recipes`                          | Explore landing; live search + filters (Phase 9, see `SEARCH.md`) | Dynamic (per request)      |
+| `/recipes/categories/[category]`    | One category's recipes; chip row switches category in place       | Static; unknown id → 404   |
+| `/recipes/collections/[collection]` | One collection's recipes; chip row switches collection            | Static; unknown slug → 404 |
+| `/recipes/[slug]`                   | Recipe stub; back link returns to where the card was tapped       | Static                     |
 
-Redirects (in `next.config.ts`, so they are real 307s): `/recipes/categories` and `/recipes/collections` → `/recipes`; legacy `/recipes?category=<id>` → `/recipes/categories/<id>`. Recipe slugs `categories` and `collections` are reserved by the schema.
+Redirects (in `next.config.ts`, so they are real 307s): `/recipes/categories` and `/recipes/collections` → `/recipes`. (The Phase 8 legacy `?category=` redirect was removed in Phase 9: `category` is now a search filter.) Recipe slugs `categories` and `collections` are reserved by the schema.
 
 ## 2. Sections (Explore landing, phone order)
 

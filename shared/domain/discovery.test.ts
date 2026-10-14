@@ -6,9 +6,7 @@ import { getRecipeRepository } from "@/shared/data/catalog";
 import {
   DISCOVERY_CATEGORIES,
   QUICK_MEALS_COLLECTION_SLUG,
-  backTargetFor,
   difficultyLabel,
-  exploreQuery,
   formatMinutes,
   greetingFor,
   isListable,
@@ -17,6 +15,7 @@ import {
   selectHomeContent,
   toSummary,
 } from "./discovery";
+import { backTargetFor } from "./navigation";
 import { recipeCategories, recipeSchema, type Recipe } from "./recipe-schema";
 
 const seed = recipeSchema.parse(seedJson);
@@ -107,13 +106,6 @@ describe("discovery: links", () => {
         expect(c.href).toBe(`/recipes/categories/${c.id}`);
       }
     }
-  });
-
-  it("reads Explore's query, ignoring blanks", () => {
-    expect(exploreQuery("  egusi   soup ")).toBe("egusi soup");
-    expect(exploreQuery(["ofada", "x"])).toBe("ofada");
-    expect(exploreQuery("   ")).toBeNull();
-    expect(exploreQuery(undefined)).toBeNull();
   });
 });
 

@@ -104,6 +104,35 @@ export function nameSnapshot(session: CookingSession, names: Map<string, string>
   };
 }
 
+/**
+ * Explicitly updates an active/paused session's servings and snapshots fresh quantities.
+ * Must be initiated by user confirmation — never applied silently.
+ */
+export function updateSessionServings(args: {
+  session: CookingSession;
+  recipe: Recipe;
+  servings: number;
+  now: number;
+  lineNames: Map<string, string>;
+}): CookingSession {
+  if (args.session.status === "completed" || args.session.status === "abandoned") {
+    throw new Error(`cannot update servings on a ${args.session.status} session`);
+  }
+  const lines = scaleRecipe(args.recipe, args.servings);
+  return cookingSessionSchema.parse({
+    ...args.session,
+    servings: args.servings,
+    snapshot: lines.map((l) => ({
+      lineId: l.id,
+      name: args.lineNames.get(l.id) ?? l.ingredientId,
+      scaledQuantity: l.scaledQuantity,
+      unit: l.unit,
+      displayQuantity: l.displayQuantity,
+    })),
+    updatedAt: args.now,
+  });
+}
+
 type Transition = "pause" | "resume" | "complete" | "abandon" | "advance";
 
 const ALLOWED: Record<CookingSession["status"], Transition[]> = {

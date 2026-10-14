@@ -1,4 +1,4 @@
-import type { Recipe } from "@/shared/domain/recipe-schema";
+import type { Recipe, ReusableIngredient } from "@/shared/domain/recipe-schema";
 import type { ShoppingList } from "@/shared/domain/shopping";
 import type { CookingSession } from "@/shared/domain/session";
 import type { SavedRecipe } from "@/shared/domain/user";
@@ -23,6 +23,12 @@ export interface RecipeRepository {
   list(): Promise<Recipe[]>;
   getById(id: string): Promise<Recipe>;
   getBySlug(slug: string): Promise<Recipe>;
+}
+
+export interface ManageableRecipeRepository extends RecipeRepository {
+  create(recipe: Recipe): Promise<Recipe>;
+  update(recipe: Recipe): Promise<Recipe>;
+  delete?(id: string): Promise<void>;
 }
 
 export interface SavedRepository {
@@ -54,4 +60,9 @@ export interface HistoryRepository {
 export interface CollectionRepository {
   list(): Promise<Collection[]>;
   getBySlug(slug: string): Promise<Collection>;
+}
+
+/** Ingredient identities (names, aliases) that recipe lines reference by id. */
+export interface IngredientRepository {
+  list(): Promise<ReusableIngredient[]>;
 }

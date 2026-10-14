@@ -1,0 +1,7 @@
+[
+  { "id": "demo:long-grain-rice", "name": "Long-grain rice", "category": "grains" },
+  { "id": "demo:tomato-paste", "name": "Tomato paste", "category": "vegetables" },
+  { "id": "demo:tomato-puree", "name": "Tomato purée", "category": "vegetables" },
+  { "id": "demo:salt", "name": "Salt", "category": "seasoning" },
+  { "id": "demo:plantain", "name": "Plantain", "category": "produce" }
+]

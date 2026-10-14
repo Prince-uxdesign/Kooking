@@ -1,32 +1,68 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
  * Bottom sheet for mobile-first actions (servings, filters).
- * Round dark close button + centered title on top, content below.
- * Desktop renders centered; no separate component tree.
+ * Round dark close button + centered title on top, content below,
+ * optional sticky footer. Desktop renders centered; no separate tree.
+ * Dialog behaviour: focus moves in on open, Tab stays inside, Esc
+ * closes, focus returns to the trigger, and the page behind can't scroll.
  */
 export function BottomSheet({
   title,
   open,
   onClose,
   children,
+  footer,
 }: {
   title: string;
   open: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
+  footer?: ReactNode;
 }) {
+  const panelRef = useRef<HTMLElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   useEffect(() => {
     if (!open) return;
+    const trigger = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onCloseRef.current();
+        return;
+      }
+      if (e.key !== "Tab" || !panelRef.current) return;
+      const items = [...panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)];
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = overflow;
+      trigger?.focus?.();
+    };
+  }, [open]);
 
   if (!open) return null;
 
@@ -37,14 +73,16 @@ export function BottomSheet({
       className="fixed inset-0 z-50 flex items-end justify-center bg-ink-900/40 sm:items-center sm:p-4"
     >
       <section
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={title}
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[85vh] w-full max-w-lg overflow-auto rounded-t-[32px] bg-white px-5 pb-8 pt-5 sm:rounded-[32px] sm:p-6"
+        className="safe-bottom flex max-h-[85dvh] w-full max-w-lg flex-col rounded-t-[32px] bg-white sm:max-h-[85vh] sm:rounded-[32px]"
       >
-        <div className="mb-6 flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3 px-5 pb-4 pt-5 sm:px-6 sm:pt-6">
           <button
+            ref={closeRef}
             type="button"
             onClick={onClose}
             aria-label="Close panel"
@@ -54,7 +92,10 @@ export function BottomSheet({
           </button>
           <h2 className="text-[17px] font-medium text-ink-900">{title}</h2>
         </div>
-        {children}
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-6 sm:px-6">
+          {children}
+        </div>
+        {footer && <div className="px-5 pb-5 pt-3 sm:px-6 sm:pb-6">{footer}</div>}
       </section>
     </div>
   );

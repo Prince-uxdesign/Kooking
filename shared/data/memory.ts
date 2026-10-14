@@ -5,6 +5,7 @@ import { recordView, type RecentView } from "@/shared/domain/history";
 import type { SavedRecipe } from "@/shared/domain/user";
 import type {
   HistoryRepository,
+  ManageableRecipeRepository,
   RecipeRepository,
   SavedRepository,
   SessionRepository,
@@ -13,7 +14,7 @@ import type {
 import { StoreError } from "./repositories";
 
 /** In-memory adapters — used by tests and previews. No persistence. */
-export class MemoryRecipes implements RecipeRepository {
+export class MemoryRecipes implements ManageableRecipeRepository {
   constructor(private readonly recipes: Recipe[]) {}
 
   async list(): Promise<Recipe[]> {
@@ -30,6 +31,26 @@ export class MemoryRecipes implements RecipeRepository {
     const found = this.recipes.find((r) => r.slug === slug);
     if (!found) throw new StoreError("not-found", `recipe '${slug}' not found`);
     return found;
+  }
+
+  async create(recipe: Recipe): Promise<Recipe> {
+    if (this.recipes.some((r) => r.id === recipe.id)) {
+      throw new StoreError("conflict", `recipe with id '${recipe.id}' already exists`);
+    }
+    if (this.recipes.some((r) => r.slug === recipe.slug)) {
+      throw new StoreError("conflict", `recipe with slug '${recipe.slug}' already exists`);
+    }
+    this.recipes.push(recipe);
+    return recipe;
+  }
+
+  async update(recipe: Recipe): Promise<Recipe> {
+    const index = this.recipes.findIndex((r) => r.id === recipe.id);
+    if (index === -1) {
+      throw new StoreError("not-found", `recipe '${recipe.id}' not found`);
+    }
+    this.recipes[index] = recipe;
+    return recipe;
   }
 }
 

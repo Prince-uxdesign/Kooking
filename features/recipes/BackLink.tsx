@@ -3,7 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { backTargetFor, type BackTarget } from "@/shared/domain/discovery";
+import { backTargetFor, type BackTarget } from "@/shared/domain/navigation";
 import { buttonClasses } from "@/shared/ui/Button";
 
 function BackPill({ href, label }: BackTarget) {

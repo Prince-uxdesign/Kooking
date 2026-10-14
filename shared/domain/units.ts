@@ -54,6 +54,45 @@ export function unitCategory(unit: Unit): UnitCategory {
   return CATEGORY[unit];
 }
 
+/**
+ * Safely converts an amount between compatible units.
+ * Returns null if the conversion is unsupported or across incompatible categories
+ * (e.g. mass to volume, volume to count, or household cups to grams).
+ */
+export function convertUnitQuantity(
+  amount: number,
+  fromUnit: string | null | undefined,
+  toUnit: string | null | undefined,
+): number | null {
+  if (!Number.isFinite(amount) || amount < 0) return null;
+  if (!fromUnit || !toUnit) return null;
+  if (fromUnit === toUnit) return dedust(amount);
+
+  // Metric Mass: kg <-> g
+  if (fromUnit === "kg" && toUnit === "g") return dedust(amount * 1000);
+  if (fromUnit === "g" && toUnit === "kg") return dedust(amount / 1000);
+
+  // Metric Volume: l <-> ml
+  if (fromUnit === "l" && toUnit === "ml") return dedust(amount * 1000);
+  if (fromUnit === "ml" && toUnit === "l") return dedust(amount / 1000);
+
+  // Household Volume: tbsp <-> tsp (culinary standard: 1 tbsp = 3 tsp)
+  if (fromUnit === "tbsp" && toUnit === "tsp") return dedust(amount * 3);
+  if (fromUnit === "tsp" && toUnit === "tbsp") return dedust(amount / 3);
+
+  // Any other cross-unit conversion is unsupported / incompatible without verified density
+  return null;
+}
+
+export function areUnitsCompatible(
+  unitA: string | null | undefined,
+  unitB: string | null | undefined,
+): boolean {
+  if (!unitA || !unitB) return false;
+  if (unitA === unitB) return true;
+  return convertUnitQuantity(1, unitA, unitB) !== null;
+}
+
 export const SCALING_BEHAVIORS = [
   "linear",
   "discrete",
@@ -82,8 +121,21 @@ function roundMetric(value: number): number {
   return Math.round(value * 2) / 2;
 }
 
+const COOKING_FRACTION_TARGETS = [0, 0.25, 1 / 3, 0.5, 2 / 3, 0.75, 1];
+
 function roundHousehold(value: number): number {
-  return Math.round(value * 4) / 4;
+  const whole = Math.floor(value);
+  const frac = value - whole;
+  let bestTarget = 0;
+  let minDiff = Infinity;
+  for (const target of COOKING_FRACTION_TARGETS) {
+    const diff = Math.abs(frac - target);
+    if (diff < minDiff) {
+      minDiff = diff;
+      bestTarget = target;
+    }
+  }
+  return dedust(whole + bestTarget);
 }
 
 export interface ScaledQuantity {
@@ -154,11 +206,11 @@ export function formatQuantity(amount: number | null, unit: Unit | null): string
     const whole = Math.floor(amount + 1e-9);
     const frac = dedust(amount - whole);
     for (const [value, glyph] of FRACTIONS) {
-      if (Math.abs(frac - value) < 1e-9) {
+      if (Math.abs(frac - value) < 1e-4) {
         return whole > 0 ? `${whole}${glyph} ${unit}` : `${glyph} ${unit}`;
       }
     }
-    if (frac < 1e-9) return `${whole} ${unit}`;
+    if (frac < 1e-4) return `${whole} ${unit}`;
   }
   return `${trimNumber(amount)} ${unit}`;
 }

@@ -3,8 +3,14 @@
 import { z } from "zod";
 import { cookingSessionSchema, pickResumable, type CookingSession } from "@/shared/domain/session";
 import { recentViewSchema, recordView, type RecentView } from "@/shared/domain/history";
+import { savedRecipeSchema, type SavedRecipe } from "@/shared/domain/user";
 import { shoppingListSchema, type ShoppingList } from "@/shared/domain/shopping";
-import type { HistoryRepository, SessionRepository, ShoppingRepository } from "./repositories";
+import type {
+  HistoryRepository,
+  SavedRepository,
+  SessionRepository,
+  ShoppingRepository,
+} from "./repositories";
 import { StoreError } from "./repositories";
 
 /**
@@ -49,6 +55,7 @@ function write(key: string, value: unknown): void {
 const SESSIONS_KEY = "kooking:sessions:v1";
 const LISTS_KEY = "kooking:lists:v1";
 const RECENT_KEY = "kooking:recent:v1";
+const SAVED_KEY = "kooking:saved:v1";
 
 export class LocalSessions implements SessionRepository {
   private all(): CookingSession[] {
@@ -100,5 +107,29 @@ export class LocalHistory implements HistoryRepository {
 
   async record(recipeId: string, now: number): Promise<void> {
     write(RECENT_KEY, recordView(await this.list(), recipeId, now));
+  }
+}
+
+export class LocalSaved implements SavedRepository {
+  private all(): SavedRecipe[] {
+    return read(SAVED_KEY, z.array(savedRecipeSchema)) ?? [];
+  }
+
+  async listIds(ownerId: string): Promise<string[]> {
+    return this.all()
+      .filter((s) => s.ownerId === ownerId)
+      .map((s) => s.recipeId);
+  }
+
+  async save(entry: SavedRecipe): Promise<void> {
+    const rest = this.all().filter(
+      (s) => !(s.ownerId === entry.ownerId && s.recipeId === entry.recipeId),
+    );
+    write(SAVED_KEY, [...rest, entry]);
+  }
+
+  async unsave(ownerId: string, recipeId: string): Promise<void> {
+    const rest = this.all().filter((s) => !(s.ownerId === ownerId && s.recipeId === recipeId));
+    write(SAVED_KEY, rest);
   }
 }

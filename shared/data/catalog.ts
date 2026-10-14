@@ -1,9 +1,15 @@
 import collectionsJson from "@/content/collections.json";
+import ingredientsJson from "@/content/ingredients.json";
 import { SEED_RECIPES } from "@/content/seed";
 import { collectionsSchema, type Collection } from "@/shared/domain/collections";
-import { recipeSchema } from "@/shared/domain/recipe-schema";
+import { z } from "zod";
+import {
+  recipeSchema,
+  reusableIngredientSchema,
+  type ReusableIngredient,
+} from "@/shared/domain/recipe-schema";
 import { MemoryRecipes } from "./memory";
-import type { CollectionRepository, RecipeRepository } from "./repositories";
+import type { CollectionRepository, IngredientRepository, RecipeRepository } from "./repositories";
 import { StoreError } from "./repositories";
 
 /**
@@ -63,4 +69,26 @@ const collections = new ContentCollections();
 
 export function getCollectionRepository(): CollectionRepository {
   return collections;
+}
+
+/** Ingredient catalog. Parsed through the schema; ids must be unique. */
+class ContentIngredients implements IngredientRepository {
+  private all: ReusableIngredient[] | null = null;
+
+  async list() {
+    if (!this.all) {
+      const parsed = z.array(reusableIngredientSchema).parse(ingredientsJson);
+      if (new Set(parsed.map((i) => i.id)).size !== parsed.length) {
+        throw new StoreError("invalid", "ingredient ids must be unique");
+      }
+      this.all = parsed;
+    }
+    return [...this.all];
+  }
+}
+
+const ingredients = new ContentIngredients();
+
+export function getIngredientRepository(): IngredientRepository {
+  return ingredients;
 }

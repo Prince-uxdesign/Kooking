@@ -6,14 +6,14 @@ import { useId, useState, type FormEvent } from "react";
 import { searchHref } from "@/shared/domain/discovery";
 
 /**
- * Recipe search pill (Home and Explore). Hands the query to Explore
- * (/recipes?q=); results arrive with Phase 9 search. A plain GET form
+ * Home search pill. Hands the query to Explore (/recipes?q=), where
+ * live search and filters take over. A plain GET form
  * underneath, so it still works before JavaScript loads.
  */
-export function RecipeSearchForm({ defaultQuery = "" }: { defaultQuery?: string }) {
+export function RecipeSearchForm() {
   const router = useRouter();
   const inputId = useId();
-  const [query, setQuery] = useState(defaultQuery);
+  const [query, setQuery] = useState("");
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

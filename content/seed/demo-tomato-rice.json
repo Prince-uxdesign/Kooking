@@ -7,6 +7,26 @@
   "tags": ["demo", "sample"],
   "baseServings": 4,
   "timeMinutes": { "prep": 10, "cook": 25, "total": 35 },
+  "equipment": [
+    {
+      "id": "pot",
+      "name": "Heavy-bottomed cooking pot with tight lid",
+      "category": "cookware",
+      "notes": "Prevents scorching at base and traps steam"
+    },
+    {
+      "id": "colander",
+      "name": "Fine-mesh sieve or colander",
+      "category": "prep",
+      "notes": "For thoroughly rinsing rice grains"
+    },
+    {
+      "id": "spoon",
+      "name": "Wooden spoon or heatproof spatula",
+      "category": "utensil",
+      "notes": "For folding rice and stirring tomato base"
+    }
+  ],
   "ingredients": [
     {
       "id": "demo-rice",
@@ -15,7 +35,8 @@
       "unit": "g",
       "preparation": "rinsed",
       "role": "required",
-      "scaling": "linear"
+      "scaling": "linear",
+      "constraint": "Must be drained thoroughly before steaming"
     },
     {
       "id": "demo-tomato-paste",
@@ -24,7 +45,8 @@
       "unit": "g",
       "role": "substitutable",
       "scaling": "linear",
-      "substitutes": ["demo:tomato-puree"]
+      "substitutes": ["demo:tomato-puree"],
+      "constraint": "Fry until raw tin flavour is eliminated"
     },
     {
       "id": "demo-salt",
@@ -50,13 +72,15 @@
       "id": "demo-step-1",
       "order": 1,
       "instruction": "Rinse the rice until the water runs mostly clear, then drain.",
-      "ingredientIds": ["demo-rice"]
+      "ingredientIds": ["demo-rice"],
+      "ingredientQuantities": { "demo-rice": 400 }
     },
     {
       "id": "demo-step-2",
       "order": 2,
       "instruction": "Simmer the tomato base on medium heat until the oil rises.",
       "ingredientIds": ["demo-tomato-paste", "demo-salt"],
+      "ingredientQuantities": { "demo-tomato-paste": 70, "demo-salt": null },
       "heat": "medium",
       "timer": { "durationSeconds": 600, "label": "Simmer base" },
       "sensoryCue": "Oil gathers at the edges and the sharp raw smell fades.",
@@ -67,12 +91,26 @@
       "order": 3,
       "instruction": "Fold in the rice, cover tightly, and steam on low heat until tender.",
       "ingredientIds": ["demo-rice"],
+      "ingredientQuantities": { "demo-rice": 400 },
       "heat": "low",
       "estimatedMinutes": 20,
       "completionNote": "Grains separate and stand, not mushy."
     }
   ],
+  "notes": [
+    "Do not open the lid frequently during the final steaming step to avoid losing trapped moisture.",
+    "If rice is slightly firm after 20 minutes, sprinkle 2 tbsp of water and rest off heat for 5 minutes."
+  ],
+  "provenance": {
+    "source": "Internal Test Kitchen",
+    "author": "Kooking Seed Engineering",
+    "reviewedBy": "Culinary Test Pipeline",
+    "reviewNotes": "Seed mock dataset verifying schema compliance and pipeline behaviors",
+    "license": "CC0-1.0"
+  },
   "contentVersion": 1,
   "status": "draft",
-  "demo": true
+  "demo": true,
+  "createdAt": "2026-03-01T10:00:00.000Z",
+  "updatedAt": "2026-03-01T10:00:00.000Z"
 }

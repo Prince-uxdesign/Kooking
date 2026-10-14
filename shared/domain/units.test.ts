@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { dedust, formatQuantity, isValidAmount, scaleAmount } from "./units";
+import {
+  areUnitsCompatible,
+  convertUnitQuantity,
+  dedust,
+  formatQuantity,
+  isValidAmount,
+  scaleAmount,
+} from "./units";
 
 describe("dedust", () => {
   it("removes binary floating-point dust", () => {
@@ -62,9 +69,64 @@ describe("formatQuantity", () => {
   it("renders household fractions as glyphs", () => {
     expect(formatQuantity(1.5, "cup")).toBe("1½ cup");
     expect(formatQuantity(0.25, "tsp")).toBe("¼ tsp");
+    expect(formatQuantity(0.75, "cup")).toBe("¾ cup");
+    expect(formatQuantity(1 / 3, "cup")).toBe("⅓ cup");
+    expect(formatQuantity(2 / 3, "cup")).toBe("⅔ cup");
+    expect(formatQuantity(1 + 1 / 3, "cup")).toBe("1⅓ cup");
+    expect(formatQuantity(2 + 2 / 3, "tbsp")).toBe("2⅔ tbsp");
     expect(formatQuantity(2, "cup")).toBe("2 cup");
   });
   it("renders metric plainly", () => {
     expect(formatQuantity(600, "g")).toBe("600 g");
+    expect(formatQuantity(1.25, "kg")).toBe("1.25 kg");
+  });
+});
+
+describe("convertUnitQuantity", () => {
+  it("converts between compatible metric mass units", () => {
+    expect(convertUnitQuantity(1.5, "kg", "g")).toBe(1500);
+    expect(convertUnitQuantity(500, "g", "kg")).toBe(0.5);
+  });
+
+  it("converts between compatible metric volume units", () => {
+    expect(convertUnitQuantity(2, "l", "ml")).toBe(2000);
+    expect(convertUnitQuantity(250, "ml", "l")).toBe(0.25);
+  });
+
+  it("converts between compatible household volume units (tbsp <-> tsp)", () => {
+    expect(convertUnitQuantity(2, "tbsp", "tsp")).toBe(6);
+    expect(convertUnitQuantity(6, "tsp", "tbsp")).toBe(2);
+  });
+
+  it("returns identical value when fromUnit and toUnit are identical", () => {
+    expect(convertUnitQuantity(3, "cup", "cup")).toBe(3);
+    expect(convertUnitQuantity(400, "g", "g")).toBe(400);
+  });
+
+  it("refuses to convert across incompatible categories or uncalibrated units", () => {
+    expect(convertUnitQuantity(2, "cup", "g")).toBeNull();
+    expect(convertUnitQuantity(1, "piece", "g")).toBeNull();
+    expect(convertUnitQuantity(1, "ml", "g")).toBeNull();
+    expect(convertUnitQuantity(1, "cup", "ml")).toBeNull();
+  });
+
+  it("rejects invalid, negative, or non-finite inputs", () => {
+    expect(convertUnitQuantity(-5, "g", "kg")).toBeNull();
+    expect(convertUnitQuantity(NaN, "g", "kg")).toBeNull();
+    expect(convertUnitQuantity(Infinity, "g", "kg")).toBeNull();
+    expect(convertUnitQuantity(100, null, "g")).toBeNull();
+  });
+});
+
+describe("areUnitsCompatible", () => {
+  it("recognizes compatible and incompatible units", () => {
+    expect(areUnitsCompatible("kg", "g")).toBe(true);
+    expect(areUnitsCompatible("l", "ml")).toBe(true);
+    expect(areUnitsCompatible("tbsp", "tsp")).toBe(true);
+    expect(areUnitsCompatible("cup", "cup")).toBe(true);
+
+    expect(areUnitsCompatible("cup", "g")).toBe(false);
+    expect(areUnitsCompatible("piece", "kg")).toBe(false);
+    expect(areUnitsCompatible(null, "g")).toBe(false);
   });
 });

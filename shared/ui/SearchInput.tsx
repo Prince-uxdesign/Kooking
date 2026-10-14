@@ -46,14 +46,14 @@ export function SearchInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="min-h-[56px] w-full rounded-full border border-transparent bg-surface-100 pl-12 pr-12 text-[16px] text-ink-900 placeholder:text-ink-500 transition-colors focus:border-ink-900 focus:bg-white focus:outline-none"
+          className="min-h-[56px] w-full rounded-full border border-transparent bg-surface-100 pl-12 pr-12 text-[16px] text-ink-900 placeholder:text-ink-500 transition-colors focus:border-ink-900 focus:bg-white focus:outline-none [&::-webkit-search-cancel-button]:appearance-none"
         />
         {value && (
           <button
             type="button"
             aria-label="Clear search"
             onClick={() => onChange("")}
-            className="absolute right-1.5 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-ink-500 hover:bg-surface-200"
+            className="absolute right-1.5 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-ink-500 hover:bg-surface-200"
           >
             <X aria-hidden size={18} />
           </button>

@@ -9,8 +9,13 @@ import {
   Button,
   Card,
   Checkbox,
+  CollectionHeading,
+  CompactRecipeCard,
+  EmptyCollectionState,
   EmptyState,
   ErrorState,
+  FeaturedRecipeCard,
+  HorizontalRecipeList,
   IconButton,
   IngredientRow,
   Loading,
@@ -19,6 +24,7 @@ import {
   Progress,
   QuantityInput,
   RecipeCard,
+  RecipeCollectionSection,
   SearchInput,
   SectionHeading,
   Select,
@@ -58,6 +64,7 @@ export default function DesignSystemPage() {
   const [modal, setModal] = useState(false);
   const [sheet, setSheet] = useState(false);
   const [have, setHave] = useState<Record<string, boolean>>({ rice: true });
+  const [saved, setSaved] = useState<Record<string, boolean>>({ jollof: true });
   const [secs, setSecs] = useState(600);
   const [running, setRunning] = useState(false);
 
@@ -215,12 +222,29 @@ export default function DesignSystemPage() {
           </Badge>
         </div>
         <div className="mt-4 grid gap-3 md:grid-cols-2">
-          <RecipeCard
-            title="Smoky party jollof (demo)"
-            meta="Sample content — chef-validated recipes arrive later"
-            minutes={45}
-            tags={["Rice", "Crowd"]}
-          />
+          <div className="flex flex-col gap-3">
+            <RecipeCard
+              title="Smoky party jollof (demo)"
+              meta="Sample content — chef-validated recipes arrive later"
+              minutes={45}
+              difficulty="medium"
+              categories={["Rice"]}
+              demo
+              saved={!!saved.jollof}
+              onSaveToggle={() => setSaved((s) => ({ ...s, jollof: !s.jollof }))}
+              href="#"
+            />
+            <CompactRecipeCard
+              title="Quick fried ripe plantain"
+              minutes={15}
+              difficulty="easy"
+              category="Sides"
+              demo
+              saved={!!saved.plantain}
+              onSaveToggle={() => setSaved((s) => ({ ...s, plantain: !s.plantain }))}
+              href="#"
+            />
+          </div>
           <Panel>
             <h3 className="mb-3 text-[17px] font-medium">Stew base · 4 servings</h3>
             <ul className="flex flex-col gap-2">
@@ -248,6 +272,77 @@ export default function DesignSystemPage() {
               />
             </ul>
           </Panel>
+        </div>
+      </section>
+
+      {/* Featured Recipe & Collections */}
+      <section aria-labelledby="ds-collections" className="mt-10">
+        <SectionHeading
+          title="Featured recipe & collections"
+          description="Anchor dark frame for hero recipes, horizontal carousels for thumb navigation, and quiet empty collection states."
+        />
+        <div className="mt-4 flex flex-col gap-6">
+          <FeaturedRecipeCard
+            title="Smoky Party Jollof Rice"
+            href="#"
+            minutes={45}
+            servings={6}
+            difficulty="medium"
+            demo
+            saved={!!saved.jollof}
+            onSaveToggle={() => setSaved((s) => ({ ...s, jollof: !s.jollof }))}
+          />
+
+          <div>
+            <CollectionHeading
+              title="Quick dinners"
+              meta="4 recipes"
+              description="Under 30 minutes, one pot on the fire."
+            />
+            <div className="mt-3">
+              <HorizontalRecipeList label="Quick dinners showcase">
+                <li className="w-[185px] shrink-0 snap-start sm:w-[220px]">
+                  <RecipeCard
+                    title="Egg & Pepper Sauce"
+                    minutes={20}
+                    difficulty="easy"
+                    demo
+                    saved={!!saved.egg}
+                    onSaveToggle={() => setSaved((s) => ({ ...s, egg: !s.egg }))}
+                    href="#"
+                  />
+                </li>
+                <li className="w-[185px] shrink-0 snap-start sm:w-[220px]">
+                  <RecipeCard
+                    title="Boiled Yam & Plantain"
+                    minutes={25}
+                    difficulty="easy"
+                    demo
+                    saved={!!saved.yam}
+                    onSaveToggle={() => setSaved((s) => ({ ...s, yam: !s.yam }))}
+                    href="#"
+                  />
+                </li>
+                <li className="w-[185px] shrink-0 snap-start sm:w-[220px]">
+                  <RecipeCard
+                    title="Fried Plantain (Dodo)"
+                    minutes={15}
+                    difficulty="easy"
+                    demo
+                    saved={!!saved.dodo}
+                    onSaveToggle={() => setSaved((s) => ({ ...s, dodo: !s.dodo }))}
+                    href="#"
+                  />
+                </li>
+              </HorizontalRecipeList>
+            </div>
+          </div>
+
+          <EmptyCollectionState
+            title="No soup recipes yet"
+            message="Authentic Nigerian soups are being tested and validated. Browse rice and sides in the meantime."
+            action={<Button variant="secondary">Browse all recipes</Button>}
+          />
         </div>
       </section>
 
