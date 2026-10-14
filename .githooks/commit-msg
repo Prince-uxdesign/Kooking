@@ -1,0 +1,9 @@
+#!/bin/sh
+# Project rule: no AI co-author or "Generated with" attribution in commits.
+# Strips any such lines from the message before the commit is recorded.
+msg_file="$1"
+tmp="$(mktemp)"
+grep -viE '^(co-authored-by:.*(claude|anthropic)|.*generated with \[?claude)' "$msg_file" > "$tmp"
+# Drop trailing blank lines left behind
+sed -e :a -e '/^[[:space:]]*$/{$d;N;ba' -e '}' "$tmp" > "$msg_file"
+rm -f "$tmp"
