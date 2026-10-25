@@ -97,17 +97,21 @@ export function Manifesto() {
             </div>
           </div>
         </Reveal>
-        <Reveal delay={200} className="order-3 flex flex-col gap-5">
-          <div className="frame">
-            <div className="h-[190px] overflow-hidden rounded-[16px] sm:h-[210px]">
-              <Photo name="jollof" sizes="(min-width: 1024px) 300px, 50vw" />
+        <div className="contents lg:order-3 lg:flex lg:flex-col lg:gap-5">
+          <Reveal delay={200} className="order-3">
+            <div className="frame">
+              <div className="h-[190px] overflow-hidden rounded-[16px] sm:h-[210px]">
+                <Photo name="jollof" sizes="(min-width: 1024px) 300px, 50vw" />
+              </div>
             </div>
-          </div>
-          <p className="px-1 text-[1rem] leading-[1.65] text-ink-500">
-            Wherever you cook, and whoever taught you (or didn’t), Fork turns a recipe into a plan
-            you can actually follow.
-          </p>
-        </Reveal>
+          </Reveal>
+          <Reveal delay={260} className="order-4 col-span-2 px-1 lg:col-span-1">
+            <p className="text-[1rem] leading-[1.65] text-ink-500 sm:text-[1.0625rem]">
+              Wherever you cook, and whoever taught you (or didn’t), Fork turns a recipe into a plan
+              you can actually follow.
+            </p>
+          </Reveal>
+        </div>
       </div>
     </Band>
   );

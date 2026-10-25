@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, Check, Minus, Plus, Repeat, ShoppingBasket } from "lucide-react";
-import Link from "next/link";
+import { AppLink as Link } from "./launch";
 import { useState } from "react";
 import { clampServings } from "@/shared/domain/scaling";
 import { formatQuantity, scaleAmount, type Unit } from "@/shared/domain/units";

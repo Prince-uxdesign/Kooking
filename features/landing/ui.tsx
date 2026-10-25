@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { AppLink as Link } from "./launch";
 import type { ReactNode } from "react";
 import { Reveal } from "./motion";
 
@@ -288,6 +288,7 @@ export function GrainStage({
 const ctaTone = {
   dark: "bg-ink-900 text-white hover:bg-ink-800 ring-ink-900/10 ring-offset-surface-50",
   light: "bg-white text-ink-900 hover:bg-surface-100 ring-white/15 ring-offset-ink-900",
+  brand: "bg-primary-600 text-white hover:bg-primary-700 ring-primary-600/30 ring-offset-ink-900",
 } as const;
 
 /** Black pill with a haloed edge and a small arrow well, the page's one CTA shape. */
@@ -313,7 +314,9 @@ export function PillCta({
         className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
           tone === "dark"
             ? "bg-white/[0.12] group-hover:bg-primary-600 group-hover:text-white"
-            : "bg-ink-900/[0.06] group-hover:bg-primary-600 group-hover:text-white"
+            : tone === "brand"
+              ? "bg-white/20 group-hover:bg-white group-hover:text-primary-700"
+              : "bg-ink-900/[0.06] group-hover:bg-primary-600 group-hover:text-white"
         }`}
       >
         <ArrowRight

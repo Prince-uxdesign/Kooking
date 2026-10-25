@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronsUp } from "lucide-react";
-import Link from "next/link";
+import { AppLink as Link } from "./launch";
 import { ForkLogo, PIN_PATH } from "@/shared/ui/Logo";
 import type { PhotoKey } from "./content";
 import { Reveal, useInView } from "./motion";

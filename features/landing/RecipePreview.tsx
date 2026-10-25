@@ -1,5 +1,5 @@
 import { ArrowUpRight, Clock, ListOrdered, Users } from "lucide-react";
-import Link from "next/link";
+import { AppLink as Link } from "./launch";
 import { iconForRecipe } from "@/features/recipes/category-icons";
 import type { Recipe } from "@/shared/domain/recipe-schema";
 import { formatMinutes } from "@/shared/domain/discovery";

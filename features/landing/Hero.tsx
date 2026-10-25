@@ -1,7 +1,5 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
 import { ROTATING_DISHES } from "./content";
 import { Reveal, useCycle, useParallax, usePrefersReducedMotion } from "./motion";
@@ -108,21 +106,12 @@ export function Hero() {
               </Reveal>
 
               <Reveal delay={220} className="mt-7 flex flex-wrap items-center gap-2">
-                <PillCta href="/app" tone="light">
+                <PillCta href="/app" tone="brand">
                   Start cooking, free
                 </PillCta>
-                <Link
-                  href="/welcome/recipes"
-                  className="group inline-flex min-h-[48px] items-center gap-1.5 rounded-full px-4 text-[0.9375rem] font-medium text-white transition-[color,scale] duration-150 ease-out active:scale-[0.97]"
-                >
+                <PillCta href="/welcome/recipes" tone="light">
                   Browse recipes
-                  <ArrowRight
-                    size={15}
-                    strokeWidth={2}
-                    aria-hidden
-                    className="transition-transform duration-300 group-hover:translate-x-0.5"
-                  />
-                </Link>
+                </PillCta>
               </Reveal>
 
               <Reveal delay={300}>

@@ -13,7 +13,7 @@ import {
   Volume2,
   WifiOff,
 } from "lucide-react";
-import Link from "next/link";
+import { AppLink as Link } from "./launch";
 import type { CSSProperties } from "react";
 import { Reveal } from "./motion";
 import { Band, Eyebrow, SectionHead } from "./ui";

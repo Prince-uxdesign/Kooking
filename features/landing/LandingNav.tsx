@@ -1,7 +1,8 @@
 "use client";
 
 import { ArrowUpRight, LoaderCircle } from "lucide-react";
-import Link, { useLinkStatus } from "next/link";
+import { useLinkStatus } from "next/link";
+import { AppLink as Link } from "./launch";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ForkLogo } from "@/shared/ui/Logo";
 import { Roll } from "./ui";
