@@ -27,7 +27,7 @@ export function Toggle({ label, checked, onChange, description, id }: ToggleProp
         aria-label={id ? undefined : label}
         onClick={() => onChange(!checked)}
         className={`relative h-8 w-14 shrink-0 rounded-full transition-colors ${
-          checked ? "bg-primary-500" : "bg-surface-300"
+          checked ? "bg-primary-600" : "bg-surface-300"
         }`}
       >
         <span

@@ -45,9 +45,9 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
 
   if (loading) {
     return (
-      <div className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-6">
-        <div className="h-6 w-36 rounded-lg bg-white animate-pulse" />
-        <div className="h-20 rounded-2xl bg-white animate-pulse mt-2" />
+      <div className="flex flex-col gap-3 rounded-3xl bg-white card-edge p-6">
+        <div className="h-6 w-36 rounded-lg bg-surface-100 animate-pulse" />
+        <div className="h-20 rounded-2xl bg-surface-100 animate-pulse mt-2" />
       </div>
     );
   }
@@ -61,7 +61,7 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
   };
 
   return (
-    <div className="flex flex-col gap-4 rounded-3xl bg-surface-100 p-6">
+    <div className="flex flex-col gap-4 rounded-3xl bg-white card-edge p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <History size={20} className="text-primary-600" aria-hidden />
@@ -77,7 +77,7 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
       </p>
 
       {entries.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white py-8 px-4 text-center">
+        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-surface-100 py-8 px-4 text-center">
           <Utensils size={28} className="text-ink-500" aria-hidden />
           <p className="text-[0.9375rem] font-medium text-ink-800">No cooking history yet</p>
           <p className="max-w-xs text-[0.8125rem] text-ink-500 leading-5">
@@ -86,7 +86,7 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
           </p>
           <Link
             href="/recipes"
-            className="mt-2 inline-flex min-h-[44px] items-center justify-center rounded-full bg-primary-600 px-5 text-[0.875rem] font-medium text-white transition-colors hover:bg-primary-700"
+            className="mt-2 inline-flex min-h-[44px] items-center justify-center rounded-full bg-ink-900 px-5 text-[0.875rem] font-medium text-white transition-colors hover:bg-primary-700"
           >
             Find a recipe to cook
           </Link>
@@ -100,7 +100,7 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
             return (
               <li
                 key={entry.sessionId}
-                className="flex flex-col gap-3 rounded-2xl bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-3 rounded-2xl bg-surface-100 p-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex flex-col gap-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -119,7 +119,7 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
                       </span>
                     )}
                     {!isCompleted && !isAbandoned && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-0.5 text-[0.75rem] text-ink-600">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-surface-100 px-2.5 py-0.5 text-[0.75rem] text-ink-600">
                         Interrupted
                       </span>
                     )}
@@ -147,7 +147,7 @@ export function CookingHistorySection({ userId, isAuthenticated }: CookingHistor
 
                 <Link
                   href={`/recipes/${entry.recipeSlug}`}
-                  className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full bg-white px-4 text-[0.8125rem] font-medium text-ink-800 transition-colors hover:bg-surface-200"
+                  className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full bg-surface-100 px-4 text-[0.8125rem] font-medium text-ink-800 transition-colors hover:bg-surface-200"
                 >
                   <RotateCcw size={14} aria-hidden />
                   Cook again

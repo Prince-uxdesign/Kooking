@@ -118,7 +118,7 @@ export function ScreenWakeControl(props: ScreenWakeControlProps) {
 
   if (state.status === "unsupported") {
     return (
-      <p className="inline-flex items-start gap-2 text-[0.8125rem] leading-5 text-white/60">
+      <p className="inline-flex items-start gap-2 text-[0.8125rem] leading-5 text-ink-500">
         <MonitorOff aria-hidden size={16} strokeWidth={1.75} className="mt-0.5 shrink-0" />
         {note?.text}
       </p>
@@ -131,7 +131,7 @@ export function ScreenWakeControl(props: ScreenWakeControlProps) {
         type="button"
         aria-pressed={enabled}
         onClick={onToggle}
-        className={`inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white/10 px-4 text-[0.875rem] font-medium text-white transition-colors hover:bg-white/20`}
+        className={`inline-flex min-h-[44px] items-center gap-2 rounded-full bg-surface-100 px-4 text-[0.875rem] font-medium text-ink-900 transition-colors hover:bg-surface-200`}
       >
         {enabled ? (
           <Monitor aria-hidden size={18} strokeWidth={1.75} />
@@ -139,19 +139,19 @@ export function ScreenWakeControl(props: ScreenWakeControlProps) {
           <MonitorOff aria-hidden size={18} strokeWidth={1.75} />
         )}
         Keep screen on
-        <span aria-hidden className="text-white/60">
+        <span aria-hidden className="text-ink-500">
           {enabled ? "On" : "Off"}
         </span>
       </button>
       <div className="flex min-h-[20px] flex-wrap items-center gap-x-3 gap-y-1">
-        <p role="status" className="text-[0.8125rem] leading-5 text-white/60">
+        <p role="status" className="text-[0.8125rem] leading-5 text-ink-500">
           {note?.text}
         </p>
         {note?.retry && (
           <button
             type="button"
             onClick={onRetry}
-            className={`inline-flex min-h-[44px] items-center rounded-full px-3 text-[0.8125rem] font-medium text-white underline underline-offset-4 hover:bg-white/10`}
+            className={`inline-flex min-h-[44px] items-center rounded-full px-3 text-[0.8125rem] font-medium text-ink-900 underline underline-offset-4 hover:bg-surface-100`}
           >
             Try again
           </button>

@@ -17,7 +17,10 @@ export function SectionHeading({
   return (
     <div className="flex items-center justify-between gap-3">
       <div className="flex min-w-0 flex-col gap-1">
-        <h2 id={id} className="text-[1.25rem] font-semibold leading-7 text-ink-900">
+        <h2
+          id={id}
+          className="font-headline text-[1.25rem] font-medium leading-7 tracking-[-0.015em] text-ink-900"
+        >
           {title}
         </h2>
         {description && <p className="text-[0.9375rem] leading-6 text-ink-500">{description}</p>}
@@ -32,7 +35,7 @@ export function SeeAllLink({ href, label = "See all" }: { href: string; label?: 
   return (
     <Link
       href={href}
-      className="-mr-3 inline-flex min-h-[44px] shrink-0 items-center gap-0.5 rounded-full px-3 text-[0.9375rem] text-ink-500 hover:bg-surface-100 hover:text-ink-900"
+      className="-mr-3 inline-flex min-h-[44px] shrink-0 items-center gap-0.5 rounded-full px-3 text-[0.9375rem] text-ink-500 font-medium hover:bg-white hover:text-ink-900"
     >
       {label}
       <ChevronRight aria-hidden size={16} />

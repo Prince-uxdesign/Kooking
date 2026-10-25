@@ -249,11 +249,14 @@ export function KitchenCheckScreen({
           Back to recipe
         </Link>
         <div className="flex flex-col gap-2">
-          <h1 className="text-[1.875rem] font-semibold leading-9 text-ink-900 sm:text-[2.125rem] sm:leading-[42px]">
+          <p className="font-label text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-primary-700">
+            Before you cook
+          </p>
+          <h1 className="font-headline text-[2.125rem] font-medium leading-[1.02] tracking-[-0.03em] text-ink-900 sm:text-[2.75rem]">
             Kitchen Check
           </h1>
-          <p className="text-[1rem] leading-6 text-ink-500">{recipe.title}</p>
-          <p className="tnum inline-flex w-fit items-center gap-1.5 rounded-full bg-surface-100 px-4 py-2.5 text-[0.875rem] text-ink-900">
+          <p className="text-[1rem] leading-6 text-ink-600">{recipe.title}</p>
+          <p className="tnum card-edge inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[0.875rem] text-ink-900">
             <Users aria-hidden size={16} strokeWidth={1.75} />
             <span className="font-medium">Serves {servings}</span>
             {servings !== recipe.baseServings && (
@@ -275,10 +278,13 @@ export function KitchenCheckScreen({
       <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start lg:gap-10">
         <aside
           aria-label="Readiness"
-          className="flex flex-col gap-4 rounded-3xl bg-surface-100 p-5 lg:sticky lg:top-8 lg:order-2"
+          className="flex flex-col gap-4 rounded-3xl bg-white card-edge p-5 lg:sticky lg:top-8 lg:order-2"
         >
           <div className="flex flex-col gap-1">
-            <h2 className="text-[1.25rem] font-semibold leading-7 text-ink-900" aria-live="polite">
+            <h2
+              className="font-headline text-[1.375rem] font-medium leading-7 tracking-[-0.02em] text-ink-900"
+              aria-live="polite"
+            >
               {headline.title}
             </h2>
             {headline.detail && (
@@ -294,10 +300,10 @@ export function KitchenCheckScreen({
             aria-valuemax={view.summary.total}
             aria-valuenow={view.summary.checked}
             aria-valuetext={`${view.summary.checked} of ${view.summary.total} checked`}
-            className="h-2 overflow-hidden rounded-full bg-surface-200"
+            className="h-2.5 overflow-hidden rounded-full bg-surface-100"
           >
             <div
-              className="h-full rounded-full bg-primary-500"
+              className="h-full rounded-full bg-primary-600 transition-[width] duration-500 ease-out"
               style={{
                 width: `${view.summary.total === 0 ? 0 : (view.summary.checked / view.summary.total) * 100}%`,
               }}
@@ -308,7 +314,9 @@ export function KitchenCheckScreen({
             <div
               role={notice.tone === "error" ? "alert" : "status"}
               className={`flex flex-col gap-2 rounded-2xl px-4 py-3 text-[0.875rem] leading-5 ${
-                notice.tone === "error" ? "bg-error-100 text-error-700" : "bg-white text-ink-900"
+                notice.tone === "error"
+                  ? "bg-error-100 text-error-700"
+                  : "bg-surface-50 text-ink-900"
               }`}
             >
               <p>{notice.text}</p>
@@ -351,7 +359,7 @@ export function KitchenCheckScreen({
                   <button
                     type="button"
                     onClick={nextAction.run}
-                    className="min-h-[44px] self-start rounded-full px-4 text-[0.875rem] font-medium text-ink-900 underline underline-offset-4 hover:bg-white"
+                    className="min-h-[44px] self-start rounded-full px-4 text-[0.875rem] font-medium text-ink-900 underline underline-offset-4 hover:bg-surface-100"
                   >
                     {nextAction.label}
                   </button>
@@ -363,7 +371,10 @@ export function KitchenCheckScreen({
 
         <section aria-labelledby="check-list" className="flex flex-col gap-4 lg:order-1">
           <div>
-            <h2 id="check-list" className="text-[1.25rem] font-semibold text-ink-900">
+            <h2
+              id="check-list"
+              className="font-headline text-[1.375rem] font-medium tracking-[-0.02em] text-ink-900"
+            >
               Ingredients for {servings}
             </h2>
             <p className="text-[0.8125rem] text-ink-500">
@@ -371,7 +382,7 @@ export function KitchenCheckScreen({
             </p>
           </div>
           {view.rows.length === 0 ? (
-            <p className="rounded-3xl bg-surface-100 p-5 text-[0.9375rem] text-ink-600">
+            <p className="rounded-3xl bg-white card-edge p-5 text-[0.9375rem] text-ink-600">
               This recipe has no ingredients to check.
             </p>
           ) : (
@@ -394,8 +405,8 @@ export function KitchenCheckScreen({
       </div>
 
       {/* Phones/tablets: summary + Start cooking stay reachable above the tab bar. */}
-      <div className="sticky bottom-24 z-30 lg:hidden">
-        <div className="flex items-center gap-3 rounded-[28px] bg-white p-2 pl-5 ring-1 ring-line-strong">
+      <div className="sticky bottom-[calc(76px+env(safe-area-inset-bottom))] z-30 lg:hidden">
+        <div className="glass-bar card-edge flex items-center gap-3 rounded-full p-1.5 pl-5">
           <div className="min-w-0 flex-1">
             <p className="tnum line-clamp-2 text-[0.875rem] font-medium leading-5 text-ink-900">
               {summaryLine}

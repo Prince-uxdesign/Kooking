@@ -112,7 +112,7 @@ export default function OfflinePage() {
             className="flex items-center justify-between rounded-2xl bg-primary-100 p-4 transition-colors hover:bg-primary-200"
           >
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-500 text-ink-900">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-600 text-white">
                 <CookingPot size={20} />
               </span>
               <div>
@@ -128,10 +128,10 @@ export default function OfflinePage() {
 
         <Link
           href="/lists"
-          className="flex items-center justify-between rounded-2xl bg-surface-100 p-4 transition-colors hover:bg-surface-200"
+          className="flex items-center justify-between rounded-2xl bg-white card-edge p-4 transition-colors hover:bg-surface-200"
         >
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-ink-700">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-100 text-ink-700">
               <ShoppingBasket size={20} />
             </span>
             <div>

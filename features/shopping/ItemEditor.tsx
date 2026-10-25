@@ -59,7 +59,7 @@ export function ItemEditor({
     >
       <form onSubmit={save} noValidate className="flex flex-col gap-4 text-left">
         {item.origin === "recipe" && (
-          <p className="rounded-2xl bg-surface-100 p-4 text-[0.875rem] leading-5 text-ink-600">
+          <p className="rounded-2xl bg-white card-edge p-4 text-[0.875rem] leading-5 text-ink-600">
             From {item.recipeTitle ?? "a recipe"}. Your changes are kept if you shop for this recipe
             again.
           </p>

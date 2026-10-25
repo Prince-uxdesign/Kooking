@@ -41,7 +41,7 @@ const STATE_TEXT_CLASS: Record<RowState, string> = {
 };
 
 const choiceBase =
-  "inline-flex min-h-[48px] flex-1 items-center justify-center rounded-full px-3 text-[0.9375rem] transition-colors";
+  "inline-flex min-h-[44px] flex-1 items-center justify-center rounded-full px-3 text-[0.875rem] font-medium transition-[color,background-color,box-shadow,scale] duration-200 ease-out active:scale-[0.97]";
 
 function Choice({
   pressed,
@@ -58,7 +58,9 @@ function Choice({
       aria-pressed={pressed}
       onClick={onClick}
       className={`${choiceBase} ${
-        pressed ? "bg-primary-500 text-ink-900" : "bg-white text-ink-900 hover:bg-surface-200"
+        pressed
+          ? "bg-ink-900 text-white shadow-[0_2px_6px_rgb(21_18_15/0.2)]"
+          : "text-ink-700 hover:bg-white hover:text-ink-900"
       }`}
     >
       {children}
@@ -113,10 +115,12 @@ export const KitchenCheckRow = memo(function KitchenCheckRow({
 
   return (
     <li id={`row-${row.lineId}`} className="list-none scroll-mt-24">
-      <div className="flex flex-col gap-4 rounded-[20px] bg-surface-100 p-4 sm:p-5">
+      <div className="card-edge flex flex-col gap-3.5 rounded-3xl bg-white p-4 sm:p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <h3 className="text-[1rem] leading-6 text-ink-900">{row.name}</h3>
+            <h3 className="text-[1rem] font-semibold leading-6 tracking-[-0.01em] text-ink-900">
+              {row.name}
+            </h3>
             {detailBits && <p className="text-[0.8125rem] leading-5 text-ink-500">{detailBits}</p>}
           </div>
           <p className="tnum shrink-0 text-right text-[1.0625rem] font-semibold leading-6 text-ink-900">
@@ -127,12 +131,17 @@ export const KitchenCheckRow = memo(function KitchenCheckRow({
         </div>
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.8125rem] leading-5">
-          <span className="rounded-full bg-white px-3 py-1 text-[0.8125rem] font-medium text-ink-700">
+          <span
+            className={`rounded-full px-2.5 py-0.5 text-[0.75rem] font-medium ${
+              row.role === "required" ? "bg-surface-100 text-ink-700" : "bg-info-100 text-info-700"
+            }`}
+          >
             {row.roleLabel}
+            <span className="sr-only">. {row.roleHint}</span>
           </span>
           <span
             role="status"
-            className={`inline-flex items-center gap-1.5 text-[0.875rem] font-medium ${STATE_TEXT_CLASS[row.state]}`}
+            className={`inline-flex items-center gap-1.5 text-[0.8125rem] font-medium ${STATE_TEXT_CLASS[row.state]}`}
           >
             {STATE_ICON[row.state]}
             {ROW_STATE_LABEL[row.state]}
@@ -142,7 +151,7 @@ export const KitchenCheckRow = memo(function KitchenCheckRow({
         {quantified && row.availableDisplay !== null && (
           <dl
             aria-label={`${row.name} quantities`}
-            className="tnum grid grid-cols-3 gap-2 rounded-2xl bg-white px-4 py-3 text-[0.875rem]"
+            className="tnum grid grid-cols-3 gap-2 rounded-2xl bg-surface-50 px-4 py-3 text-[0.875rem]"
           >
             <div>
               <dt className="text-[0.8125rem] text-ink-500">Required</dt>
@@ -159,9 +168,11 @@ export const KitchenCheckRow = memo(function KitchenCheckRow({
           </dl>
         )}
 
-        <p className="-mt-2 text-[0.8125rem] leading-5 text-ink-500">{row.roleHint}</p>
-
-        <div role="group" aria-label={`Do you have ${row.name}?`} className="flex gap-2">
+        <div
+          role="group"
+          aria-label={`Do you have ${row.name}?`}
+          className="flex gap-1 rounded-full bg-surface-100 p-1"
+        >
           {quantified ? (
             <>
               <Choice pressed={haveEnoughPressed} onClick={setHaveEnough}>
@@ -204,7 +215,7 @@ export const KitchenCheckRow = memo(function KitchenCheckRow({
                     unit: entry?.unit ?? row.requiredUnit,
                   })
                 }
-                className={`${fieldClasses} tnum !w-auto min-w-0 flex-1 bg-white`}
+                className={`${fieldClasses} tnum !w-auto min-w-0 flex-1`}
               />
               <select
                 aria-label={`Unit for ${row.name}`}
@@ -216,7 +227,7 @@ export const KitchenCheckRow = memo(function KitchenCheckRow({
                     unit: e.target.value,
                   })
                 }
-                className={`${fieldClasses} !w-28 shrink-0 bg-white`}
+                className={`${fieldClasses} !w-28 shrink-0`}
               >
                 {unitChoices(row.requiredUnit).map((u) => (
                   <option key={u} value={u}>
@@ -255,7 +266,7 @@ export const KitchenCheckRow = memo(function KitchenCheckRow({
             <button
               type="button"
               onClick={onClearSubstitution}
-              className="min-h-[44px] rounded-full px-4 text-[0.875rem] font-medium text-ink-900 hover:bg-white"
+              className="min-h-[44px] rounded-full px-4 text-[0.875rem] font-medium text-ink-900 hover:bg-surface-100"
             >
               Undo
             </button>
@@ -266,7 +277,7 @@ export const KitchenCheckRow = memo(function KitchenCheckRow({
           <button
             type="button"
             onClick={onOpenAlternatives}
-            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-white px-5 text-[0.9375rem] font-medium text-ink-900 hover:bg-surface-200"
+            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-info-100 px-5 text-[0.9375rem] font-medium text-info-700 transition-colors hover:bg-info-100/70"
           >
             <ArrowLeftRight aria-hidden size={18} strokeWidth={1.75} />
             Approved alternative: {alternativeNames.join(", ")}

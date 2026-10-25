@@ -60,7 +60,7 @@ export function ResumeBar() {
       </p>
       <Link
         href={cookHref(first.sessionId)}
-        className="inline-flex min-h-[44px] shrink-0 items-center rounded-full bg-primary-500 px-4 text-[0.875rem] font-medium text-ink-900 hover:bg-primary-400"
+        className="inline-flex min-h-[44px] shrink-0 items-center rounded-full bg-ink-900 px-4 text-[0.875rem] font-medium text-white hover:bg-ink-800"
       >
         Continue
       </Link>

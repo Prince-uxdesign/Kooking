@@ -110,7 +110,7 @@ export function QuantityInput({
             onChange(next);
             setSaid(`${label}: ${next}`);
           }}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary-500 text-ink-900 transition-colors hover:bg-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 aria-disabled:opacity-40"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary-600 text-white transition-colors hover:bg-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 aria-disabled:opacity-40"
         >
           <Plus aria-hidden size={18} strokeWidth={2.2} />
         </button>

@@ -6,11 +6,9 @@ import { NAV_ITEMS, isNavActive } from "./nav-items";
 import { Brand } from "./SiteHeader";
 
 /**
- * Floating dark pill tab bar for touch viewports (< lg).
- * Circular icon buttons; the active one turns green and shows its
- * label (from 360px). Inactive tabs are icon-only on screen but keep
- * their full name as the accessible name and tooltip.
- * Desktop uses the sidebar instead.
+ * Bottom tab bar for touch viewports (< lg): frosted white, full width,
+ * icon over a short label. The active tab turns pepper orange and sits
+ * in a soft tinted well. Desktop uses the sidebar instead.
  */
 export function TabBar() {
   const pathname = usePathname();
@@ -18,9 +16,9 @@ export function TabBar() {
   return (
     <nav
       aria-label="Primary"
-      className="safe-bottom pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 lg:hidden"
+      className="glass-bar safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-line-default lg:hidden"
     >
-      <ul className="pointer-events-auto mb-4 flex max-w-full items-center gap-1 rounded-full bg-ink-900 p-1.5">
+      <ul className="mx-auto grid max-w-[560px] grid-cols-5 px-2">
         {NAV_ITEMS.map(({ href, label, shortLabel, Icon }) => {
           const active = isNavActive(pathname, href);
           return (
@@ -30,18 +28,19 @@ export function TabBar() {
                 aria-label={label}
                 title={label}
                 aria-current={active ? "page" : undefined}
-                className={`flex min-h-[48px] min-w-[44px] items-center justify-center gap-2 rounded-full text-[0.875rem] font-medium transition-colors ${
-                  active
-                    ? "bg-primary-500 px-3.5 text-ink-900 min-[360px]:px-4"
-                    : "bg-white/10 text-white hover:bg-white/20"
+                className={`group flex min-h-[60px] flex-col items-center justify-center gap-1 text-[0.6875rem] font-medium transition-colors ${
+                  active ? "text-primary-700" : "text-ink-500 hover:text-ink-900"
                 }`}
               >
-                <Icon aria-hidden size={20} strokeWidth={active ? 2.25 : 1.75} />
-                {active && (
-                  <span aria-hidden className="hidden min-[360px]:inline">
-                    {shortLabel}
-                  </span>
-                )}
+                <span
+                  aria-hidden
+                  className={`inline-flex h-8 w-14 items-center justify-center rounded-full transition-[background-color,scale] duration-200 ease-out group-active:scale-90 ${
+                    active ? "bg-primary-50" : ""
+                  }`}
+                >
+                  <Icon size={21} strokeWidth={active ? 2.25 : 1.75} />
+                </span>
+                <span aria-hidden>{shortLabel}</span>
               </Link>
             </li>
           );
@@ -61,7 +60,7 @@ export function Sidebar() {
   return (
     <nav
       aria-label="Primary"
-      className="sticky top-0 hidden h-screen w-[264px] shrink-0 flex-col border-r border-line-default bg-white px-4 py-7 lg:flex"
+      className="sticky top-0 hidden h-screen w-[264px] shrink-0 flex-col border-r border-line-default bg-white/70 px-4 py-7 lg:flex"
     >
       <div className="px-2">
         <Brand />
@@ -76,7 +75,7 @@ export function Sidebar() {
                 aria-current={active ? "page" : undefined}
                 className={`flex min-h-[48px] items-center gap-3 rounded-full px-4 text-[0.9375rem] transition-colors ${
                   active
-                    ? "bg-primary-500 font-medium text-ink-900"
+                    ? "bg-primary-50 font-medium text-primary-800"
                     : "text-ink-600 hover:bg-surface-100 hover:text-ink-900"
                 }`}
               >

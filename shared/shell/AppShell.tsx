@@ -25,7 +25,7 @@ export function AppShell({
       <main
         id="main-content"
         tabIndex={-1}
-        className="mx-auto w-full max-w-[1120px] flex-1 px-5 pb-32 pt-4 sm:px-6 sm:pt-6 lg:px-12 lg:pb-16 lg:pt-12"
+        className="mx-auto w-full max-w-[1120px] flex-1 px-5 pb-28 pt-2 sm:px-6 sm:pt-6 lg:px-12 lg:pb-16 lg:pt-12"
       >
         <InstallBanner />
         {banner}

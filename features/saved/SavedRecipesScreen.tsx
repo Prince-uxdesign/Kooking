@@ -74,7 +74,7 @@ export function SavedRecipesScreen({ catalog }: { catalog: RecipeSummary[] }) {
   const undo = removed && (
     <div
       role="status"
-      className="flex flex-wrap items-center justify-between gap-3 rounded-3xl bg-surface-100 px-5 py-3 text-[0.9375rem] text-ink-900"
+      className="flex flex-wrap items-center justify-between gap-3 rounded-3xl bg-white card-edge px-5 py-3 text-[0.9375rem] text-ink-900"
     >
       <p className="min-w-0 break-words">
         Removed <span className="font-medium">{removed.title}</span> from saved.
@@ -87,7 +87,7 @@ export function SavedRecipesScreen({ catalog }: { catalog: RecipeSummary[] }) {
           setRemoved(null);
           void saved.setSaved(entry.recipeId, true, title, entry.savedAt);
         }}
-        className={buttonClasses({ variant: "secondary", size: "md", className: "bg-white" })}
+        className={buttonClasses({ variant: "secondary", size: "md" })}
       >
         <RotateCcw aria-hidden size={16} strokeWidth={1.75} />
         Undo
@@ -108,7 +108,7 @@ export function SavedRecipesScreen({ catalog }: { catalog: RecipeSummary[] }) {
         onClick={() => {
           for (const id of unavailable) void saved.setSaved(id, false, "Unavailable recipe");
         }}
-        className={buttonClasses({ variant: "secondary", size: "md", className: "bg-white" })}
+        className={buttonClasses({ variant: "secondary", size: "md" })}
       >
         Remove {unavailable.length === 1 ? "it" : "them"}
       </button>

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-/** Item for the floating dark pill nav. Active = green circle; label stays for SR. */
+/** Tab bar item: icon over label; active turns pepper orange in a tinted well. */
 export function NavItem({
   label,
   active,
@@ -19,12 +19,17 @@ export function NavItem({
       aria-current={active ? "page" : undefined}
       aria-label={label}
       title={label}
-      className={`inline-flex h-12 min-w-12 items-center justify-center gap-2 rounded-full px-3.5 text-[0.875rem] font-medium transition-colors ${
-        active ? "bg-primary-500 text-ink-900" : "bg-white/10 text-white hover:bg-white/15"
+      className={`inline-flex min-h-[60px] min-w-16 flex-col items-center justify-center gap-1 text-[0.6875rem] font-medium transition-colors ${
+        active ? "text-primary-700" : "text-ink-500 hover:text-ink-900"
       }`}
     >
-      <span aria-hidden>{icon}</span>
-      {active && <span>{label}</span>}
+      <span
+        aria-hidden
+        className={`inline-flex h-8 w-14 items-center justify-center rounded-full ${active ? "bg-primary-50" : ""}`}
+      >
+        {icon}
+      </span>
+      <span aria-hidden>{label}</span>
     </button>
   );
 }
@@ -39,7 +44,7 @@ export function BottomNav({
   return (
     <nav
       aria-label={label}
-      className="inline-flex items-center gap-1.5 rounded-full bg-ink-900 p-1.5"
+      className="glass-bar inline-flex items-center gap-1 rounded-3xl border border-line-default px-2"
     >
       {children}
     </nav>

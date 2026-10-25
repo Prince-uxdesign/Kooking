@@ -402,10 +402,10 @@ export function ShoppingListScreen() {
       {!loaded ? (
         <Loading label="Loading your list…" />
       ) : items.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 rounded-3xl bg-surface-100 px-6 py-12 text-center">
+        <div className="flex flex-col items-center gap-2 rounded-3xl bg-white card-edge px-6 py-12 text-center">
           <span
             aria-hidden
-            className="mb-2 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white text-ink-900"
+            className="mb-2 inline-flex h-16 w-16 items-center justify-center rounded-full bg-surface-100 text-ink-900"
           >
             <ShoppingBasket size={28} strokeWidth={1.75} />
           </span>
@@ -432,7 +432,7 @@ export function ShoppingListScreen() {
                 {recipes.map((r) => (
                   <li
                     key={r.recipeId}
-                    className="flex flex-col gap-3 rounded-[20px] bg-surface-100 p-4 sm:flex-row sm:items-center sm:justify-between"
+                    className="flex flex-col gap-3 rounded-[20px] bg-white card-edge p-4 sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div className="min-w-0">
                       <p className="break-words text-[0.9375rem] font-medium text-ink-900">
@@ -476,7 +476,7 @@ export function ShoppingListScreen() {
               To buy <span className="tnum font-normal text-ink-500">({active.length})</span>
             </h2>
             {active.length === 0 ? (
-              <p className="rounded-[20px] bg-surface-100 p-4 text-[0.9375rem] text-ink-600">
+              <p className="rounded-[20px] bg-white card-edge p-4 text-[0.9375rem] text-ink-600">
                 Nothing left to buy.
               </p>
             ) : (

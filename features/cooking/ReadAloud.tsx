@@ -28,7 +28,7 @@ import {
   type VoiceLike,
 } from "./read-aloud";
 
-const btn = `inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white/10 px-5 text-[1rem] font-medium text-white transition-colors hover:bg-white/20 disabled:pointer-events-none disabled:opacity-40`;
+const btn = `inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-surface-100 px-5 text-[1rem] font-medium text-ink-900 transition-colors hover:bg-surface-200 disabled:pointer-events-none disabled:opacity-40`;
 
 function statusLine(state: ReadAloudState, stepNumber: number, readKey?: string) {
   // Voice answers (Phase 30) use their own keys; don't call them "step N".
@@ -108,7 +108,7 @@ export function ReadAloudBar({
 
   if (state.status === "unsupported") {
     return (
-      <p className="inline-flex items-start gap-2 text-[0.875rem] leading-5 text-white/60">
+      <p className="inline-flex items-start gap-2 text-[0.875rem] leading-5 text-ink-500">
         <VolumeX aria-hidden size={16} strokeWidth={1.75} className="mt-0.5 shrink-0" />
         Read-aloud isn&apos;t available in this browser. The step stays on screen.
       </p>
@@ -157,7 +157,7 @@ export function ReadAloudBar({
             <span aria-hidden className="h-[18px] w-[18px] rounded-full border-2 border-white/40" />
           )}
           Auto-read steps
-          <span aria-hidden className="text-white/60">
+          <span aria-hidden className="text-ink-500">
             {auto ? "On" : "Off"}
           </span>
         </button>
@@ -165,7 +165,7 @@ export function ReadAloudBar({
 
       <p
         role="status"
-        className="inline-flex items-start gap-2 text-[0.875rem] leading-5 text-white/70"
+        className="inline-flex items-start gap-2 text-[0.875rem] leading-5 text-ink-600"
       >
         {line && (
           <>
@@ -179,7 +179,7 @@ export function ReadAloudBar({
       </p>
 
       {voices.length > 0 && (
-        <details className="group text-[0.875rem] text-white/70">
+        <details className="group text-[0.875rem] text-ink-600">
           <summary
             className={`inline-flex min-h-[44px] cursor-pointer list-none items-center rounded-full px-1 underline-offset-4 hover:underline`}
           >
@@ -191,7 +191,7 @@ export function ReadAloudBar({
               value={voiceURI ?? ""}
               onChange={(e) => onVoice(e.target.value || null)}
               style={{ colorScheme: "dark" }}
-              className={`min-h-[52px] w-full max-w-md rounded-full bg-white/10 px-4 text-[1rem] text-white`}
+              className={`min-h-[52px] w-full max-w-md rounded-full bg-surface-100 px-4 text-[1rem] text-ink-900`}
             >
               <option value="">Device default</option>
               {voices.map((v) => (
@@ -200,7 +200,7 @@ export function ReadAloudBar({
                 </option>
               ))}
             </select>
-            <span className="text-[0.8125rem] leading-5 text-white/50">
+            <span className="text-[0.8125rem] leading-5 text-ink-500">
               Voices come from your device, so what&apos;s listed and how names are pronounced
               varies.
             </span>

@@ -35,8 +35,8 @@ async function loadCatalog(): Promise<Catalog> {
 
 /**
  * Home answers one question: "What would I like to cook?"
- * Order on phones: resume (if any) → featured → categories →
- * recently viewed → more recipes → saved. Search sits above all.
+ * Order on phones: greeting → search → categories → resume (if any) →
+ * featured → recently viewed → more recipes → saved.
  */
 export default async function HomePage() {
   const catalog = await loadCatalog();
@@ -44,16 +44,17 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col gap-8 sm:gap-10 lg:gap-12">
-      <header className="flex flex-col gap-6">
-        <div className="flex flex-col gap-1">
+      <header className="flex flex-col gap-5">
+        <div className="flex flex-col gap-1.5">
           <HomeGreeting />
-          <h1 className="text-[1.875rem] font-semibold leading-9 text-ink-900 sm:text-[2.25rem] sm:leading-[44px]">
+          <h1 className="max-w-[16ch] font-headline text-[2.125rem] font-medium leading-[1.02] tracking-[-0.03em] text-ink-900 sm:text-[2.75rem]">
             What would you like to cook?
           </h1>
         </div>
         <div className="max-w-2xl">
           <RecipeSearchForm />
         </div>
+        <CategoryGrid />
       </header>
 
       <ContinueCooking catalog={summaries} />
@@ -79,8 +80,6 @@ export default async function HomePage() {
           }
         />
       )}
-
-      <CategoryGrid />
 
       <RecentlyViewed catalog={summaries} />
 

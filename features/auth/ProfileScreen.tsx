@@ -16,9 +16,9 @@ export function ProfileScreen() {
   if (isRestoring) {
     return (
       <div className="flex flex-col gap-4 py-8 animate-pulse">
-        <div className="h-8 w-48 rounded-xl bg-white" />
-        <div className="h-4 w-72 rounded-lg bg-white" />
-        <div className="h-64 rounded-3xl bg-white mt-4" />
+        <div className="h-8 w-48 rounded-xl bg-surface-100" />
+        <div className="h-4 w-72 rounded-lg bg-surface-100" />
+        <div className="h-64 rounded-3xl bg-surface-100 mt-4" />
       </div>
     );
   }
@@ -41,7 +41,7 @@ export function ProfileScreen() {
     return (
       <div className="flex flex-col gap-6">
         {/* User Card */}
-        <div className="flex flex-col gap-4 rounded-3xl bg-surface-100 p-6">
+        <div className="flex flex-col gap-4 rounded-3xl bg-white card-edge p-6">
           <div className="flex items-center gap-4">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-700">
               <User size={28} aria-hidden />
@@ -61,7 +61,7 @@ export function ProfileScreen() {
               <CloudCheck size={16} aria-hidden />
               {isCloudBacked ? "Cloud Backup Active" : "Local Account Active"}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-[0.8125rem] text-ink-600">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-100 px-3 py-1 text-[0.8125rem] text-ink-600">
               <ShieldCheck size={16} aria-hidden />
               Zero-Trust RLS Protected
             </span>
@@ -75,13 +75,13 @@ export function ProfileScreen() {
         <CookingHistorySection userId={user.id} isAuthenticated={true} />
 
         {/* Data Isolation & Storage Breakdown */}
-        <div className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-6">
+        <div className="flex flex-col gap-3 rounded-3xl bg-white card-edge p-6">
           <h2 className="text-[1rem] font-semibold text-ink-900">Storage & Data Isolation</h2>
           <p className="text-[0.875rem] leading-6 text-ink-600">
             Fork isolates your data clearly between cloud-synced records and private device state:
           </p>
           <div className="grid gap-3 pt-2 sm:grid-cols-2">
-            <div className="flex items-start gap-3 rounded-2xl bg-white p-4">
+            <div className="flex items-start gap-3 rounded-2xl bg-surface-100 p-4">
               <CloudCheck size={20} className="mt-0.5 shrink-0 text-primary-600" aria-hidden />
               <div className="flex flex-col gap-0.5">
                 <h3 className="text-[0.875rem] font-medium text-ink-900">Account-Backed Data</h3>
@@ -91,7 +91,7 @@ export function ProfileScreen() {
                 </p>
               </div>
             </div>
-            <div className="flex items-start gap-3 rounded-2xl bg-white p-4">
+            <div className="flex items-start gap-3 rounded-2xl bg-surface-100 p-4">
               <HardDrive size={20} className="mt-0.5 shrink-0 text-ink-500" aria-hidden />
               <div className="flex flex-col gap-0.5">
                 <h3 className="text-[0.875rem] font-medium text-ink-900">Device-Local Data</h3>
@@ -105,7 +105,7 @@ export function ProfileScreen() {
         </div>
 
         {/* Sign Out Section */}
-        <div className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-6">
+        <div className="flex flex-col gap-3 rounded-3xl bg-white card-edge p-6">
           <div className="flex flex-col gap-1">
             <h2 className="text-[1rem] font-semibold text-ink-900">Sign out</h2>
             <p className="text-[0.875rem] leading-5 text-ink-600">
@@ -117,7 +117,7 @@ export function ProfileScreen() {
             type="button"
             onClick={handleSignOut}
             disabled={signingOut}
-            className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-6 text-[0.9375rem] font-medium text-error-700 transition-colors hover:bg-error-100"
+            className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-surface-100 px-6 text-[0.9375rem] font-medium text-error-700 transition-colors hover:bg-error-100"
           >
             <LogOut size={18} aria-hidden />
             {signingOut ? "Signing out…" : "Sign out"}
@@ -158,7 +158,7 @@ export function ProfileScreen() {
       <CookingHistorySection userId={null} isAuthenticated={false} />
 
       {!isAvailable && (
-        <div role="note" className="flex flex-col gap-2 rounded-3xl bg-surface-100 p-6">
+        <div role="note" className="flex flex-col gap-2 rounded-3xl bg-white card-edge p-6">
           <h2 className="text-[1.0625rem] font-semibold text-ink-900">
             Accounts aren&apos;t available yet
           </h2>
@@ -172,13 +172,13 @@ export function ProfileScreen() {
 
       {/* Auth Card with Tabs */}
       {isAvailable && (
-        <div className="rounded-3xl bg-surface-100 p-6">
+        <div className="rounded-3xl bg-white card-edge p-6">
           {/* Tab switcher */}
           {tab !== "forgot" ? (
             <div
               role="tablist"
               aria-label="Account options"
-              className="flex rounded-2xl bg-white p-1 mb-6"
+              className="flex rounded-2xl bg-surface-100 p-1 mb-6"
             >
               <button
                 type="button"

@@ -65,7 +65,7 @@ function Browse({ discovery }: { discovery: Extract<Discovery, { ok: true }> }) 
       <section aria-labelledby="collections-heading" className="flex flex-col gap-4">
         <SectionHeading id="collections-heading" title="Collections" />
         {overviews.length === 0 ? (
-          <p className="rounded-3xl bg-surface-100 px-5 py-5 text-[0.9375rem] leading-6 text-ink-500">
+          <p className="rounded-3xl bg-white card-edge px-5 py-5 text-[0.9375rem] leading-6 text-ink-500">
             Collections such as Quick meals and One-pot meals appear here once recipes match them.
           </p>
         ) : (

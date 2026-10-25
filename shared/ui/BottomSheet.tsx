@@ -34,7 +34,7 @@ export function BottomSheet({
     <div
       role="presentation"
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-end justify-center bg-ink-900/40 sm:items-center sm:p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-ink-900/30 backdrop-blur-[2px] sm:items-center sm:p-4"
     >
       <section
         ref={panelRef}
@@ -50,11 +50,13 @@ export function BottomSheet({
             type="button"
             onClick={onClose}
             aria-label="Close panel"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ink-900 text-white hover:bg-ink-800"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-surface-100 text-ink-900 transition-[background-color,scale] duration-150 ease-out hover:bg-surface-200 active:scale-95"
           >
             <X aria-hidden size={20} />
           </button>
-          <h2 className="text-[1.0625rem] font-medium text-ink-900">{title}</h2>
+          <h2 className="font-headline text-[1.25rem] font-medium tracking-[-0.02em] text-ink-900">
+            {title}
+          </h2>
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-6 sm:px-6">
           {children}

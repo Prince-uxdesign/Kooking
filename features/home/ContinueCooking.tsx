@@ -15,7 +15,7 @@ function TimerPill({ timer }: { timer: TimerGlance }) {
   return (
     <li
       className={`tnum inline-flex min-h-[32px] items-center gap-1.5 rounded-full px-3 text-[0.8125rem] ${
-        timer.state === "done" ? "bg-primary-500 text-ink-900" : "bg-white text-ink-900"
+        timer.state === "done" ? "bg-primary-50 text-primary-800" : "bg-surface-100 text-ink-900"
       }`}
     >
       <Icon aria-hidden size={14} strokeWidth={1.75} />
@@ -47,7 +47,7 @@ export function ContinueCooking({ catalog }: { catalog: RecipeSummary[] }) {
   return (
     <section
       aria-labelledby="continue-heading"
-      className="flex flex-col gap-2 rounded-3xl bg-surface-100 p-2"
+      className="flex flex-col gap-2 rounded-3xl bg-white card-edge p-2"
     >
       {first && (
         <div className="flex flex-col gap-3 rounded-[20px] p-2 sm:flex-row sm:items-center sm:gap-4">
@@ -99,7 +99,7 @@ export function ContinueCooking({ catalog }: { catalog: RecipeSummary[] }) {
           {others.map((s) => (
             <li
               key={s.sessionId}
-              className="flex items-center gap-3 rounded-[20px] bg-white px-4 py-3"
+              className="flex items-center gap-3 rounded-[20px] bg-surface-100 px-4 py-3"
             >
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[0.9375rem] text-ink-900">{s.title}</p>

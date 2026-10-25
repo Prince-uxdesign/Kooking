@@ -55,7 +55,7 @@ export function SessionStatus({
       {!online && (
         <p
           role="status"
-          className="flex items-start gap-2 rounded-2xl bg-white/10 px-4 py-3 text-[0.875rem] text-white/80"
+          className="flex items-start gap-2 rounded-2xl bg-surface-100 px-4 py-3 text-[0.875rem] text-ink-600"
         >
           <CloudOff aria-hidden size={18} className="mt-0.5 shrink-0" />
           You&apos;re offline. This session is on your device, so you can keep cooking and your
@@ -66,7 +66,7 @@ export function SessionStatus({
       {syncNotice && (
         <p
           role="status"
-          className="rounded-2xl bg-white/10 px-4 py-3 text-[0.875rem] text-white/80"
+          className="rounded-2xl bg-surface-100 px-4 py-3 text-[0.875rem] text-ink-600"
         >
           {syncNotice}
         </p>

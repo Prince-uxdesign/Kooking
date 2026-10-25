@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
 
 /**
- * Flat soft-gray card. No border, no shadow — separation comes from
- * the gray fill against the white page and from whitespace.
+ * White card on the warm page: a hairline edge and a long, soft lift.
  */
 export function Card({
   children,
@@ -15,7 +14,7 @@ export function Card({
   padded?: boolean;
 }) {
   return (
-    <div className={`rounded-3xl bg-surface-100 ${padded ? "p-5" : ""} ${className}`}>
+    <div className={`rounded-3xl bg-white card-edge ${padded ? "p-5" : ""} ${className}`}>
       {children}
     </div>
   );

@@ -53,7 +53,7 @@ export function AlternativesSheet({
     >
       <div className="flex flex-col gap-6 text-left">
         {nothingMissing && (
-          <p className="rounded-2xl bg-surface-100 p-4 text-[0.9375rem] leading-6 text-ink-600">
+          <p className="rounded-2xl bg-white card-edge p-4 text-[0.9375rem] leading-6 text-ink-600">
             Nothing is marked missing yet, so there is nothing to swap. Mark what you don&apos;t
             have and approved alternatives will appear here.
           </p>
@@ -66,7 +66,7 @@ export function AlternativesSheet({
             </h3>
             <ul className="flex flex-col gap-3">
               {swappable.map((row) => (
-                <li key={row.lineId} className="rounded-2xl bg-surface-100 p-4">
+                <li key={row.lineId} className="rounded-2xl bg-white card-edge p-4">
                   <p className="text-[0.9375rem] text-ink-900">
                     Instead of <span className="font-medium">{row.name}</span>
                   </p>
@@ -85,8 +85,8 @@ export function AlternativesSheet({
                           onClick={() => onUseSubstitute(row.lineId, id)}
                           className={`min-h-[48px] rounded-full px-5 text-[0.9375rem] font-medium transition-colors ${
                             active
-                              ? "bg-primary-500 text-ink-900"
-                              : "bg-white text-ink-900 hover:bg-surface-200"
+                              ? "bg-ink-900 text-white"
+                              : "bg-surface-100 text-ink-900 hover:bg-surface-200"
                           }`}
                         >
                           {active ? `Using ${label}` : `Use ${label}`}
@@ -107,7 +107,7 @@ export function AlternativesSheet({
             </h3>
             <ul className="flex flex-col gap-2">
               {unavailable.map((row) => (
-                <li key={row.lineId} className="flex gap-3 rounded-2xl bg-surface-100 p-4">
+                <li key={row.lineId} className="flex gap-3 rounded-2xl bg-white card-edge p-4">
                   <Info aria-hidden size={18} className="mt-0.5 shrink-0 text-ink-600" />
                   <p className="text-[0.875rem] leading-5 text-ink-700">
                     <span className="font-medium text-ink-900">{row.name}</span> has no approved
@@ -127,7 +127,7 @@ export function AlternativesSheet({
             </h3>
             <ul className="flex flex-col gap-2">
               {omittable.map((row) => (
-                <li key={row.lineId} className="rounded-2xl bg-surface-100 p-4">
+                <li key={row.lineId} className="rounded-2xl bg-white card-edge p-4">
                   <p className="text-[0.9375rem] text-ink-900">
                     {row.name}{" "}
                     <span className="text-[0.8125rem] text-ink-500">

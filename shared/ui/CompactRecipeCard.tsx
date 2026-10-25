@@ -66,7 +66,7 @@ export function CompactRecipeCard({
 
   return (
     <article
-      className={`group relative flex items-center gap-3.5 rounded-3xl bg-surface-100 p-2 pr-3.5 transition-colors hover:bg-surface-200/70 has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-info-700 ${className}`}
+      className={`card-edge group relative flex items-center gap-3.5 rounded-3xl bg-white p-2 pr-3.5 transition-colors hover:bg-surface-50 has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-info-700 ${className}`}
     >
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[20px] bg-surface-200 sm:h-20 sm:w-20">
         <RecipeImage
@@ -84,7 +84,7 @@ export function CompactRecipeCard({
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <h3 className="line-clamp-1 text-[0.9375rem] font-medium leading-5 text-ink-900">
+        <h3 className="line-clamp-1 text-[0.9375rem] font-semibold leading-5 tracking-[-0.01em] text-ink-900">
           {href ? (
             <Link
               href={href}
@@ -143,7 +143,7 @@ export function CompactRecipeCard({
             saveLabel ?? (saved ? `Remove ${title} from saved` : `Save ${title} for later`)
           }
           aria-pressed={saved}
-          className={`relative z-10 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white transition-colors hover:bg-surface-200 focus-visible:outline-3 focus-visible:outline-info-700 active:scale-95 ${
+          className={`relative z-10 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-100 transition-colors hover:bg-surface-200 focus-visible:outline-3 focus-visible:outline-info-700 active:scale-95 ${
             saved ? "text-primary-700" : "text-ink-700"
           }`}
         >

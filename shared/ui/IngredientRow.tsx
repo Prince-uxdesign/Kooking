@@ -42,7 +42,7 @@ export function IngredientRow({
           checked={checked}
           onChange={(e) => onToggle(e.target.checked)}
           aria-label={`${name}, ${quantity}, ${roleLabel[role]}`}
-          className="h-5 w-5 shrink-0 accent-[#111311]"
+          className="h-5 w-5 shrink-0 accent-[#f0571a]"
         />
         <span className="flex min-w-0 flex-1 flex-col">
           <span className="flex items-baseline justify-between gap-2">

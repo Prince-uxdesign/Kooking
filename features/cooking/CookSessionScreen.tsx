@@ -75,13 +75,15 @@ const NO_TIMERS: CookingSession["timers"] = [];
 
 const pill =
   "inline-flex min-h-[56px] items-center justify-center rounded-full px-6 text-[1rem] font-medium transition-colors disabled:pointer-events-none disabled:opacity-40";
-const primary = `${pill} bg-primary-500 text-ink-900 hover:bg-primary-400`;
-const quiet = `${pill} bg-white/10 text-white hover:bg-white/20`;
+const primary = `${pill} bg-ink-900 text-white hover:bg-ink-800`;
+const quiet = `${pill} bg-surface-100 text-ink-900 hover:bg-surface-200`;
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="flex flex-col gap-4 rounded-[32px] bg-white/5 p-6 sm:p-8">
-      <h1 className="text-[1.75rem] font-semibold leading-9 text-white">{title}</h1>
+    <section className="flex flex-col gap-4 rounded-[32px] bg-white card-edge p-6 sm:p-8">
+      <h1 className="font-headline text-[1.875rem] font-medium leading-9 tracking-[-0.025em] text-ink-900">
+        {title}
+      </h1>
       {children}
     </section>
   );
@@ -432,7 +434,7 @@ export function CookSessionScreen({
 
   if (!view) {
     return (
-      <p role="status" className="text-[1rem] text-white/70">
+      <p role="status" className="text-[1rem] text-ink-600">
         Loading your cooking session…
       </p>
     );
@@ -448,7 +450,7 @@ export function CookSessionScreen({
     case "not-found":
       return (
         <Panel title="Session not found">
-          <p className="text-[1rem] leading-7 text-white/70">
+          <p className="text-[1rem] leading-7 text-ink-600">
             This cooking session isn&apos;t on this device. It may have been started on another
             device or cleared from storage.
           </p>
@@ -459,7 +461,7 @@ export function CookSessionScreen({
       const salvage = salvageSession(damagedRaw);
       return (
         <Panel title="This session can't be opened">
-          <p className="text-[1rem] leading-7 text-white/70">
+          <p className="text-[1rem] leading-7 text-ink-600">
             The saved data for this session is damaged, so it can&apos;t be continued safely.
             {salvage
               ? ` It looks like ${salvage.recipeTitle ?? "a recipe"}${
@@ -477,8 +479,8 @@ export function CookSessionScreen({
             </Link>
           )}
           {removeConfirm ? (
-            <div className="flex flex-col gap-3 rounded-2xl bg-white/5 p-4">
-              <p className="text-[0.9375rem] text-white/80">Remove the damaged session for good?</p>
+            <div className="flex flex-col gap-3 rounded-2xl bg-white card-edge p-4">
+              <p className="text-[0.9375rem] text-ink-600">Remove the damaged session for good?</p>
               <div className="flex flex-wrap gap-3">
                 <button
                   type="button"
@@ -505,7 +507,7 @@ export function CookSessionScreen({
             </button>
           )}
           {error && (
-            <p role="alert" className="text-[0.875rem] text-error-100">
+            <p role="alert" className="text-[0.875rem] text-error-700">
               {error}
             </p>
           )}
@@ -537,7 +539,7 @@ export function CookSessionScreen({
       const s = view.session;
       return (
         <Panel title="This session was ended">
-          <p className="text-[1rem] leading-7 text-white/70">
+          <p className="text-[1rem] leading-7 text-ink-600">
             {s.recipeTitle ?? "This recipe"} · {s.servings} servings. Ended sessions can&apos;t be
             resumed. To cook it again, start a new session from Kitchen Check.
           </p>
@@ -550,7 +552,7 @@ export function CookSessionScreen({
     case "no-snapshot":
       return (
         <Panel title="This session is out of date">
-          <p className="text-[1rem] leading-7 text-white/70">
+          <p className="text-[1rem] leading-7 text-ink-600">
             It was saved before Fork kept a copy of the steps, so it can&apos;t be continued safely.
             End it and start again from Kitchen Check.
           </p>
@@ -707,23 +709,28 @@ export function CookSessionScreen({
                 timer={stepTimer}
                 readyCue={step.readinessCheck}
                 onAction={(a) => timerAction(stepTimer.id, a)}
-                alertControls={
-                  stepTimer.status !== "idle" && (
-                    <AlertControls
-                      soundOn={soundOn}
-                      soundAvailable={soundAvailable}
-                      notifications={notifications}
-                      onToggleSound={() => {
-                        setSoundPreference(!soundOn);
-                        setSoundOn(!soundOn);
-                      }}
-                      onEnableNotifications={async () =>
-                        setNotifications(await requestNotifications())
-                      }
-                    />
-                  )
-                }
               />
+            )
+          }
+          timerExtrasSlot={
+            stepTimer &&
+            stepTimer.status !== "idle" &&
+            stepTimer.status !== "done" && (
+              <section
+                aria-label="Timer alerts"
+                className="card-edge flex flex-col gap-2 rounded-3xl bg-white p-5"
+              >
+                <AlertControls
+                  soundOn={soundOn}
+                  soundAvailable={soundAvailable}
+                  notifications={notifications}
+                  onToggleSound={() => {
+                    setSoundPreference(!soundOn);
+                    setSoundOn(!soundOn);
+                  }}
+                  onEnableNotifications={async () => setNotifications(await requestNotifications())}
+                />
+              </section>
             )
           }
           barSlot={

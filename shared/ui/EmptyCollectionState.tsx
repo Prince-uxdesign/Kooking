@@ -16,7 +16,7 @@ export interface EmptyCollectionStateProps {
 
 /**
  * Empty Collection State (Clean Kitchen system):
- * - Soft gray card (`rounded-3xl bg-surface-100 p-6 sm:p-8`)
+ * - Soft gray card (`rounded-3xl bg-white card-edge p-6 sm:p-8`)
  * - Centered white icon circle
  * - Quiet, reassuring copy — never blaming the user
  * - Optional CTA to explore other categories or clear filters
@@ -31,11 +31,11 @@ export function EmptyCollectionState({
   return (
     <div
       role="status"
-      className={`flex flex-col items-center justify-center rounded-3xl bg-surface-100 p-6 text-center sm:p-8 ${className}`}
+      className={`flex flex-col items-center justify-center rounded-3xl bg-white card-edge p-6 text-center sm:p-8 ${className}`}
     >
       <span
         aria-hidden
-        className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-white text-ink-700 shadow-none"
+        className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-surface-100 text-ink-700 shadow-none"
       >
         <Icon size={24} strokeWidth={1.75} />
       </span>

@@ -33,7 +33,7 @@ export function InstallBanner() {
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary-500 text-ink-900">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary-600 text-white">
             <Sparkles size={20} />
           </span>
           <div>
@@ -61,7 +61,7 @@ export function InstallBanner() {
             type="button"
             onClick={handleInstall}
             disabled={installing}
-            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-primary-500 px-4 text-xs font-medium text-ink-900 transition-colors hover:bg-primary-400 disabled:opacity-50 sm:text-sm"
+            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-ink-900 px-4 text-xs font-medium text-white transition-colors hover:bg-ink-800 disabled:opacity-50 sm:text-sm"
           >
             <Download size={14} />
             {installing ? "Installing..." : "Install App"}
@@ -93,7 +93,7 @@ export function UpdateBanner() {
         <button
           type="button"
           onClick={applyUpdate}
-          className="inline-flex min-h-[32px] items-center rounded-full bg-primary-500 px-3 text-xs font-semibold text-ink-900 hover:bg-primary-400"
+          className="inline-flex min-h-[32px] items-center rounded-full bg-ink-900 px-3 text-xs font-semibold text-white hover:bg-ink-800"
         >
           Update Now
         </button>

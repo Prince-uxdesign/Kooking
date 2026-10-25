@@ -27,7 +27,7 @@ export function Brand({
 /** Quiet header for touch viewports. Brand only — no bar, no border. */
 export function SiteHeader() {
   return (
-    <header className="safe-top bg-white lg:hidden">
+    <header className="safe-top lg:hidden">
       <div className="mx-auto flex h-16 w-full max-w-[1120px] items-center px-5 sm:px-6">
         <Brand />
       </div>

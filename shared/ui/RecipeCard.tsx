@@ -3,7 +3,6 @@ import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { difficultyLabel, formatMinutes } from "@/shared/domain/discovery";
 import type { RecipeDifficulty } from "@/shared/domain/recipe-schema";
-import { Badge } from "./Badge";
 import { buttonClasses } from "./Button";
 import { RecipeImage } from "./RecipeImage";
 import { SaveButton } from "@/features/saved/SaveButton";
@@ -60,8 +59,6 @@ export function RecipeCard({
   image,
   minutes,
   difficulty,
-  categories = [],
-  tags = [],
   meta,
   demo = false,
   saved = false,
@@ -75,23 +72,22 @@ export function RecipeCard({
 }: RecipeCardProps) {
   const timeLabel = formatMinutes(minutes);
   const diffText = difficultyLabel(difficulty);
-  const effectiveTags = tags.length > 0 ? tags : categories;
 
   return (
     <article
-      className={`group relative flex h-full flex-col rounded-3xl bg-surface-100 p-1.5 transition-colors hover:bg-surface-200/70 has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-info-700 ${className}`}
+      className={`card-edge group relative flex h-full flex-col rounded-3xl bg-white p-1.5 transition-[box-shadow,translate] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_var(--color-line-strong),0_18px_36px_-18px_rgb(21_18_15/0.25)] has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-info-700 ${className}`}
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[22px]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[20px] bg-surface-100">
         <RecipeImage
           image={image}
           priority={priority}
           FallbackIcon={FallbackIcon}
-          className="h-full w-full rounded-[22px]"
+          className="h-full w-full rounded-[20px] transition-[scale] duration-500 ease-out group-hover:scale-[1.03]"
         />
 
         {/* Honest demo indicator */}
         {demo && (
-          <span className="absolute left-2.5 top-2.5 z-10 rounded-full bg-white px-2.5 py-1 text-[0.6875rem] font-medium text-ink-700 shadow-none">
+          <span className="absolute left-2.5 top-2.5 z-10 rounded-full bg-white/90 px-2.5 py-1 text-[0.6875rem] font-medium text-ink-700 backdrop-blur">
             Demo
           </span>
         )}
@@ -132,7 +128,7 @@ export function RecipeCard({
       </div>
 
       <div className="flex flex-1 flex-col gap-1 px-3 pb-3 pt-2.5">
-        <h3 className="line-clamp-2 text-[0.9375rem] font-medium leading-5 text-ink-900">
+        <h3 className="line-clamp-2 text-[1rem] font-semibold leading-5 tracking-[-0.01em] text-ink-900">
           {href ? (
             <Link
               href={href}
@@ -156,13 +152,12 @@ export function RecipeCard({
             </span>
           )}
 
-          {diffText && <Badge tone="white">{diffText}</Badge>}
-
-          {effectiveTags.slice(0, 2).map((t) => (
-            <Badge key={t} tone="white">
-              {t}
-            </Badge>
-          ))}
+          {diffText && (
+            <span className="inline-flex items-center gap-2.5 whitespace-nowrap text-[0.8125rem] text-ink-500">
+              {timeLabel && <span aria-hidden className="h-1 w-1 rounded-full bg-ink-300" />}
+              {diffText}
+            </span>
+          )}
         </div>
 
         {onOpen && (

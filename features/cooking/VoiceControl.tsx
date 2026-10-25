@@ -114,7 +114,9 @@ export function MicButton({
       aria-label={on ? "Stop listening" : "Start voice commands"}
       title={on ? "Stop listening" : "Voice commands"}
       className={`inline-flex min-h-[56px] min-w-[56px] shrink-0 items-center justify-center rounded-full transition-colors ${
-        on ? "bg-white text-ink-900 hover:bg-white/90" : "bg-white/10 text-white hover:bg-white/20"
+        on
+          ? "bg-white text-ink-900 hover:bg-white/90"
+          : "bg-surface-100 text-ink-900 hover:bg-surface-200"
       }`}
     >
       {/* Same icon both ways: the white fill, aria-pressed and the "Mic on" text carry the state. */}
@@ -165,7 +167,7 @@ export function VoiceStatus({
       <div className="flex items-center justify-between gap-3">
         <p
           role="status"
-          className="inline-flex min-w-0 items-start gap-2 text-[0.9375rem] leading-6 text-white"
+          className="inline-flex min-w-0 items-start gap-2 text-[0.9375rem] leading-6 text-ink-900"
         >
           {state.status === "requesting" ? (
             <>
@@ -177,7 +179,7 @@ export function VoiceStatus({
               <Mic aria-hidden size={18} strokeWidth={2} className="mt-0.5 shrink-0" />
               <span>
                 <span className="font-medium">Mic on · Listening</span>
-                <span className="hidden text-white/60 sm:inline"> · say “next step”</span>
+                <span className="hidden text-ink-500 sm:inline"> · say “next step”</span>
               </span>
             </>
           ) : problem ? (
@@ -188,12 +190,12 @@ export function VoiceStatus({
           ) : state.message ? (
             <>
               <MicOff aria-hidden size={18} strokeWidth={1.75} className="mt-0.5 shrink-0" />
-              <span className="text-white/80">{state.message}</span>
+              <span className="text-ink-600">{state.message}</span>
             </>
           ) : (
             <>
               <MicOff aria-hidden size={18} strokeWidth={1.75} className="mt-0.5 shrink-0" />
-              <span className="text-white/80">Mic off</span>
+              <span className="text-ink-600">Mic off</span>
             </>
           )}
         </p>
@@ -210,7 +212,7 @@ export function VoiceStatus({
           <button
             type="button"
             onClick={onRetry}
-            className={`inline-flex min-h-[48px] shrink-0 items-center rounded-full bg-white/10 px-4 text-[0.9375rem] font-medium text-white hover:bg-white/20`}
+            className={`inline-flex min-h-[48px] shrink-0 items-center rounded-full bg-surface-100 px-4 text-[0.9375rem] font-medium text-ink-900 hover:bg-surface-200`}
           >
             Try again
           </button>
@@ -219,13 +221,13 @@ export function VoiceStatus({
       {line && (
         <p
           aria-live="polite"
-          className="inline-flex min-w-0 items-start gap-2 text-[0.875rem] leading-5 text-white/80"
+          className="inline-flex min-w-0 items-start gap-2 text-[0.875rem] leading-5 text-ink-600"
         >
           <span aria-hidden className="mt-0.5 shrink-0">
             {line.icon}
           </span>
           <span className="min-w-0 break-words">
-            <span className="text-white/50">“{feedback!.heard}” · </span>
+            <span className="text-ink-500">“{feedback!.heard}” · </span>
             {line.text}
           </span>
         </p>
@@ -242,30 +244,30 @@ export function VoiceHelp({ state }: { state: ListenState | null }) {
   if (!state) return null;
   if (state.status === "unsupported") {
     return (
-      <p className="inline-flex items-start gap-2 text-[0.875rem] leading-5 text-white/60">
+      <p className="inline-flex items-start gap-2 text-[0.875rem] leading-5 text-ink-500">
         <MicOff aria-hidden size={16} strokeWidth={1.75} className="mt-0.5 shrink-0" />
         Voice commands aren&apos;t available in this browser. Every action works with the buttons.
       </p>
     );
   }
   return (
-    <details className="text-[0.875rem] text-white/70">
+    <details className="text-[0.875rem] text-ink-600">
       <summary
         className={`inline-flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-full px-1 underline-offset-4 hover:underline`}
       >
         <Mic aria-hidden size={16} strokeWidth={1.75} />
         Voice commands: what you can say
       </summary>
-      <div className="mt-2 flex flex-col gap-3 rounded-3xl bg-white/5 p-5">
+      <div className="mt-2 flex flex-col gap-3 rounded-3xl bg-white card-edge p-5">
         <dl className="flex flex-col gap-2">
           {VOICE_HELP.map((h) => (
             <div key={h.say} className="flex flex-col sm:flex-row sm:gap-3">
-              <dt className="font-medium text-white sm:w-56 sm:shrink-0">“{h.say}”</dt>
-              <dd className="text-white/70">{h.does}</dd>
+              <dt className="font-medium text-ink-900 sm:w-56 sm:shrink-0">“{h.say}”</dt>
+              <dd className="text-ink-600">{h.does}</dd>
             </div>
           ))}
         </dl>
-        <p className="text-[0.8125rem] leading-5 text-white/60">
+        <p className="text-[0.8125rem] leading-5 text-ink-500">
           Tap the mic to start. It stays on until you stop it, leave this page, or say nothing for 2
           minutes. Your browser turns speech into text, and some browsers do that on their own
           online service, so it may not work offline. Fork doesn&apos;t record audio or keep what

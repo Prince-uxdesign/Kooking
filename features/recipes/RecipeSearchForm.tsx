@@ -25,7 +25,7 @@ export function RecipeSearchForm() {
       <label htmlFor={inputId} className="sr-only">
         Search recipes or ingredients
       </label>
-      <div className="relative flex items-center rounded-full border border-transparent bg-surface-100 transition-colors focus-within:border-ink-900 focus-within:bg-white">
+      <div className="card-edge relative flex items-center rounded-full border border-transparent bg-white transition-colors focus-within:border-ink-900">
         <Search
           aria-hidden
           size={20}
@@ -45,7 +45,7 @@ export function RecipeSearchForm() {
         <button
           type="submit"
           aria-label="Search"
-          className="mr-1.5 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-500 text-ink-900 hover:bg-primary-600"
+          className="mr-1.5 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-600 text-white transition-[background-color,scale] duration-150 ease-out hover:bg-primary-700 active:scale-95"
         >
           <ArrowRight aria-hidden size={20} strokeWidth={2} />
         </button>

@@ -10,3 +10,7 @@ tsconfig.tsbuildinfo
 
 # taste-skill working files (inspector screenshots, direction sheet)
 .taste-skill/
+.codex/
+.impeccable/
+.agents/
+skills-lock.json

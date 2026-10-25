@@ -25,7 +25,7 @@ export function SyncNoticeBanner() {
   return (
     <aside
       aria-label="Account backup notice"
-      className="flex items-start justify-between gap-3 rounded-2xl bg-surface-100 p-4 text-[0.875rem]"
+      className="flex items-start justify-between gap-3 rounded-2xl bg-white card-edge p-4 text-[0.875rem]"
     >
       <div className="flex items-start gap-3">
         <Cloud size={20} className="mt-0.5 text-primary-600 shrink-0" aria-hidden />

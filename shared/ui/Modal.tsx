@@ -28,7 +28,7 @@ export function Modal({
     <div
       role="presentation"
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-end justify-center bg-ink-900/40 p-4 sm:items-center"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-ink-900/30 p-4 backdrop-blur-[2px] sm:items-center"
     >
       <div
         ref={panelRef}
@@ -40,7 +40,9 @@ export function Modal({
       >
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-[1.25rem] font-semibold text-ink-900">{title}</h2>
+            <h2 className="font-headline text-[1.375rem] font-medium tracking-[-0.02em] text-ink-900">
+              {title}
+            </h2>
             {description && (
               <p className="mt-1 text-[0.9375rem] leading-6 text-ink-500">{description}</p>
             )}
@@ -50,7 +52,7 @@ export function Modal({
             type="button"
             onClick={onClose}
             aria-label="Close dialog"
-            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink-900 text-white hover:bg-ink-800"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-100 text-ink-900 transition-[background-color,scale] duration-150 ease-out hover:bg-surface-200 active:scale-95"
           >
             <X aria-hidden size={18} />
           </button>

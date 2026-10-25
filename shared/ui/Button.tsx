@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type Variant = "primary" | "secondary" | "tertiary" | "dark" | "light";
+type Variant = "primary" | "secondary" | "tertiary" | "dark" | "light" | "brand";
 type Size = "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -9,21 +9,24 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-[color,background-color,box-shadow,scale] duration-150 ease-out active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50";
 
 const sizes: Record<Size, string> = {
   md: "min-h-[48px] px-6 text-[0.9375rem]",
   lg: "min-h-[56px] px-8 text-[1rem]",
 };
 
-/** Flat pills. Green fills take ink text — white on primary-500 fails contrast. */
+/**
+ * Pills. Primary is ink (the landing page's CTA); orange is reserved for
+ * `brand`, which takes white text at large, bold sizes only.
+ */
 const variants: Record<Variant, string> = {
-  primary: "bg-primary-500 text-ink-900 hover:bg-primary-600",
-  secondary: "bg-surface-100 text-ink-900 hover:bg-surface-200",
+  primary: "bg-ink-900 text-white hover:bg-ink-800",
+  secondary: "bg-white text-ink-900 card-edge hover:bg-surface-100",
   tertiary: "bg-transparent text-ink-900 hover:bg-surface-100 px-4",
   dark: "bg-ink-900 text-white hover:bg-ink-800",
-  /** For use on dark surfaces. */
   light: "bg-white text-ink-900 hover:bg-surface-100",
+  brand: "bg-primary-600 font-semibold text-white hover:bg-primary-700",
 };
 
 /**

@@ -33,7 +33,7 @@ export function FinishPrompt({
         ? `Step ${first} isn't`
         : `Steps ${check.steps.slice(0, -1).join(", ")} and ${check.steps.at(-1)} aren't`;
     return (
-      <div role="alert" className="flex flex-col gap-3 rounded-3xl bg-white/10 p-4 text-white">
+      <div role="alert" className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-4 text-ink-900">
         <p className="text-[0.9375rem] leading-6">
           {list} marked done yet. Go back and finish {check.steps.length === 1 ? "it" : "them"}{" "}
           first.
@@ -48,7 +48,7 @@ export function FinishPrompt({
           </button>
           <button
             type="button"
-            className={`${btn} bg-white/10 hover:bg-white/20`}
+            className={`${btn} bg-surface-100 hover:bg-surface-200`}
             onClick={onDismiss}
           >
             Not now
@@ -65,7 +65,7 @@ export function FinishPrompt({
       )
       .join(", ");
     return (
-      <div role="alert" className="flex flex-col gap-3 rounded-3xl bg-white/10 p-4 text-white">
+      <div role="alert" className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-4 text-ink-900">
         <p className="text-[0.9375rem] leading-6">
           {check.timers.length === 1 ? "A timer is" : "Timers are"} still going: {described}.
           Finishing will stop {check.timers.length === 1 ? "it" : "them"}.
@@ -73,14 +73,14 @@ export function FinishPrompt({
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
-            className={`${btn} bg-primary-500 text-ink-900 hover:bg-primary-400`}
+            className={`${btn} bg-ink-900 text-white hover:bg-ink-800`}
             onClick={onConfirmStopTimers}
           >
             Finish and stop {check.timers.length === 1 ? "timer" : "timers"}
           </button>
           <button
             type="button"
-            className={`${btn} bg-white/10 hover:bg-white/20`}
+            className={`${btn} bg-surface-100 hover:bg-surface-200`}
             onClick={onDismiss}
           >
             Keep cooking

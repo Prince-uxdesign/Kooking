@@ -9,7 +9,7 @@ import { useAuth } from "./AuthContext";
 const inputClass = fieldClasses;
 const labelClass = "block text-[0.875rem] font-medium text-ink-700 mb-1.5";
 const buttonClass =
-  "inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-primary-500 px-6 text-[1rem] font-medium text-ink-900 transition-colors hover:bg-primary-400 disabled:opacity-50";
+  "inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-ink-900 px-6 text-[1rem] font-medium text-white transition-colors hover:bg-ink-800 disabled:opacity-50";
 
 /* ------------------------------------------------------------------ */
 /* Sign In Form                                                       */
@@ -220,7 +220,7 @@ export function SignUpForm({ onSwitchToSignIn, onSuccess }: SignUpFormProps) {
 
   if (verificationNotice) {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-2xl bg-white p-6 text-center">
+      <div className="flex flex-col items-center gap-3 rounded-2xl bg-surface-100 p-6 text-center">
         <CheckCircle2 size={36} className="text-primary-600" aria-hidden />
         <h3 className="text-[1.125rem] font-semibold text-ink-900">Check your email</h3>
         <p className="text-[0.875rem] leading-6 text-ink-600">
@@ -386,7 +386,7 @@ export function ForgotPasswordForm({ onBackToSignIn }: ForgotPasswordFormProps) 
 
   if (submitted) {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-2xl bg-white p-6 text-center">
+      <div className="flex flex-col items-center gap-3 rounded-2xl bg-surface-100 p-6 text-center">
         <CheckCircle2 size={36} className="text-primary-600" aria-hidden />
         <h3 className="text-[1.125rem] font-semibold text-ink-900">Reset email sent</h3>
         <p className="text-[0.875rem] leading-6 text-ink-600">

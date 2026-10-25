@@ -41,13 +41,13 @@ export function RecentlyViewed({ catalog }: { catalog: RecipeSummary[] }) {
         <div
           role="status"
           aria-label="Loading recently viewed"
-          className="h-[88px] animate-pulse rounded-3xl bg-surface-100"
+          className="h-[88px] animate-pulse rounded-3xl bg-white card-edge"
         />
       ) : state.recipes.length === 0 ? (
-        <p className="flex items-center gap-3.5 rounded-3xl bg-surface-100 p-2 pr-4 text-[0.9375rem] leading-6 text-ink-500">
+        <p className="flex items-center gap-3.5 rounded-3xl bg-white card-edge p-2 pr-4 text-[0.9375rem] leading-6 text-ink-500">
           <span
             aria-hidden
-            className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-ink-900"
+            className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-surface-100 text-ink-900"
           >
             <History size={20} strokeWidth={1.75} />
           </span>

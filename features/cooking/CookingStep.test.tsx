@@ -196,14 +196,14 @@ describe("CookingStep", () => {
     const html = render({
       step: { ...step, cues: [{ kind: "visual", label: "Look", text: long }] },
     });
-    expect(html).toContain(`break-words text-[1.0625rem] leading-7 text-white">${long}`);
+    expect(html).toContain(`break-words text-[1.0625rem] leading-7 text-ink-900">${long}`);
   });
 
   it("wraps long instructions instead of truncating them", () => {
     const long = "Stir gently and keep stirring ".repeat(40).trim();
     const html = render({ step: { ...step, instruction: long } });
     expect(html).toContain(long);
-    expect(html).toMatch(/break-words[^"]*text-\[1\.5rem\]/);
+    expect(html).toMatch(/break-words[^"]*text-\[1\.625rem\]/);
   });
 
   it("disables Previous on the first step and shows Finish on the last", () => {

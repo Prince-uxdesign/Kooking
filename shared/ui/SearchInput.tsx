@@ -46,7 +46,7 @@ export function SearchInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="min-h-[56px] w-full rounded-full border border-transparent bg-surface-100 pl-12 pr-12 text-[1rem] text-ink-900 placeholder:text-ink-500 transition-colors focus:border-ink-900 focus:bg-white focus:outline-none [&::-webkit-search-cancel-button]:appearance-none"
+          className="card-edge min-h-[56px] w-full rounded-full border border-transparent bg-white pl-12 pr-12 text-[1rem] text-ink-900 placeholder:text-ink-500 transition-colors focus:border-ink-900 focus:outline-none [&::-webkit-search-cancel-button]:appearance-none"
         />
         {value && (
           <button

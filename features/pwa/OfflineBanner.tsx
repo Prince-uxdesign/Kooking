@@ -46,7 +46,7 @@ export function OfflineBanner() {
     return (
       <aside
         aria-live="polite"
-        className="w-full bg-primary-500 px-4 py-1.5 text-center text-xs font-medium text-ink-900 transition-opacity sm:text-sm"
+        className="w-full bg-primary-50 px-4 py-1.5 text-center text-xs font-medium text-primary-800 transition-opacity sm:text-sm"
       >
         <div className="mx-auto flex max-w-[1120px] items-center justify-center gap-2">
           <CheckCircle2 size={15} className="shrink-0" />

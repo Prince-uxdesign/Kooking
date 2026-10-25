@@ -73,7 +73,7 @@ export const ShoppingItemRow = memo(function ShoppingItemRow({
           checked={item.checked}
           onChange={onToggle}
           aria-label={`${item.name}${toBuy ? `, ${toBuy}` : ""}`}
-          className="mt-0.5 h-6 w-6 shrink-0 accent-[#111311]"
+          className="mt-0.5 h-6 w-6 shrink-0 accent-[#f0571a]"
         />
         <span className="flex min-w-0 flex-1 flex-col gap-1">
           <span className="flex items-baseline justify-between gap-3">
@@ -124,7 +124,7 @@ export const ShoppingItemRow = memo(function ShoppingItemRow({
           onClick={onEdit}
           aria-label={`Edit ${item.name}`}
           title={`Edit ${item.name}`}
-          className="mt-2 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-ink-900 hover:bg-surface-50"
+          className="mt-2 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-surface-100 text-ink-900 hover:bg-surface-50"
         >
           <Pencil aria-hidden size={18} strokeWidth={1.75} />
         </button>

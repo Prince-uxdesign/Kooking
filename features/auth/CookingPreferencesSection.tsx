@@ -83,9 +83,9 @@ export function CookingPreferencesSection({
 
   if (!loaded) {
     return (
-      <div className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-6">
-        <div className="h-6 w-40 rounded-lg bg-white animate-pulse" />
-        <div className="h-28 rounded-2xl bg-white animate-pulse mt-2" />
+      <div className="flex flex-col gap-3 rounded-3xl bg-white card-edge p-6">
+        <div className="h-6 w-40 rounded-lg bg-surface-100 animate-pulse" />
+        <div className="h-28 rounded-2xl bg-surface-100 animate-pulse mt-2" />
       </div>
     );
   }
@@ -98,7 +98,7 @@ export function CookingPreferencesSection({
   };
 
   return (
-    <div className="flex flex-col gap-4 rounded-3xl bg-surface-100 p-6">
+    <div className="flex flex-col gap-4 rounded-3xl bg-white card-edge p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Settings2 size={20} className="text-primary-600" aria-hidden />
@@ -133,7 +133,7 @@ export function CookingPreferencesSection({
               aria-label="Decrease default servings"
               onClick={() => handleServingsDelta(-1)}
               disabled={currentServings <= 1}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink-800 transition-colors hover:bg-surface-200 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-surface-100 text-ink-800 transition-colors hover:bg-surface-200 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Minus size={16} aria-hidden />
             </button>
@@ -145,7 +145,7 @@ export function CookingPreferencesSection({
               aria-label="Increase default servings"
               onClick={() => handleServingsDelta(1)}
               disabled={currentServings >= 12}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink-800 transition-colors hover:bg-surface-200 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-surface-100 text-ink-800 transition-colors hover:bg-surface-200 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Plus size={16} aria-hidden />
             </button>
@@ -173,7 +173,7 @@ export function CookingPreferencesSection({
             type="checkbox"
             checked={prefs.screenWake}
             onChange={(e) => void update({ screenWake: e.target.checked })}
-            className="h-6 w-6 min-h-[44px] min-w-[44px] cursor-pointer rounded accent-primary-600"
+            className="switch"
           />
         </div>
 
@@ -198,7 +198,7 @@ export function CookingPreferencesSection({
             type="checkbox"
             checked={prefs.soundAlerts}
             onChange={(e) => void update({ soundAlerts: e.target.checked })}
-            className="h-6 w-6 min-h-[44px] min-w-[44px] cursor-pointer rounded accent-primary-600"
+            className="switch"
           />
         </div>
 
@@ -223,7 +223,7 @@ export function CookingPreferencesSection({
             type="checkbox"
             checked={prefs.readAloud}
             onChange={(e) => void update({ readAloud: e.target.checked })}
-            className="h-6 w-6 min-h-[44px] min-w-[44px] cursor-pointer rounded accent-primary-600"
+            className="switch"
           />
         </div>
       </div>

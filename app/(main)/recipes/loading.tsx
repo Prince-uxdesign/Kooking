@@ -10,7 +10,7 @@ export default function RecipesLoading() {
       </div>
       <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
         {[0, 1, 2, 3, 4, 5].map((i) => (
-          <div key={i} className="aspect-[4/5] animate-pulse rounded-3xl bg-surface-100" />
+          <div key={i} className="aspect-[4/5] animate-pulse rounded-3xl bg-white card-edge" />
         ))}
       </div>
     </div>

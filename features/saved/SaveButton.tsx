@@ -6,21 +6,21 @@ import { useSavedRecipes } from "@/shared/data/saved-store";
 const VARIANT = {
   /** White circle on a photo (RecipeCard). */
   card: {
-    base: "bg-white hover:bg-surface-200",
+    base: "bg-white/95 shadow-[0_2px_8px_rgb(21_18_15/0.12)] backdrop-blur hover:bg-white active:scale-90",
     on: "text-primary-700",
     off: "text-ink-700",
     icon: 16,
   },
-  /** On the dark featured card. */
+  /** On the featured card. */
   featured: {
-    base: "",
-    on: "bg-primary-500 text-ink-900 hover:bg-primary-600",
-    off: "bg-white/10 text-white hover:bg-white/20",
+    base: "active:scale-90",
+    on: "bg-primary-50 text-primary-700 hover:bg-primary-100",
+    off: "bg-surface-100 text-ink-900 hover:bg-surface-200",
     icon: 18,
   },
   /** Beside a compact row card. */
   compact: {
-    base: "relative z-10 bg-white hover:bg-surface-200",
+    base: "relative z-10 bg-surface-100 hover:bg-surface-200 active:scale-90",
     on: "text-primary-700",
     off: "text-ink-700",
     icon: 16,
@@ -60,7 +60,7 @@ export function SaveButton({
       aria-pressed={on}
       title={on ? "Saved. Tap to remove" : "Save for later"}
       data-saved={on ? "true" : "false"}
-      className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors focus-visible:outline-3 focus-visible:outline-info-700 ${v.base} ${on ? v.on : v.off} ${className}`}
+      className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-[color,background-color,scale] duration-150 ease-out focus-visible:outline-3 focus-visible:outline-info-700 ${v.base} ${on ? v.on : v.off} ${className}`}
     >
       <Bookmark aria-hidden size={v.icon} strokeWidth={1.75} fill={on ? "currentColor" : "none"} />
     </button>

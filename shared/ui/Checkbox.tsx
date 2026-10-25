@@ -9,9 +9,9 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "typ
 export function Checkbox({ label, description, className = "", ...rest }: CheckboxProps) {
   return (
     <label
-      className={`flex min-h-[52px] cursor-pointer items-start gap-3 rounded-[20px] bg-surface-100 px-4 py-3.5 transition-colors hover:bg-surface-200 ${className}`}
+      className={`flex min-h-[52px] cursor-pointer items-start gap-3 card-edge rounded-[20px] bg-white px-4 py-3.5 transition-colors hover:bg-surface-50 ${className}`}
     >
-      <input type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 accent-[#111311]" {...rest} />
+      <input type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 accent-[#f0571a]" {...rest} />
       <span className="flex flex-col">
         <span className="text-[0.9375rem] leading-6 text-ink-900">{label}</span>
         {description && (

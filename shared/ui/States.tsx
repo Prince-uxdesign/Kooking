@@ -30,14 +30,16 @@ export function EmptyState({
 }) {
   const Heading = heading(headingLevel);
   return (
-    <div className="flex flex-col items-center gap-2 rounded-3xl bg-surface-100 px-6 py-12 text-center">
+    <div className="card-edge flex flex-col items-center gap-2 rounded-3xl bg-white px-6 py-12 text-center">
       <span
         aria-hidden
-        className="mb-2 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white text-ink-900"
+        className="mb-2 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary-50 text-primary-700"
       >
         <CookingPot size={26} strokeWidth={1.75} />
       </span>
-      <Heading className="text-[1.125rem] font-semibold text-ink-900">{title}</Heading>
+      <Heading className="font-headline text-[1.25rem] font-medium tracking-[-0.015em] text-ink-900">
+        {title}
+      </Heading>
       <p className="max-w-sm text-[0.9375rem] leading-6 text-ink-500">{message}</p>
       {action}
     </div>
@@ -67,7 +69,9 @@ export function ErrorState({
       >
         <TriangleAlert size={26} strokeWidth={1.75} />
       </span>
-      <Heading className="text-[1.125rem] font-semibold text-ink-900">{title}</Heading>
+      <Heading className="font-headline text-[1.25rem] font-medium tracking-[-0.015em] text-ink-900">
+        {title}
+      </Heading>
       <p className="max-w-sm text-[0.9375rem] leading-6 text-ink-600">{message}</p>
       {onRetry && (
         <button
@@ -85,9 +89,9 @@ export function ErrorState({
 export function Skeleton({ label = "Loading content" }: { label?: string }) {
   return (
     <div role="status" aria-label={label} className="flex flex-col gap-2.5">
-      <div className="h-36 animate-pulse rounded-3xl bg-surface-100" />
-      <div className="h-4 w-2/3 animate-pulse rounded-full bg-surface-100" />
-      <div className="h-4 w-1/2 animate-pulse rounded-full bg-surface-100" />
+      <div className="h-36 animate-pulse rounded-3xl bg-surface-200/70" />
+      <div className="h-4 w-2/3 animate-pulse rounded-full bg-surface-200/70" />
+      <div className="h-4 w-1/2 animate-pulse rounded-full bg-surface-200/70" />
     </div>
   );
 }

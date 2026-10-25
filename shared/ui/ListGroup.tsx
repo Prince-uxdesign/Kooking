@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
  */
 export function ListGroup({ children, label }: { children: ReactNode; label?: string }) {
   return (
-    <ul aria-label={label} className="flex flex-col gap-1 rounded-3xl bg-surface-100 p-2">
+    <ul aria-label={label} className="card-edge flex flex-col gap-0.5 rounded-3xl bg-white p-2">
       {children}
     </ul>
   );
@@ -34,7 +34,7 @@ export function ListRow({
     <li className="min-w-0">
       <Link
         href={href}
-        className="flex min-h-[64px] items-center gap-3.5 rounded-[20px] px-2 py-2 transition-colors hover:bg-white/70"
+        className="flex min-h-[64px] items-center gap-3.5 rounded-[20px] px-2 py-2 transition-colors hover:bg-surface-50"
       >
         {leading}
         <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -43,7 +43,7 @@ export function ListRow({
         </span>
         <span
           aria-hidden
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line-strong bg-white text-ink-900"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-100 text-ink-900"
         >
           <ChevronRight size={18} />
         </span>
@@ -57,7 +57,7 @@ export function ListIcon({ children }: { children: ReactNode }) {
   return (
     <span
       aria-hidden
-      className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-ink-900"
+      className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-50 text-primary-700"
     >
       {children}
     </span>
