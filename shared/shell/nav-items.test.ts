@@ -3,7 +3,7 @@ import { NAV_ITEMS, isNavActive } from "./nav-items";
 
 describe("NAV_ITEMS", () => {
   it("defines the five primary destinations exactly once", () => {
-    expect(NAV_ITEMS.map((i) => i.href)).toEqual(["/", "/recipes", "/saved", "/lists", "/profile"]);
+    expect(NAV_ITEMS.map((i) => i.href)).toEqual(["/app", "/recipes", "/saved", "/lists", "/profile"]);
   });
 
   it("gives every tab a compact label that fits 320px", () => {
@@ -15,8 +15,8 @@ describe("NAV_ITEMS", () => {
 
 describe("isNavActive", () => {
   it.each([
-    ["/", "/", true],
-    ["/recipes", "/", false],
+    ["/app", "/app", true],
+    ["/recipes", "/app", false],
     ["/recipes", "/recipes", true],
     ["/recipes/jollof-rice", "/recipes", true],
     ["/recipesx", "/recipes", false],
@@ -25,7 +25,7 @@ describe("isNavActive", () => {
     ["/saved", "/saved", true],
     ["/profile", "/profile", true],
     ["/profile/x", "/profile", true],
-    ["/", "/saved", false],
+    ["/app", "/saved", false],
   ])("pathname %s vs %s -> %s", (pathname, href, want) => {
     expect(isNavActive(pathname as string, href as string)).toBe(want);
   });

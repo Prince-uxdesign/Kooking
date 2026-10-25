@@ -11,7 +11,7 @@ export default function NotFound() {
         message="It may have moved, or the link may be wrong. Your cooking progress on this device is unaffected."
       />
       <div className="mt-4 flex justify-center">
-        <Link href="/" className={buttonClasses({ variant: "primary" })}>
+        <Link href="/app" className={buttonClasses({ variant: "primary" })}>
           Back to Home
         </Link>
       </div>

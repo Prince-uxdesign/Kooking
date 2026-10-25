@@ -89,7 +89,7 @@ export function LandingNav() {
           className="pointer-events-none absolute inset-x-8 bottom-0 h-[2px] origin-left scale-x-[var(--sp,0)] rounded-full bg-primary-600"
         />
         <Link
-          href="/welcome#top"
+          href="/#top"
           aria-label="Fork, back to top"
           className="inline-flex min-h-[44px] items-center rounded-full"
         >
@@ -109,7 +109,7 @@ export function LandingNav() {
           {LINKS.map((l) => (
             <li key={l.id}>
               <a
-                href={`/welcome#${l.id}`}
+                href={`/#${l.id}`}
                 data-id={l.id}
                 aria-current={active === l.id ? "true" : undefined}
                 className={`group relative inline-flex h-9 items-center rounded-full px-3.5 transition-colors ${label} ${
@@ -131,7 +131,7 @@ export function LandingNav() {
             <Pending />
           </Link>
           <Link
-            href="/"
+            href="/app"
             className={`group inline-flex h-11 items-center gap-1.5 rounded-full bg-primary-600 pl-5 pr-4 text-white transition-[background-color,scale] duration-150 ease-out hover:bg-primary-700 active:scale-[0.97] ${label}`}
           >
             <Roll>Open the app</Roll>

@@ -41,7 +41,7 @@ export default function MainAppError({
           Try again
         </button>
 
-        <Link href="/" className={buttonClasses({ variant: "secondary" })}>
+        <Link href="/app" className={buttonClasses({ variant: "secondary" })}>
           <Home size={16} />
           Back to Home
         </Link>

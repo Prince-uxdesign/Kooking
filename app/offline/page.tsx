@@ -95,7 +95,7 @@ export default function OfflinePage() {
           {checking ? "Checking..." : "Try Reconnecting"}
         </button>
 
-        <Link href="/" className={buttonClasses({ variant: "secondary", size: "md" })}>
+        <Link href="/app" className={buttonClasses({ variant: "secondary", size: "md" })}>
           Go Home
         </Link>
       </div>

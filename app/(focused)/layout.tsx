@@ -14,7 +14,7 @@ export default function FocusedLayout({ children }: { children: React.ReactNode 
         <div className="mx-auto flex min-h-16 w-full max-w-[1120px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 sm:px-6">
           <Brand />
           <Link
-            href="/"
+            href="/app"
             aria-label="Exit Cooking Mode. Your progress is saved."
             className="card-edge inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full bg-white px-4 text-sm font-medium text-ink-900 transition-[background-color,scale] duration-150 ease-out hover:bg-surface-100 active:scale-[0.97]"
           >

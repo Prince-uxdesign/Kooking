@@ -443,7 +443,7 @@ export function CookSessionScreen({
   }
 
   const home = (
-    <Link href="/" className={primary}>
+    <Link href="/app" className={primary}>
       Back to Home
     </Link>
   );
@@ -531,7 +531,7 @@ export function CookSessionScreen({
       }
       return (
         <Panel title="Cooking complete">
-          <Link href="/" className={primary}>
+          <Link href="/app" className={primary}>
             Back to Home
           </Link>
         </Panel>

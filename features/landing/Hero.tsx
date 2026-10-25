@@ -108,7 +108,7 @@ export function Hero() {
               </Reveal>
 
               <Reveal delay={220} className="mt-7 flex flex-wrap items-center gap-2">
-                <PillCta href="/" tone="light">
+                <PillCta href="/app" tone="light">
                   Start cooking, free
                 </PillCta>
                 <Link

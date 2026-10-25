@@ -243,7 +243,7 @@ export function KitchenCheckDemo() {
                 <div className="mt-6">
                   {isReady ? (
                     <Link
-                      href="/"
+                      href="/app"
                       className="group flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary-600 text-[0.9375rem] font-medium text-white transition-[background-color,scale] duration-150 ease-out hover:bg-primary-700 active:scale-[0.97]"
                     >
                       Start cooking

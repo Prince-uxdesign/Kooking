@@ -21,7 +21,7 @@ export default function GlobalError({
     <main id="main-content" className="mx-auto w-full max-w-[720px] px-5 py-16 sm:px-6">
       <ErrorState headingLevel={1} onRetry={reset} />
       <div className="mt-4 flex justify-center">
-        <Link href="/" className={buttonClasses({ variant: "secondary" })}>
+        <Link href="/app" className={buttonClasses({ variant: "secondary" })}>
           Back to Home
         </Link>
       </div>

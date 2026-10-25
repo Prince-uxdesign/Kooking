@@ -44,7 +44,7 @@ export default function FocusedCookingError({
           </button>
 
           <Link
-            href="/"
+            href="/app"
             className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-surface-100 px-6 text-sm font-medium text-ink-900 hover:bg-surface-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900 transition-colors"
           >
             <Home size={16} />

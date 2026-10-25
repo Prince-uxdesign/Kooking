@@ -74,7 +74,7 @@ export function CompletionScreen({
         Finished {finishedAt}.{demo ? " This was a demo recipe, not chef-tested." : ""}
       </p>
       <div className="flex flex-col gap-3 sm:flex-row">
-        <Link href="/" className={`${pill} bg-ink-900 text-white hover:bg-ink-800 sm:flex-1`}>
+        <Link href="/app" className={`${pill} bg-ink-900 text-white hover:bg-ink-800 sm:flex-1`}>
           Back to Home
         </Link>
         <Link

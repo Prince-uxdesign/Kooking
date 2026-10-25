@@ -15,7 +15,7 @@ describe("Error Boundaries", () => {
     expect(html).toContain("Your cooking progress, timers, and notes remain safely preserved");
     expect(html).toContain("Try resuming session");
     expect(html).toContain("Exit to Home");
-    expect(html).toContain('href="/"');
+    expect(html).toContain('href="/app"');
   });
 
   it("renders MainAppError with safe data reassurance and retry control", () => {
@@ -30,7 +30,7 @@ describe("Error Boundaries", () => {
     );
     expect(html).toContain("Try again");
     expect(html).toContain("Back to Home");
-    expect(html).toContain('href="/"');
+    expect(html).toContain('href="/app"');
   });
 
   it("renders GlobalError fallback cleanly", () => {
@@ -41,6 +41,6 @@ describe("Error Boundaries", () => {
 
     expect(html).toContain("Something went wrong");
     expect(html).toContain("Back to Home");
-    expect(html).toContain('href="/"');
+    expect(html).toContain('href="/app"');
   });
 });

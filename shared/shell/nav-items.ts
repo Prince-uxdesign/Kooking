@@ -20,7 +20,7 @@ export interface NavItemDef {
 }
 
 export const NAV_ITEMS: NavItemDef[] = [
-  { href: "/", label: "Home", shortLabel: "Home", Icon: Home, match: "exact" },
+  { href: "/app", label: "Home", shortLabel: "Home", Icon: Home, match: "exact" },
   {
     href: "/recipes",
     label: "Explore",

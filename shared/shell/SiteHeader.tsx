@@ -12,7 +12,7 @@ export function Brand({
 }) {
   return (
     <Link
-      href="/"
+      href="/app"
       aria-label="Fork home"
       className="inline-flex min-h-[44px] items-center rounded-full"
     >
