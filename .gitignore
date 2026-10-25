@@ -7,3 +7,6 @@ tsconfig.tsbuildinfo
 .env
 .env*.local
 .claude/
+
+# taste-skill working files (inspector screenshots, direction sheet)
+.taste-skill/

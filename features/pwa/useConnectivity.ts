@@ -14,8 +14,9 @@ export interface ConnectivityState {
  * Provides a transient `wasOffline` signal when transitioning back online.
  */
 export function useConnectivity(): ConnectivityState {
+  // Node 21+ defines `navigator` without `onLine`, so the server must not read it.
   const [isOnline, setIsOnline] = useState<boolean>(() => {
-    if (typeof navigator !== "undefined") return navigator.onLine;
+    if (typeof window !== "undefined") return navigator.onLine;
     return true;
   });
 

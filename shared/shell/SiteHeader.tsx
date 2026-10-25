@@ -1,5 +1,5 @@
-import { CookingPot } from "lucide-react";
 import Link from "next/link";
+import { ForkLogo, ForkMark } from "@/shared/ui/Logo";
 
 /** Brand lockup. One treatment everywhere — header, sidebar, focused exit. */
 export function Brand({
@@ -9,21 +9,16 @@ export function Brand({
   compact?: boolean;
   tone?: "light" | "dark";
 }) {
-  const title = tone === "dark" ? "text-white" : "text-ink-900";
   return (
     <Link
       href="/"
-      aria-label="Kooking home"
-      className="inline-flex min-h-[44px] items-center gap-2.5 rounded-full"
+      aria-label="Fork home"
+      className="inline-flex min-h-[44px] items-center rounded-full"
     >
-      <span
-        aria-hidden
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary-500 text-ink-900"
-      >
-        <CookingPot size={20} strokeWidth={2} />
-      </span>
-      {!compact && (
-        <span className={`text-[1.25rem] font-semibold tracking-tight ${title}`}>Kooking</span>
+      {compact ? (
+        <ForkMark size={32} />
+      ) : (
+        <ForkLogo size={30} wordClassName={tone === "dark" ? "text-white" : "text-ink-900"} />
       )}
     </Link>
   );

@@ -262,8 +262,7 @@ export function AlertControls({
       {notifications === "denied" && (
         <p className="inline-flex items-start gap-2">
           <BellOff aria-hidden size={16} className="mt-0.5 shrink-0" />
-          Background alerts are blocked in your browser settings. Keep Kooking open to see the
-          timer.
+          Background alerts are blocked in your browser settings. Keep Fork open to see the timer.
         </p>
       )}
       <p className="text-[0.8125rem] leading-5 text-white/50">

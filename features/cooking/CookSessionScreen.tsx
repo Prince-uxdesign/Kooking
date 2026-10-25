@@ -315,7 +315,7 @@ export function CookSessionScreen({
     };
     const parsed = parseAlternatives(alternatives);
     if (!parsed.ok) {
-      // While Kooking is talking, the mic hears it; only real commands count then.
+      // While Fork is talking, the mic hears it; only real commands count then.
       if (parsed.reason === "empty" || speaking) return;
       if (parsed.reason === "unrecognized") {
         setVoiceFeedback({ tone: "not-understood", heard, text: parsed.message });
@@ -551,8 +551,8 @@ export function CookSessionScreen({
       return (
         <Panel title="This session is out of date">
           <p className="text-[1rem] leading-7 text-white/70">
-            It was saved before Kooking kept a copy of the steps, so it can&apos;t be continued
-            safely. End it and start again from Kitchen Check.
+            It was saved before Fork kept a copy of the steps, so it can&apos;t be continued safely.
+            End it and start again from Kitchen Check.
           </p>
           <Link
             href={kitchenCheckHref(view.session.recipeSlug, { servings: view.session.servings })}

@@ -35,7 +35,7 @@ export interface ResumeSummary {
 
 /**
  * Everything a "Continue cooking?" prompt needs, computed as of `now`.
- * Timers that ran out while Kooking was closed read "Time's up"; they
+ * Timers that ran out while Fork was closed read "Time's up"; they
  * are not restarted and no step is completed.
  */
 export function resumeSummary(session: CookingSession, now: number): ResumeSummary {

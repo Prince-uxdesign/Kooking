@@ -4,7 +4,7 @@ import type { Recipe, RecipeCategory, RecipeDifficulty, RecipeImage } from "./re
 
 /**
  * Discovery rules for Home and Explore. Pure: no React, no storage.
- * Nothing here ranks by popularity — Kooking has no popularity data,
+ * Nothing here ranks by popularity — Fork has no popularity data,
  * so ordering is catalog (editorial) order and labels say so.
  */
 

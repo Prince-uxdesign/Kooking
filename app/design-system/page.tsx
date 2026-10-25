@@ -35,16 +35,16 @@ import {
 } from "@/shared/ui";
 
 const swatches = [
-  ["Green 500", "#3EDC6B", "Primary fills, CTAs, active nav — ink text on top"],
-  ["Green 600", "#2FCB5C", "Hover / pressed fill"],
-  ["Green 700", "#0E7A34", "Green text (rare)"],
-  ["Green 100", "#DBFBE4", "Checked rows, soft chips"],
-  ["Ink 900", "#111311", "Text, dark cards, floating nav"],
-  ["Ink 500", "#646965", "Secondary text, meta"],
-  ["Surface 100", "#F3F4F3", "Cards, chips, search, fields"],
-  ["Surface 200", "#E9EBE9", "Photo placeholders, hover"],
-  ["White", "#FFFFFF", "Page, icon circles on gray"],
-  ["Tangerine", "#FF7A1A", "In-progress dot only"],
+  ["Pepper 500", "#FF6A26", "Primary fills, CTAs, active nav — ink text on top"],
+  ["Pepper 600", "#F0571A", "Hover / pressed fill"],
+  ["Pepper 700", "#B83E0C", "Orange text (rare)"],
+  ["Pepper 100", "#FFEBDD", "Checked rows, soft chips"],
+  ["Ink 900", "#15120F", "Text, dark cards, floating nav"],
+  ["Ink 500", "#69625B", "Secondary text, meta"],
+  ["Surface 50", "#FAF9F7", "Landing page paper"],
+  ["Surface 100", "#F4F1EC", "Cards, chips, search, fields"],
+  ["Surface 200", "#EBE7E1", "Photo placeholders, hover"],
+  ["White", "#FFFFFF", "App page, icon circles on gray"],
   ["Success", "#0E7A34", "Have it + icon"],
   ["Warning", "#B54708", "Caution + icon"],
   ["Error", "#B42318", "Errors + icon"],
@@ -79,7 +79,7 @@ export default function DesignSystemPage() {
 
   return (
     <main id="main-content" className="mx-auto w-full max-w-[1120px] px-5 pb-24 pt-8 sm:px-6">
-      <Badge>Kooking · Design system · Clean Kitchen</Badge>
+      <Badge>Fork · Design system · Clean Kitchen</Badge>
       <h1 className="mt-3 text-[2rem] font-semibold leading-10 sm:text-[2.5rem] sm:leading-[48px]">
         Foundations, not screens
       </h1>
@@ -92,7 +92,7 @@ export default function DesignSystemPage() {
       <section aria-labelledby="ds-color" className="mt-10">
         <SectionHeading
           title="Color tokens"
-          description="Fresh green is action. White page, soft gray cards, near-black ink. Flat: no shadows, no gradients. Status always pairs color with icon and text."
+          description="Pepper orange is action. White page, soft gray cards, near-black ink. Flat: no shadows, no gradients. Status always pairs color with icon and text."
         />
         <div id="ds-color" className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {swatches.map(([name, hex, use]) => (
@@ -114,7 +114,7 @@ export default function DesignSystemPage() {
       <section aria-labelledby="ds-type" className="mt-10">
         <SectionHeading
           title="Typography"
-          description="Inter. Semibold titles, regular body, medium labels — never heavy. Tabular numerals for quantities and timers."
+          description="Host Grotesk, with IBM Plex Mono for small labels. Semibold titles, regular body, medium labels — never heavy. Tabular numerals for quantities and timers."
         />
         <Panel>
           <p className="text-[1.875rem] font-semibold leading-9">Jollof rice for Sunday</p>

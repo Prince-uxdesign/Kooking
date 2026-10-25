@@ -421,7 +421,7 @@ export function ForgotPasswordForm({ onBackToSignIn }: ForgotPasswordFormProps) 
       )}
 
       <p className="text-[0.875rem] leading-6 text-ink-600">
-        Enter the email address associated with your Kooking account and we will send you a link to
+        Enter the email address associated with your Fork account and we will send you a link to
         reset your password.
       </p>
 

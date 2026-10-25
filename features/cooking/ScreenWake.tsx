@@ -97,7 +97,7 @@ export function wakeNote(p: ScreenWakeControlProps): { text: string; retry: bool
       return {
         text:
           state.message ??
-          "Paused while Kooking is in the background. It will come back when you return.",
+          "Paused while Fork is in the background. It will come back when you return.",
         retry: Boolean(state.message),
       };
     default:

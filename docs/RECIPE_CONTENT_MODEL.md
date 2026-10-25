@@ -1,4 +1,4 @@
-# Kooking — Recipe Content Model (Phase 12)
+# Fork — Recipe Content Model (Phase 12)
 
 Status: **Implemented, tested, and validated as structured domain data.**
 Schema source: `shared/domain/recipe-schema.ts`.
@@ -226,7 +226,7 @@ The domain recipe model is strictly independent of UI presentation:
   ],
   "provenance": {
     "source": "Internal Test Kitchen",
-    "author": "Kooking Seed Engineering",
+    "author": "Fork Seed Engineering",
     "reviewedBy": "Culinary Test Pipeline",
     "reviewNotes": "Seed mock dataset verifying schema compliance",
     "license": "CC0-1.0"

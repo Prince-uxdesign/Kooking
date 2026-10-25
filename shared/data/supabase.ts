@@ -2,7 +2,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { logger } from "./logger";
 
 /**
- * Supabase client initialization for Kooking (Phase 34).
+ * Supabase client initialization for Fork (Phase 34).
  *
  * Rules:
  * - Credentials must use NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.

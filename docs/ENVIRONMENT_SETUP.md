@@ -1,4 +1,4 @@
-# Kooking — Environment Setup (Phase 5)
+# Fork — Environment Setup (Phase 5)
 
 ## Prerequisites
 
@@ -7,7 +7,7 @@
 ## From zero to running
 
 ```
-git clone <repo-url> && cd Kooking
+git clone <repo-url> && cd Fork
 npm install --no-audit --no-fund
 npm run check     # format + lint + typecheck + tests + build, all must pass
 npm run dev       # http://localhost:3000

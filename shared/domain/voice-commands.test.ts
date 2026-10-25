@@ -23,7 +23,7 @@ describe("normalizeTranscript", () => {
   });
 
   it("keeps decimals and trims fillers and politeness", () => {
-    expect(normalizeTranscript("OK Kooking, set a timer for 1.5 minutes please")).toBe(
+    expect(normalizeTranscript("OK Fork, set a timer for 1.5 minutes please")).toBe(
       "set a timer for 1.5 minutes",
     );
     expect(normalizeTranscript("Um, next step, thanks")).toBe("next step");

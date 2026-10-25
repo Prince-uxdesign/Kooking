@@ -17,7 +17,7 @@ import zobo from "./zobo.json";
  * Raw seed payloads in catalog (editorial) order — the first is Home's
  * featured recipe. These are real Nigerian recipes compiled from
  * published sources (see each recipe's provenance), held `in_review`
- * until a Kooking kitchen test. The catalog parses everything through
+ * until a Fork kitchen test. The catalog parses everything through
  * `recipeSchema`, so adding a recipe needs no code changes.
  *
  * `demo-tomato-rice.json` stays in this folder as a test fixture only;

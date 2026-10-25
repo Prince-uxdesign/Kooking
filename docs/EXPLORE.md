@@ -1,4 +1,4 @@
-# Kooking — Explore (Phase 8)
+# Fork — Explore (Phase 8)
 
 Status: **Implemented and verified.** Discovery for people who know the dish (search entry) and people who want ideas (categories, collections, everything). The search engine itself is Phase 9.
 

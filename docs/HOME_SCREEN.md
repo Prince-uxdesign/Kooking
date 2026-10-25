@@ -1,4 +1,4 @@
-# Kooking — Home Screen (Phase 7)
+# Fork — Home Screen (Phase 7)
 
 Status: **Implemented and verified.** Route: `app/(main)/page.tsx` (static). Sections: `features/home/`. Rules: `shared/domain/discovery.ts`, `shared/domain/history.ts`, `shared/domain/session.ts`.
 

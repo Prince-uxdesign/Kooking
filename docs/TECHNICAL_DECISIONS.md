@@ -1,4 +1,4 @@
-# Kooking — Technical Decisions (Phase 1)
+# Fork — Technical Decisions (Phase 1)
 
 Status: **Proposed — for review.** Distinguishes final, provisional, and out-of-MVP decisions. No dependencies installed in this phase.
 
@@ -8,7 +8,7 @@ Empty local folder and empty GitHub remote, no commits, no stack. All choices be
 
 ## 1. Final decisions (hold unless review overturns)
 
-| Decision                 | Choice                                                                                 | Why it fits Kooking                                                                                                                                                                                                    |
+| Decision                 | Choice                                                                                 | Why it fits Fork                                                                                                                                                                                                       |
 | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Framework                | **Next.js (App Router) + React + TypeScript**                                          | One responsive PWA for mobile/tablet/desktop; Server Components for discovery/detail, Client Components for check/cook/lists interactivity; file-based routes match IA directly; Vercel deploy is trivial when needed. |
 | Language strictness      | **TypeScript strict, schema-validated content**                                        | Recipe scaling, readiness rules, and session persistence are correctness-critical. Types + runtime schema (Zod recommended) catch bad content at the boundary, not mid-cook.                                           |

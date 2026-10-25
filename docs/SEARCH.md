@@ -1,4 +1,4 @@
-# Kooking — Search and Filtering (Phase 9)
+# Fork — Search and Filtering (Phase 9)
 
 Status: **Implemented and verified.** Live search and filters on Explore (`/recipes`). Logic: `shared/domain/search.ts` (pure, tested). UI: `features/recipes/ExploreSearch.tsx`, `FilterSheet.tsx`.
 

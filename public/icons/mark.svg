@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<defs>
+  <mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff"/><g fill="#000"><rect x="29.7" y="-2" width="4.6" height="19" rx="2.3"/><path d="M29.7 15H34.3C34.3 20 40.5 21.2 40.5 27.5V33H23.5V27.5C23.5 21.2 29.7 20 29.7 15Z"/><rect x="23.5" y="27" width="3" height="19.5" rx="1.5"/><rect x="28.17" y="27" width="3" height="19.5" rx="1.5"/><rect x="32.83" y="27" width="3" height="19.5" rx="1.5"/><rect x="37.5" y="27" width="3" height="19.5" rx="1.5"/></g></mask>
+  <clipPath id="half"><rect x="32" y="0" width="32" height="64"/></clipPath>
+</defs>
+<g mask="url(#cut)"><path d="M32 3C18.2 3 8 13.6 8 27c0 15.5 16.5 28.6 22.2 33.1a2.9 2.9 0 0 0 3.6 0C39.5 55.6 56 42.5 56 27 56 13.6 45.8 3 32 3z" fill="#F0571A"/><path d="M32 3C18.2 3 8 13.6 8 27c0 15.5 16.5 28.6 22.2 33.1a2.9 2.9 0 0 0 3.6 0C39.5 55.6 56 42.5 56 27 56 13.6 45.8 3 32 3z" fill="#FF7A3D" clip-path="url(#half)"/></g>
+</svg>

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * Authentication domain models and validation for Kooking (Phase 34).
+ * Authentication domain models and validation for Fork (Phase 34).
  *
  * Core principles:
  * - Authentication is strictly OPTIONAL. Unauthenticated users are first-class

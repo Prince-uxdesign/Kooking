@@ -1,12 +1,12 @@
-# Kooking Data Ownership and Persistence Architecture
+# Fork Data Ownership and Persistence Architecture
 
-Phase 35 introduces a coherent, explicit persistence and synchronization strategy across all user-facing data types in Kooking: saved recipes, shopping lists, cooking sessions, cooking history, Kitchen Check records, and user cooking preferences.
+Phase 35 introduces a coherent, explicit persistence and synchronization strategy across all user-facing data types in Fork: saved recipes, shopping lists, cooking sessions, cooking history, Kitchen Check records, and user cooking preferences.
 
 ---
 
 ## 1. Core Principles
 
-1. **Anonymous First**: Kooking remains 100% usable without an account. Guests can explore recipes, perform Kitchen Checks, build shopping lists, and follow Cooking Mode with active timers and screen-wake locks.
+1. **Anonymous First**: Fork remains 100% usable without an account. Guests can explore recipes, perform Kitchen Checks, build shopping lists, and follow Cooking Mode with active timers and screen-wake locks.
 2. **Account-Backed Portability**: Authenticated accounts exist to provide secure, cross-device synchronization and durable backup.
 3. **No Silent Storage Assumptions**: Browser `localStorage` is explicitly treated as ephemeral cache, not a permanent or secure database. It can be cleared by the operating system, the browser, or privacy modes at any time.
 4. **Data Isolation & Sign-Out Hygiene**: Signing out clears private account-backed data from the local device cache so that subsequent guest or secondary account sessions do not leak private data.
@@ -58,7 +58,7 @@ Phase 35 introduces a coherent, explicit persistence and synchronization strateg
 
 ### C. Cooking Preferences
 
-Only functional preferences that directly affect the cooking experience and that Kooking can consistently honor are persisted:
+Only functional preferences that directly affect the cooking experience and that Fork can consistently honor are persisted:
 
 1. `defaultServings`: Preferred default portion size for recipes.
 2. `screenWake`: Whether Cooking Mode requests screen wake lock (defaults to true).

@@ -1,4 +1,4 @@
-# Kooking — Information Architecture (Phase 1)
+# Fork — Information Architecture (Phase 1)
 
 Status: **Proposed — for review.** Defines routes, navigation, and page responsibilities. No UI built in this phase.
 

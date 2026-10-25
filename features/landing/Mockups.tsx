@@ -5,16 +5,13 @@ import {
   CheckCircle2,
   ChevronLeft,
   Clock,
-  CookingPot,
   Heart,
   Mic,
   Pause,
   Play,
   Search,
   ShoppingBasket,
-  Soup,
   Sun,
-  Utensils,
   Volume2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -56,20 +53,16 @@ export function PhoneFrame({
   );
 }
 
-/** Flat stand-in for a dish photo: gray tile, white circle, outline icon. */
-function DishTile({
-  icon: Icon = Soup,
-  className = "",
-}: {
-  icon?: typeof Soup;
-  className?: string;
-}) {
+/** Real dish photo from the shipped catalog. */
+function Dish({ src, className = "" }: { src: string; className?: string }) {
   return (
-    <div className={`flex items-center justify-center bg-surface-200 ${className}`}>
-      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
-        <Icon size={17} strokeWidth={1.75} className="text-ink-600" />
-      </span>
-    </div>
+    <img
+      src={src}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      className={`block w-full bg-surface-200 object-cover ${className}`}
+    />
   );
 }
 
@@ -78,9 +71,7 @@ export function DiscoverScreen() {
     <div className="flex flex-1 flex-col gap-3 px-4 pb-4 pt-2">
       <div>
         <p className="text-[10px] text-ink-500">Good evening</p>
-        <p className="text-[17px] font-semibold leading-tight tracking-tight">
-          What would you like to cook?
-        </p>
+        <p className="text-[17px] leading-tight tracking-tight">What would you like to cook?</p>
       </div>
       <div className="flex h-9 items-center gap-2 rounded-full bg-surface-100 pl-3 pr-1 text-[10px] text-ink-500">
         <Search size={12} strokeWidth={2} className="text-ink-900" />
@@ -89,14 +80,16 @@ export function DiscoverScreen() {
           <Search size={11} strokeWidth={2.25} />
         </span>
       </div>
-      <div className="rounded-[20px] bg-ink-900 p-1">
-        <DishTile icon={CookingPot} className="h-[86px] rounded-[16px]" />
-        <div className="px-2.5 pb-2 pt-2">
-          <span className="rounded-full bg-primary-500 px-2 py-0.5 text-[8px] font-medium text-ink-900">
-            Featured recipe
+      <div className="rounded-[18px] bg-surface-100 p-1">
+        <Dish src="/images/recipes/jollof-rice.jpg" className="h-[92px] rounded-[14px]" />
+        <div className="flex items-end justify-between px-2 pb-1.5 pt-2">
+          <div>
+            <p className="text-[12px]">Party Jollof Rice</p>
+            <p className="font-mono text-[8px] uppercase text-ink-500">1 hr 20 min · Serves 6</p>
+          </div>
+          <span className="rounded-full bg-primary-500 px-2 py-0.5 text-[8px] text-ink-900">
+            Featured
           </span>
-          <p className="mt-1.5 text-[12px] font-semibold text-white">Party jollof rice</p>
-          <p className="text-[9px] text-white/70">1 hr 20 min · Serves 4</p>
         </div>
       </div>
       <div className="flex gap-1.5 overflow-hidden">
@@ -104,7 +97,7 @@ export function DiscoverScreen() {
           <span
             key={c}
             className={`shrink-0 rounded-full px-2.5 py-1.5 text-[9px] ${
-              i === 1 ? "bg-primary-500 text-ink-900" : "bg-surface-100 text-ink-700"
+              i === 1 ? "bg-ink-900 text-white" : "bg-surface-100 text-ink-700"
             }`}
           >
             {c}
@@ -113,14 +106,14 @@ export function DiscoverScreen() {
       </div>
       <div className="grid grid-cols-2 gap-2">
         {[
-          ["Egusi soup", "55 min", Soup],
-          ["Moi moi", "1 hr 10", Utensils],
-        ].map(([t, m, I]) => (
-          <div key={t as string} className="rounded-[16px] bg-surface-100 p-1">
-            <DishTile icon={I as typeof Soup} className="h-14 rounded-[12px]" />
-            <p className="px-1.5 pt-1.5 text-[9.5px] font-medium">{t as string}</p>
-            <p className="flex items-center gap-1 px-1.5 pb-1 text-[8px] text-ink-500">
-              <Clock size={8} /> {m as string}
+          ["Egusi Soup", "1 hr 40", "/images/recipes/egusi-soup.jpg"],
+          ["Moi Moi", "1 hr 55", "/images/recipes/moi-moi.jpg"],
+        ].map(([t, m, src]) => (
+          <div key={t} className="rounded-[14px] bg-surface-100 p-1">
+            <Dish src={src} className="h-14 rounded-[11px]" />
+            <p className="px-1.5 pt-1.5 text-[9.5px]">{t}</p>
+            <p className="flex items-center gap-1 px-1.5 pb-1 font-mono text-[7.5px] text-ink-500">
+              <Clock size={8} /> {m}
             </p>
           </div>
         ))}
@@ -147,7 +140,7 @@ export function CheckScreen() {
         </span>
         <span className="text-[10px] text-ink-500">Party jollof · Serves 6</span>
       </div>
-      <p className="text-[17px] font-semibold leading-tight tracking-tight">Kitchen Check</p>
+      <p className="text-[17px] leading-tight tracking-tight">Kitchen Check</p>
       <div className="rounded-[16px] bg-surface-100 p-3">
         <div className="flex items-baseline justify-between text-[10px]">
           <span className="font-medium">4 of 6 ready</span>
@@ -205,7 +198,7 @@ export function ShopScreen() {
   ];
   return (
     <div className="flex flex-1 flex-col gap-3 px-4 pb-4 pt-2">
-      <p className="text-[17px] font-semibold leading-tight tracking-tight">Shopping list</p>
+      <p className="text-[17px] leading-tight tracking-tight">Shopping list</p>
       <div className="flex gap-1.5 text-[9px]">
         <span className="rounded-full bg-primary-500 px-2.5 py-1.5 text-ink-900">To buy</span>
         <span className="rounded-full bg-surface-100 px-2.5 py-1.5 text-ink-700">Done</span>
@@ -326,7 +319,7 @@ export function CookScreen({
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[8px] text-white/60">Timer</p>
-              <p className="text-[24px] font-semibold leading-none tnum">{fmt(left)}</p>
+              <p className="font-mono text-[22px] leading-none tnum">{fmt(left)}</p>
             </div>
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-500 text-ink-900">
               <Pause size={14} strokeWidth={2.25} />
@@ -360,7 +353,7 @@ export function DoneScreen() {
         <CheckCircle2 size={28} strokeWidth={2} />
       </span>
       <p
-        className="screen-in text-[18px] font-semibold tracking-tight"
+        className="screen-in text-[18px] tracking-tight"
         style={{ "--d": "120ms" } as React.CSSProperties}
       >
         Jollof, done.

@@ -37,7 +37,7 @@ export const VOICE_TIMER_MIN_SECONDS = 5;
 export const VOICE_TIMER_MAX_SECONDS = 4 * 3600;
 
 const FILLER_START =
-  /^(?:(?:ok(?:ay)?|hey|hi|um+|uh+|er+|so|and|now|kooking|cooking|please|can you|could you|would you)\s+)+/;
+  /^(?:(?:ok(?:ay)?|hey|hi|um+|uh+|er+|so|and|now|fork|cooking|please|can you|could you|would you)\s+)+/;
 const FILLER_END = /(?:\s+(?:please|thanks|thank you|now))+$/;
 
 /**

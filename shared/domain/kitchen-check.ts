@@ -721,7 +721,7 @@ export function unitChoices(requiredUnit: string | null): string[] {
 /* Shopping hand-off                                                  */
 /* ------------------------------------------------------------------ */
 
-/** Blocking lines Kooking can't size a purchase for; they go on the list flagged. */
+/** Blocking lines Fork can't size a purchase for; they go on the list flagged. */
 function needsClarification(r: KitchenCheckRow): boolean {
   return r.isBlocking && r.state === "needs-review" && r.entry !== null && !r.dataInvalid;
 }

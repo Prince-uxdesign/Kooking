@@ -1,51 +1,51 @@
 @import "tailwindcss";
 
 /*
- * Kooking design tokens — "Clean Kitchen".
+ * Fork design tokens — "Clean Kitchen".
  * Source of truth for values. Rules for using them: docs/DESIGN_SYSTEM.md.
  * Contrast of the pairs the app uses is checked in shared/ui/contrast.test.ts.
  */
 @theme {
-  /* Primary — Fresh green. Bright fills (500) carry DARK ink text, never white.
-     Green text uses 700. */
-  --color-primary-50: #effdf3;
-  --color-primary-100: #dbfbe4;
-  --color-primary-200: #b5f4c8;
-  --color-primary-300: #7fe99f;
-  --color-primary-400: #5ee387;
-  --color-primary-500: #3edc6b;
-  --color-primary-600: #2fcb5c;
-  --color-primary-700: #0e7a34;
-  --color-primary-800: #0b5f29;
-  --color-primary-900: #083f1c;
+  /* Primary — Pepper orange. Bright fills (400–600) carry DARK ink text, never white
+     (white on 500 is ~3:1). Orange text uses 700. */
+  --color-primary-50: #fff6f0;
+  --color-primary-100: #ffebdd;
+  --color-primary-200: #ffd3b8;
+  --color-primary-300: #ffb386;
+  --color-primary-400: #ff8a4c;
+  --color-primary-500: #ff6a26;
+  --color-primary-600: #f0571a;
+  --color-primary-700: #b83e0c;
+  --color-primary-800: #8f300c;
+  --color-primary-900: #5c1f09;
 
-  /* Accent — Tangerine. A pinch only: in-progress dots and small highlights. */
-  --color-accent-50: #fff6ed;
-  --color-accent-100: #ffebd6;
-  --color-accent-500: #ff7a1a;
-  --color-accent-700: #c2410c;
-  --color-accent-800: #9a3412;
+  /* Accent — same pepper family. In-progress dots and small live signals. */
+  --color-accent-50: #fff6f0;
+  --color-accent-100: #ffebdd;
+  --color-accent-500: #ff6a26;
+  --color-accent-700: #b83e0c;
+  --color-accent-800: #8f300c;
 
-  /* Ink — neutral near-black and warm-neutral grays (no blue cast) */
-  --color-ink-900: #111311;
-  --color-ink-800: #222522;
-  --color-ink-700: #3a3e3b;
-  --color-ink-600: #4f544f;
-  --color-ink-500: #646965;
-  --color-ink-400: #9a9f9b;
-  --color-ink-300: #c4c8c5;
+  /* Ink — warm near-black and warm grays */
+  --color-ink-900: #15120f;
+  --color-ink-800: #25211d;
+  --color-ink-700: #3a352f;
+  --color-ink-600: #4f4943;
+  --color-ink-500: #69625b;
+  --color-ink-400: #9c958d;
+  --color-ink-300: #cbc5be;
 
-  /* Surfaces — white page, soft gray cards. Flat: no shadows anywhere. */
-  --color-surface-50: #f8f9f8;
-  --color-surface-100: #f3f4f3;
-  --color-surface-200: #e9ebe9;
-  --color-surface-300: #dfe2df;
-  --color-line-default: #ebedeb;
-  --color-line-strong: #dadddb;
+  /* Surfaces — warm paper. 50 is the marketing page, 100/200 are cards and wells. */
+  --color-surface-50: #faf9f7;
+  --color-surface-100: #f4f1ec;
+  --color-surface-200: #ebe7e1;
+  --color-surface-300: #e0dbd4;
+  --color-line-default: #ece8e2;
+  --color-line-strong: #dcd6ce;
 
   /* Status — always paired with icon + text, never color alone */
   --color-success-700: #0e7a34;
-  --color-success-100: #dbfbe4;
+  --color-success-100: #e2f5e7;
   --color-warning-700: #b54708;
   --color-warning-100: #fef0c7;
   --color-error-700: #b42318;
@@ -54,8 +54,10 @@
   --color-info-100: #e0eaff;
 
   --font-sans:
-    var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    var(--font-host), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;
+  --font-display: var(--font-gloock), "Iowan Old Style", Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -84,11 +86,11 @@ body {
   min-height: 100vh;
 }
 
-/* Headings: slightly tight tracking, never heavy */
+/* Headings: tight tracking, never heavy */
 h1,
 h2,
 h3 {
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 }
 
 /* Visible focus for keyboard users — never remove */

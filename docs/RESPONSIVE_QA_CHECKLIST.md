@@ -1,4 +1,4 @@
-# Kooking — Responsive QA Checklist (Phase 5)
+# Fork — Responsive QA Checklist (Phase 5)
 
 Run this checklist every phase. Without browser automation, execute it as: production build → serve → visit each route at each width (devtools device emulation) → static audit for overflow/targets. Record the result in the phase report.
 

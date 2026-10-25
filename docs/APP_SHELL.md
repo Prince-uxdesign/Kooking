@@ -1,4 +1,4 @@
-# Kooking — Application Shell & Navigation (Phases 3 + 6)
+# Fork — Application Shell & Navigation (Phases 3 + 6)
 
 Status: **Implemented and verified.** Layout + navigation + deliberate placeholders. No feature modules (discovery, check, lists, cook) built.
 

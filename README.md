@@ -1,4 +1,4 @@
-# Kooking
+# Fork
 
 A Nigerian cooking companion: discover recipes, check what you have (Kitchen Check),
 build a shopping list, and cook step by step with timers, read-aloud and voice

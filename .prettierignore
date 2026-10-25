@@ -3,3 +3,7 @@ node_modules
 out
 dist
 package-lock.json
+.agents
+.claude/skills
+.taste-skill
+skills-lock.json

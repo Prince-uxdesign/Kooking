@@ -1,160 +1,119 @@
+// Writes the Fork brand icons. SVGs are written directly; PNGs are rendered
+// from them with headless Chrome over the DevTools protocol (Node 22+).
+// Usage: node scripts/generate-icons.mjs   (CHROME_PATH overrides the browser)
+import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import zlib from "node:zlib";
+
+// Keep in sync with shared/ui/Logo.tsx
+const PIN_PATH =
+  "M32 3C18.2 3 8 13.6 8 27c0 15.5 16.5 28.6 22.2 33.1a2.9 2.9 0 0 0 3.6 0C39.5 55.6 56 42.5 56 27 56 13.6 45.8 3 32 3z";
+const FORK_CUT = [
+  '<rect x="29.7" y="-2" width="4.6" height="19" rx="2.3"/>',
+  '<path d="M29.7 15H34.3C34.3 20 40.5 21.2 40.5 27.5V33H23.5V27.5C23.5 21.2 29.7 20 29.7 15Z"/>',
+  '<rect x="23.5" y="27" width="3" height="19.5" rx="1.5"/>',
+  '<rect x="28.17" y="27" width="3" height="19.5" rx="1.5"/>',
+  '<rect x="32.83" y="27" width="3" height="19.5" rx="1.5"/>',
+  '<rect x="37.5" y="27" width="3" height="19.5" rx="1.5"/>',
+].join("");
+
+const pin = (left, right) => `<defs>
+  <mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff"/><g fill="#000">${FORK_CUT}</g></mask>
+  <clipPath id="half"><rect x="32" y="0" width="32" height="64"/></clipPath>
+</defs>
+<g mask="url(#cut)"><path d="${PIN_PATH}" fill="${left}"/><path d="${PIN_PATH}" fill="${right}" clip-path="url(#half)"/></g>`;
+
+/** Bare two-tone pin: favicon. */
+const markSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+${pin("#F0571A", "#FF7A3D")}
+</svg>
+`;
+
+/** App icon: white pin on a pepper-orange tile; the pin sits inside the maskable safe zone. */
+const tileSvg = (
+  radius,
+) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<rect width="512" height="512" rx="${radius}" fill="#FF6A26"/>
+<g transform="translate(96 92) scale(5)">${pin("#FFFFFF", "#FFE7D8")}</g>
+</svg>
+`;
 
 const publicDir = path.resolve(process.cwd(), "public");
 const iconsDir = path.join(publicDir, "icons");
+fs.mkdirSync(iconsDir, { recursive: true });
+fs.writeFileSync(path.join(iconsDir, "mark.svg"), markSvg);
+fs.writeFileSync(path.join(iconsDir, "icon.svg"), tileSvg(112));
+console.log("Wrote mark.svg, icon.svg");
 
-if (!fs.existsSync(iconsDir)) {
-  fs.mkdirSync(iconsDir, { recursive: true });
-}
+const chromePath =
+  process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const port = 9400 + Math.floor(Math.random() * 400);
+const chrome = spawn(
+  chromePath,
+  [
+    "--headless=new",
+    "--disable-gpu",
+    `--remote-debugging-port=${port}`,
+    `--user-data-dir=${path.join(process.env.TMPDIR ?? "/tmp", "fork-icons")}`,
+    "about:blank",
+  ],
+  { stdio: "ignore" },
+);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// 1. Create clean, beautiful SVG icon
-const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" rx="128" fill="#3EDC6B" />
-  <g transform="translate(106, 106) scale(0.5859)" fill="none" stroke="#111311" stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Cooking Pot Icon (matching Lucide CookingPot icon in Kooking brand) -->
-    <!-- Lid handle -->
-    <path d="M 220 80 A 36 36 0 0 1 292 80" />
-    <!-- Lid top curve -->
-    <path d="M 100 160 Q 256 120 412 160" />
-    <!-- Pot body -->
-    <path d="M 80 180 L 432 180" />
-    <path d="M 96 180 L 116 380 Q 120 420 160 420 L 352 420 Q 392 420 396 380 L 416 180" fill="#111311" fill-opacity="0.08" />
-    <path d="M 96 180 L 116 380 Q 120 420 160 420 L 352 420 Q 392 420 396 380 L 416 180 Z" />
-    <!-- Side handles -->
-    <path d="M 80 230 C 40 230 40 290 80 290" />
-    <path d="M 432 230 C 472 230 472 290 432 290" />
-    <!-- Steam waves -->
-    <path d="M 180 50 Q 190 30 180 10" />
-    <path d="M 256 45 Q 266 25 256 5" />
-    <path d="M 332 50 Q 342 30 332 10" />
-  </g>
-</svg>`;
-
-fs.writeFileSync(path.join(iconsDir, "icon.svg"), svgContent);
-console.log("Created icon.svg");
-
-// 2. Pure Node.js uncompressed / zlib PNG generator
-function createSolidPng(width, height, r, g, b, a = 255) {
-  // PNG signature
-  const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
-
-  // IHDR chunk
-  const ihdrData = Buffer.alloc(13);
-  ihdrData.writeUInt32BE(width, 0);
-  ihdrData.writeUInt32BE(height, 4);
-  ihdrData.writeUInt8(8, 8); // bit depth 8
-  ihdrData.writeUInt8(6, 9); // RGBA color type
-  ihdrData.writeUInt8(0, 10); // compression
-  ihdrData.writeUInt8(0, 11); // filter
-  ihdrData.writeUInt8(0, 12); // interlace
-
-  const ihdrChunk = createChunk("IHDR", ihdrData);
-
-  // Raw image data with filter byte 0 per scanline
-  const scanlineWidth = width * 4;
-  const rawData = Buffer.alloc(height * (scanlineWidth + 1));
-
-  // Center logo boundaries in normalized coords
-  const cx = width / 2;
-  const cy = height / 2;
-  const radius = width * 0.44;
-
-  for (let y = 0; y < height; y++) {
-    const lineStart = y * (scanlineWidth + 1);
-    rawData[lineStart] = 0; // Filter None
-
-    for (let x = 0; x < width; x++) {
-      const pixelStart = lineStart + 1 + x * 4;
-      const dx = x - cx;
-      const dy = y - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-
-      // Rounded square / circle shape
-      const inBox = Math.abs(dx) < radius && Math.abs(dy) < radius;
-      const inCorner =
-        Math.abs(dx) > radius - 24 && Math.abs(dy) > radius - 24
-          ? Math.hypot(Math.abs(dx) - (radius - 24), Math.abs(dy) - (radius - 24)) < 24
-          : true;
-
-      if (inBox && inCorner) {
-        // Simple silhouette of pot inside
-        const potBody = Math.abs(dx) < radius * 0.55 && dy > -radius * 0.1 && dy < radius * 0.6;
-        const potLid = Math.abs(dx) < radius * 0.45 && dy >= -radius * 0.35 && dy <= -radius * 0.1;
-        const handleL =
-          dx < -radius * 0.55 && dx > -radius * 0.72 && Math.abs(dy - radius * 0.2) < radius * 0.15;
-        const handleR =
-          dx > radius * 0.55 && dx < radius * 0.72 && Math.abs(dy - radius * 0.2) < radius * 0.15;
-
-        if (potBody || potLid || handleL || handleR) {
-          // Dark ink pot color (#111311)
-          rawData[pixelStart] = 17;
-          rawData[pixelStart + 1] = 19;
-          rawData[pixelStart + 2] = 17;
-          rawData[pixelStart + 3] = 255;
-        } else {
-          // Brand Green background (#3EDC6B)
-          rawData[pixelStart] = 62;
-          rawData[pixelStart + 1] = 220;
-          rawData[pixelStart + 2] = 107;
-          rawData[pixelStart + 3] = 255;
-        }
-      } else {
-        // Transparent outside
-        rawData[pixelStart] = 0;
-        rawData[pixelStart + 1] = 0;
-        rawData[pixelStart + 2] = 0;
-        rawData[pixelStart + 3] = 0;
-      }
+try {
+  let ws;
+  for (let i = 0; i < 40 && !ws; i++) {
+    try {
+      const targets = await (await fetch(`http://127.0.0.1:${port}/json`)).json();
+      ws = new WebSocket(targets.find((t) => t.type === "page").webSocketDebuggerUrl);
+    } catch {
+      await sleep(250);
     }
   }
+  await new Promise((r) => ws.addEventListener("open", r));
+  let id = 0;
+  const pending = new Map();
+  ws.addEventListener("message", (e) => {
+    const m = JSON.parse(e.data);
+    if (m.id && pending.has(m.id)) pending.get(m.id)(m.result);
+  });
+  const send = (method, params = {}) =>
+    new Promise((r) => {
+      const i = ++id;
+      pending.set(i, r);
+      ws.send(JSON.stringify({ id: i, method, params }));
+    });
 
-  const compressedData = zlib.deflateSync(rawData);
-  const idatChunk = createChunk("IDAT", compressedData);
-  const iendChunk = createChunk("IEND", Buffer.alloc(0));
+  await send("Emulation.setDefaultBackgroundColorOverride", { color: { r: 0, g: 0, b: 0, a: 0 } });
+  const render = async (svg, size, file) => {
+    await send("Emulation.setDeviceMetricsOverride", {
+      width: size,
+      height: size,
+      deviceScaleFactor: 1,
+      mobile: false,
+    });
+    const html = `<html><body style="margin:0;background:transparent">${svg.replace(
+      /width="\d+" height="\d+"/,
+      `width="${size}" height="${size}"`,
+    )}</body></html>`;
+    await send("Page.navigate", {
+      url: `data:text/html;base64,${Buffer.from(html).toString("base64")}`,
+    });
+    await sleep(300);
+    const { data } = await send("Page.captureScreenshot", {
+      format: "png",
+      clip: { x: 0, y: 0, width: size, height: size, scale: 1 },
+    });
+    fs.writeFileSync(file, Buffer.from(data, "base64"));
+  };
 
-  return Buffer.concat([signature, ihdrChunk, idatChunk, iendChunk]);
+  await render(tileSvg(0), 192, path.join(iconsDir, "icon-192.png"));
+  await render(tileSvg(0), 512, path.join(iconsDir, "icon-512.png"));
+  await render(tileSvg(0), 180, path.join(iconsDir, "apple-touch-icon.png"));
+  await render(markSvg, 32, path.join(publicDir, "favicon.ico"));
+  console.log("Rendered icon-192.png, icon-512.png, apple-touch-icon.png, favicon.ico");
+  ws.close();
+} finally {
+  chrome.kill();
 }
-
-function createChunk(type, data) {
-  const length = data.length;
-  const chunk = Buffer.alloc(length + 12);
-  chunk.writeUInt32BE(length, 0);
-  chunk.write(type, 4, 4, "ascii");
-  data.copy(chunk, 8);
-
-  const crc = crc32(chunk.subarray(4, length + 8));
-  chunk.writeUInt32BE(crc, length + 8);
-  return chunk;
-}
-
-// CRC32 table
-const crcTable = new Uint32Array(256);
-for (let n = 0; n < 256; n++) {
-  let c = n;
-  for (let k = 0; k < 8; k++) {
-    c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
-  }
-  crcTable[n] = c;
-}
-
-function crc32(buf) {
-  let crc = 0xffffffff;
-  for (let i = 0; i < buf.length; i++) {
-    crc = crcTable[(crc ^ buf[i]) & 0xff] ^ (crc >>> 8);
-  }
-  return (crc ^ 0xffffffff) >>> 0;
-}
-
-fs.writeFileSync(path.join(iconsDir, "icon-192.png"), createSolidPng(192, 192, 62, 220, 107));
-fs.writeFileSync(path.join(iconsDir, "icon-512.png"), createSolidPng(512, 512, 62, 220, 107));
-fs.writeFileSync(
-  path.join(iconsDir, "apple-touch-icon.png"),
-  createSolidPng(180, 180, 62, 220, 107),
-);
-fs.writeFileSync(path.join(publicDir, "favicon.ico"), createSolidPng(32, 32, 62, 220, 107));
-
-console.log(
-  "Created real PNG icons: icon-192.png, icon-512.png, apple-touch-icon.png, favicon.ico",
-);

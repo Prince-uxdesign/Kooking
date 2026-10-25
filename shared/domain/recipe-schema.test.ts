@@ -19,7 +19,7 @@ describe("demo seed", () => {
     expect(recipe.steps).toHaveLength(3);
     expect(recipe.equipment).toHaveLength(3);
     expect(recipe.notes).toHaveLength(2);
-    expect(recipe.provenance?.author).toBe("Kooking Seed Engineering");
+    expect(recipe.provenance?.author).toBe("Fork Seed Engineering");
     expect(recipe.createdAt).toBe("2026-03-01T10:00:00.000Z");
     expect(recipe.updatedAt).toBe("2026-03-01T10:00:00.000Z");
     expect(recipe.ingredients[0].constraint).toBe("Must be drained thoroughly before steaming");

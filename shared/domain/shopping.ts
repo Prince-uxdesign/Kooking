@@ -332,7 +332,7 @@ export interface ItemGroup {
   /** Sum in `totalUnit`, only when every item converts safely. */
   total: number | null;
   totalUnit: string | null;
-  /** True when items are in units Kooking can't add together. */
+  /** True when items are in units Fork can't add together. */
   incompatible: boolean;
 }
 

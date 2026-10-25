@@ -65,7 +65,7 @@ export function SavedRecipesScreen({ catalog }: { catalog: RecipeSummary[] }) {
       <ErrorState
         headingLevel={2}
         title="Saved recipes aren't available on this device"
-        message="This browser isn't letting Kooking store data (private browsing or blocked site data can do this). You can still browse recipes and cook."
+        message="This browser isn't letting Fork store data (private browsing or blocked site data can do this). You can still browse recipes and cook."
         onRetry={() => void saved.reload()}
       />
     );
@@ -100,8 +100,8 @@ export function SavedRecipesScreen({ catalog }: { catalog: RecipeSummary[] }) {
       <p className="inline-flex min-w-0 flex-1 basis-[16rem] items-start gap-2">
         <AlertTriangle aria-hidden size={18} strokeWidth={1.75} className="mt-1 shrink-0" />
         {unavailable.length === 1
-          ? "1 saved recipe is no longer available on Kooking. It may have been removed or is being updated."
-          : `${unavailable.length} saved recipes are no longer available on Kooking. They may have been removed or are being updated.`}
+          ? "1 saved recipe is no longer available on Fork. It may have been removed or is being updated."
+          : `${unavailable.length} saved recipes are no longer available on Fork. They may have been removed or are being updated.`}
       </p>
       <button
         type="button"

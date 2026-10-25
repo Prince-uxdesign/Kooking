@@ -1,4 +1,4 @@
-# Kooking — project rules for Claude
+# Fork — project rules for Claude
 
 ## Attribution (strict)
 
@@ -11,4 +11,4 @@ Enforced by `.claude/settings.json` (`attribution` disabled) and the `.githooks/
 
 ## Design
 
-All UI follows `docs/DESIGN_SYSTEM.md` ("Clean Kitchen"): flat, no shadows or gradients, generous whitespace.
+All UI follows `docs/DESIGN_SYSTEM.md` ("Clean Kitchen"): the product is called **Fork**; pepper-orange primary, Host Grotesk + IBM Plex Mono, Gloock for display, flat, generous whitespace. The landing page (§12) follows validata.so (cards, rails) and polar.sh (chapters, product-over-photo stages).

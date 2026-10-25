@@ -52,7 +52,7 @@ export function useVoiceCommands(onPhrase: (alternatives: string[]) => void, ena
     const unsubscribe = l.subscribe(setState);
     const onHidden = () => {
       if (document.visibilityState === "hidden") {
-        l.stop("Stopped listening because Kooking went to the background.");
+        l.stop("Stopped listening because Fork went to the background.");
       }
     };
     const onPageHide = () => l.stop();
@@ -268,7 +268,7 @@ export function VoiceHelp({ state }: { state: ListenState | null }) {
         <p className="text-[0.8125rem] leading-5 text-white/60">
           Tap the mic to start. It stays on until you stop it, leave this page, or say nothing for 2
           minutes. Your browser turns speech into text, and some browsers do that on their own
-          online service, so it may not work offline. Kooking doesn&apos;t record audio or keep what
+          online service, so it may not work offline. Fork doesn&apos;t record audio or keep what
           you say.
         </p>
       </div>

@@ -1,5 +1,5 @@
 /**
- * Sanitized diagnostic logger for Kooking.
+ * Sanitized diagnostic logger for Fork.
  *
  * Ensures errors, warnings, and diagnostic information can be logged
  * in development and production without leaking:

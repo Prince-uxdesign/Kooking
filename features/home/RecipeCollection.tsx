@@ -4,7 +4,7 @@ import { SeeAllLink } from "@/shared/ui/SectionHeading";
 
 /**
  * Home Explore collection: uses the reusable RecipeCollectionSection.
- * Labelled "Explore recipes" — Kooking has no popularity data, so nothing
+ * Labelled "Explore recipes" — Fork has no popularity data, so nothing
  * here claims to be popular or trending.
  */
 export function RecipeCollection({ recipes }: { recipes: RecipeSummary[] }) {

@@ -1,4 +1,4 @@
-# Kooking — Testing Strategy (Phase 5)
+# Fork — Testing Strategy (Phase 5)
 
 Runner: vitest 5, node environment (`vitest.config.ts` maps `@/` to the repo root). Run with `npm test`; watch mode with `npx vitest`.
 

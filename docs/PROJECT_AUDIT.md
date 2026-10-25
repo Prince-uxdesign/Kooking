@@ -1,4 +1,4 @@
-# Kooking — Project Audit (Phase 0)
+# Fork — Project Audit (Phase 0)
 
 Timing note: this audit was written after Phases 1–5 had already landed, so it records the repository as it actually stands — foundations, shell, domain layer, and quality gates included — rather than the empty folder the project started from. Nothing below describes an imaginary architecture; every claim was verified by reading the tree and running the checks.
 
@@ -33,7 +33,7 @@ Config: `package.json`, `tsconfig.json` (strict), `next.config.ts`, `postcss.con
 | Build / deploy       | `next build` green (static + one dynamic stub); no deploy target configured yet (Vercel reserved)                                                   |
 | Backend / DB / auth  | None — local-first by decision, not by omission                                                                                                     |
 | Environment vars     | None required; `.env`/`.env*.local` git-ignored preemptively; no secrets anywhere                                                                   |
-| Git                  | Branch `main`, zero commits, 16 untracked entries; remote `origin` points at `Prince-uxdesign/Kooking` (empty upstream)                             |
+| Git                  | Branch `main`, zero commits, 16 untracked entries; remote `origin` points at `Prince-uxdesign/Fork` (empty upstream)                                |
 | Application features | None. Deliberate placeholders + one cook-boundary stub; no home/recipe/shop/cook logic                                                              |
 
 ## 3. Broken, incomplete, duplicated, or unnecessary infrastructure

@@ -1,9 +1,10 @@
 "use client";
 
-import { History, Mic, PauseCircle, Sun, Timer, Volume2 } from "lucide-react";
+import { Mic, Sun, Volume2 } from "lucide-react";
 import { useEffect, useState, type CSSProperties } from "react";
 import { Reveal, useCycle, useInView, usePrefersReducedMotion, useScrollProgress } from "./motion";
-import { Credit, Photo } from "./Texture";
+import { photoUrl } from "./Texture";
+import { Band, ChapterHead, GrainStage, Index } from "./ui";
 
 const COMMANDS = [
   { said: "next", result: "Step 5 of 9: Pour in the pepper blend." },
@@ -12,31 +13,18 @@ const COMMANDS = [
   { said: "back", result: "Step 4 of 9: Fry the tomato paste." },
 ];
 
-const FEATURES = [
+const NOTES = [
   {
-    icon: Volume2,
-    title: "Read-aloud",
-    text: "Each step is read out, so your eyes stay on the pot.",
+    title: "One step, full screen",
+    text: "The quantity that step needs sits right under it. No scrolling back up mid-stir.",
   },
   {
-    icon: Mic,
-    title: "Voice commands",
-    text: "Next, back, repeat, start timer. Every one has a button too.",
+    title: "What “done” looks like",
+    text: "Every step ends on a cue you can see, smell or hear, not just a number of minutes.",
   },
   {
-    icon: Sun,
-    title: "Screen stays awake",
-    text: "No greasy-finger unlocks halfway through a step.",
-  },
-  {
-    icon: Timer,
-    title: "Timers that hold",
-    text: "Close the tab, reload, come back. The timer kept counting.",
-  },
-  {
-    icon: PauseCircle,
-    title: "Pause and resume",
-    text: "Stop on step 5, return hours later, carry on from step 5.",
+    title: "Timers off the clock",
+    text: "They run from the device clock, not the page. Lock your phone; they’re still right.",
   },
 ];
 
@@ -56,7 +44,7 @@ function TimerRing() {
   const mm = String(Math.floor(left / 60)).padStart(2, "0");
   const ss = String(left % 60).padStart(2, "0");
   return (
-    <div ref={ref} className="relative h-[148px] w-[148px] shrink-0">
+    <div ref={ref} className="relative h-[132px] w-[132px] shrink-0">
       <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90">
         <circle
           cx="60"
@@ -64,7 +52,7 @@ function TimerRing() {
           r="54"
           fill="none"
           stroke="rgb(255 255 255 / 0.1)"
-          strokeWidth="6"
+          strokeWidth="5"
         />
         <circle
           cx="60"
@@ -72,7 +60,7 @@ function TimerRing() {
           r="54"
           fill="none"
           stroke="var(--color-primary-500)"
-          strokeWidth="6"
+          strokeWidth="5"
           strokeLinecap="round"
           strokeDasharray={RING}
           strokeDashoffset={RING * (1 - left / total)}
@@ -80,10 +68,10 @@ function TimerRing() {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-[1.75rem] font-semibold leading-none tnum">
+        <span className="font-mono text-[1.5rem] leading-none tnum">
           {mm}:{ss}
         </span>
-        <span className="mt-1 text-[0.75rem] text-white/60">Simmer</span>
+        <span className="mt-1.5 text-[0.75rem] text-white/60">Simmer</span>
       </div>
     </div>
   );
@@ -95,118 +83,131 @@ export function CookingSpotlight() {
   const c = COMMANDS[cmd];
 
   return (
-    <section id="cooking" aria-labelledby="cooking-title">
+    <Band id="cooking" labelledBy="cooking-title" flush innerClassName="p-2 sm:p-3">
       <div
         ref={ref}
-        // The dark band widens to full bleed as it arrives: a card becoming the room.
-        className="spotlight-band on-dark bg-ink-900 text-white"
+        // The dark sheet widens to the rails as it arrives: a card becoming the room.
+        className="spotlight-band on-dark rounded-[28px] bg-ink-900 text-white"
         style={{ "--p": progress } as CSSProperties}
       >
-        <div className="mx-auto max-w-[1240px] px-5 py-24 sm:px-10 sm:py-32 lg:px-10 lg:py-40">
-          <Reveal className="max-w-[820px]">
-            <p className="text-[1rem] text-white/60">{"{Cooking Mode}"}</p>
-            <h2
+        <div className="px-5 py-20 sm:px-10 sm:py-28 lg:px-14 lg:py-32">
+          <Reveal>
+            <ChapterHead
               id="cooking-title"
-              className="mt-3 text-[2.25rem] font-extrabold leading-[1.05] tracking-[-0.04em] sm:text-[3.25rem] lg:text-[4.25rem]"
-            >
-              Hands covered in pepper? <span className="text-primary-500">Just say “next.”</span>
-            </h2>
-            <p className="mt-6 max-w-[560px] text-[1.125rem] leading-[1.65] text-white/70">
-              One step fills the screen, along with exactly what that step needs and what it should
-              look like when it’s done.
-            </p>
+              num="02"
+              label="Cook"
+              dark
+              title={
+                <>
+                  Hands covered in pepper?{" "}
+                  <span className="font-display text-primary-400">Just say “next.”</span>
+                </>
+              }
+              lead="Cooking Mode keeps the screen awake, reads each step aloud and listens for next, back, repeat and start timer. Every command has a button too, so cooking never depends on the mic."
+            />
           </Reveal>
 
-          <div className="mt-14 grid gap-4 lg:mt-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-            {/* Real kitchen, with what Kooking heard laid over it */}
-            <Reveal className="relative min-h-[420px] overflow-hidden rounded-[32px] lg:min-h-[560px]">
-              <div className="absolute inset-0">
-                <Photo name="grill" sizes="(min-width: 1024px) 640px, 100vw" />
-              </div>
-              <div
-                aria-hidden
-                className="absolute bottom-4 left-4 right-4 flex items-center gap-4 rounded-[24px] bg-ink-900 p-4 sm:right-auto sm:pr-6"
-              >
-                <span className="flex h-12 items-center gap-[3px] rounded-full bg-white/10 px-4">
-                  {[0, 1, 2, 3, 4, 5].map((i) => (
-                    <span
-                      key={i}
-                      className="wave-bar block h-5 w-[3px] rounded-full bg-primary-500"
-                      style={{ "--d": `${i * 0.1}s` } as CSSProperties}
-                    />
-                  ))}
-                </span>
-                <span>
-                  <span key={`s-${cmd}`} className="word-in block text-[1.25rem] font-bold">
-                    “{c.said}”
-                  </span>
-                  <span key={`r-${cmd}`} className="screen-in block text-[0.875rem] text-white/70">
-                    {c.result}
-                  </span>
-                </span>
-              </div>
-            </Reveal>
-
-            {/* Timer */}
-            <Reveal
-              delay={100}
-              className="flex flex-col justify-between gap-10 rounded-[32px] bg-white/[0.06] p-6 sm:p-10"
+          <Reveal delay={120} className="mt-14 lg:mt-20">
+            <GrainStage
+              dark
+              src={photoUrl("grill", 1800)}
+              className="flex min-h-[560px] items-center justify-center px-3 py-10 sm:px-8 sm:py-16"
             >
-              <div>
-                <p className="text-[0.875rem] text-white/60">Step 5 of 9 · Simmer the stew</p>
-                <p className="mt-3 text-[1.5rem] font-bold leading-snug tracking-[-0.02em] sm:text-[1.75rem]">
-                  Pour in the pepper blend and simmer until it thickens.
-                </p>
-                <p className="mt-4 inline-flex rounded-full bg-primary-500 px-3 py-1.5 text-[0.8125rem] font-medium text-ink-900">
-                  All of the pepper blend
-                </p>
-                <div className="mt-5 rounded-[20px] bg-white/10 p-4">
-                  <p className="text-[0.75rem] text-white/60">Ready when</p>
-                  <p className="mt-1 text-[0.9375rem]">
-                    A spoon dragged through leaves a clear line.
+              <div className="grid w-full max-w-[860px] items-center gap-3 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+                {/* The step card, as it appears in Cooking Mode */}
+                <div className="rounded-[22px] bg-ink-900/90 p-6 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_30px_60px_-30px_rgb(0_0_0/0.8)] sm:p-7">
+                  <div className="flex items-center justify-between">
+                    <Index dark>05 / 09</Index>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.08] px-2.5 py-1 text-[0.75rem] text-white/70">
+                      <Sun size={12} aria-hidden /> Screen on
+                    </span>
+                  </div>
+                  <div className="mt-4 flex gap-1" aria-hidden>
+                    {Array.from({ length: 9 }).map((_, i) => (
+                      <span
+                        key={i}
+                        className={`h-1 flex-1 rounded-full ${i < 5 ? "bg-primary-500" : "bg-white/15"}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="mt-6 text-[0.8125rem] text-white/50">Simmer the stew</p>
+                  <p className="mt-2 text-[1.375rem] leading-snug tracking-[-0.015em] sm:text-[1.5rem]">
+                    Pour in the pepper blend and simmer until it thickens.
                   </p>
+                  <p className="mt-4 inline-flex rounded-full bg-primary-500 px-3 py-1.5 text-[0.8125rem] font-medium text-ink-900">
+                    All of the pepper blend
+                  </p>
+                  <div className="mt-5 border-t border-dashed border-white/15 pt-4">
+                    <p className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-white/50">
+                      Ready when
+                    </p>
+                    <p className="mt-1.5 text-[0.9375rem] text-white/85">
+                      A spoon dragged through leaves a clear line.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-5 rounded-[22px] bg-ink-900/90 p-5 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_30px_60px_-30px_rgb(0_0_0/0.8)]">
+                    <TimerRing />
+                    <div>
+                      <p className="text-[0.9375rem]">20-minute simmer</p>
+                      <p className="mt-1 text-[0.8125rem] leading-relaxed text-white/55">
+                        Survives a reload, a locked phone and a closed tab.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    aria-hidden
+                    className="flex items-center gap-4 rounded-[22px] bg-ink-900/90 p-4 pr-5 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_30px_60px_-30px_rgb(0_0_0/0.8)]"
+                  >
+                    <span className="flex h-11 shrink-0 items-center gap-[3px] rounded-full bg-white/10 px-4">
+                      {[0, 1, 2, 3, 4, 5].map((i) => (
+                        <span
+                          key={i}
+                          className="wave-bar block h-5 w-[3px] rounded-full bg-primary-500"
+                          style={{ "--d": `${i * 0.1}s` } as CSSProperties}
+                        />
+                      ))}
+                    </span>
+                    <span className="min-w-0">
+                      <span key={`s-${cmd}`} className="word-in block text-[1.0625rem]">
+                        “{c.said}”
+                      </span>
+                      <span
+                        key={`r-${cmd}`}
+                        className="screen-in block truncate text-[0.8125rem] text-white/60"
+                      >
+                        {c.result}
+                      </span>
+                    </span>
+                  </div>
+                  <div className="flex gap-2" aria-hidden>
+                    <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-white/[0.08] text-[0.8125rem] text-white/80 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]">
+                      <Volume2 size={14} /> Read aloud
+                    </span>
+                    <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-white/[0.08] text-[0.8125rem] text-white/80 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]">
+                      <Mic size={14} /> Listening
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-6">
-                <TimerRing />
-                <p className="text-[0.9375rem] leading-relaxed text-white/70">
-                  Timers run off the clock, not the page. Lock your phone and they’re still right
-                  when you look back.
-                </p>
-              </div>
-            </Reveal>
-          </div>
+            </GrainStage>
+          </Reveal>
 
-          {/* Features */}
-          <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
-            {FEATURES.map((f, i) => (
-              <Reveal
-                as="li"
-                key={f.title}
-                delay={i * 80}
-                className="group flex flex-col gap-4 rounded-[24px] bg-white/[0.06] p-5 transition-colors hover:bg-white/[0.1]"
-              >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/10 transition-colors group-hover:bg-primary-500 group-hover:text-ink-900">
-                  <f.icon size={19} strokeWidth={1.75} aria-hidden />
-                </span>
-                <span>
-                  <span className="block text-[1rem] font-semibold">{f.title}</span>
-                  <span className="mt-1 block text-[0.875rem] leading-relaxed text-white/70">
-                    {f.text}
-                  </span>
-                </span>
+          <ul className="mt-14 grid gap-10 border-t border-white/10 pt-10 md:grid-cols-3 md:gap-8">
+            {NOTES.map((n, i) => (
+              <Reveal as="li" key={n.title} delay={i * 80}>
+                <p className="font-mono text-[0.75rem] text-white/40 tnum">02.{i + 1}</p>
+                <p className="mt-3 text-[1.125rem] tracking-[-0.01em]">{n.title}</p>
+                <p className="mt-2 max-w-[320px] text-[0.9375rem] leading-relaxed text-white/55">
+                  {n.text}
+                </p>
               </Reveal>
             ))}
           </ul>
-          <div className="mt-6 flex flex-col gap-2 px-1 text-[0.875rem] text-white/60 sm:flex-row sm:items-center sm:justify-between">
-            <span className="inline-flex items-center gap-2">
-              <History size={16} aria-hidden />
-              Every voice command has a touch button. Cooking never depends on the mic.
-            </span>
-            <Credit name="grill" className="!text-white/50 hover:!text-white" />
-          </div>
         </div>
       </div>
-    </section>
+    </Band>
   );
 }

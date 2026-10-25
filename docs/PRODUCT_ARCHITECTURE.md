@@ -1,13 +1,13 @@
-# Kooking — Product Architecture (Phase 1)
+# Fork — Product Architecture (Phase 1)
 
 Status: **Proposed — for review. No implementation.**
 Scope: MVP only (capabilities 1–21 in Phase 1 brief). No home/recipe UI built in this phase. No CMS, auth backend, or AI systems.
 
-Phase 0 finding: repository and remote (`Prince-uxdesign/Kooking`) are both empty with no commits and no established stack. This is a greenfield architecture. Nothing to migrate or retain.
+Phase 0 finding: repository and remote (`Prince-uxdesign/Fork`) are both empty with no commits and no established stack. This is a greenfield architecture. Nothing to migrate or retain.
 
 ## 1. Product vision and core journey
 
-Kooking is a mobile-first cooking companion. The central experience is cooking, not browsing.
+Fork is a mobile-first cooking companion. The central experience is cooking, not browsing.
 
 Core journey:
 

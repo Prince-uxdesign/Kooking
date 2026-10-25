@@ -390,7 +390,7 @@ export class UnavailableAuthAdapter implements AuthPort {
   readonly isAvailable = false;
   readonly isCloudBacked = false;
   private static readonly MESSAGE =
-    "Accounts aren't available in this version of Kooking. Everything else works without one.";
+    "Accounts aren't available in this version of Fork. Everything else works without one.";
 
   async getSession(): Promise<AuthSession | null> {
     return null;

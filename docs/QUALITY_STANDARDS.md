@@ -1,4 +1,4 @@
-# Kooking — Quality Standards (Phase 5)
+# Fork — Quality Standards (Phase 5)
 
 Applies from this phase on. Tooling is minimal on purpose: prettier, eslint (JS), `tsc`, vitest, `next build`. Nothing added without a check behind it.
 

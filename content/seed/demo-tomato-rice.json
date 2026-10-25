@@ -106,7 +106,7 @@
   ],
   "provenance": {
     "source": "Internal Test Kitchen",
-    "author": "Kooking Seed Engineering",
+    "author": "Fork Seed Engineering",
     "reviewedBy": "Culinary Test Pipeline",
     "reviewNotes": "Seed mock dataset verifying schema compliance and pipeline behaviors",
     "license": "CC0-1.0"

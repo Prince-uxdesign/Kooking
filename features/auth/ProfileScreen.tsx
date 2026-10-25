@@ -78,8 +78,7 @@ export function ProfileScreen() {
         <div className="flex flex-col gap-3 rounded-3xl bg-surface-100 p-6">
           <h2 className="text-[1rem] font-semibold text-ink-900">Storage & Data Isolation</h2>
           <p className="text-[0.875rem] leading-6 text-ink-600">
-            Kooking isolates your data clearly between cloud-synced records and private device
-            state:
+            Fork isolates your data clearly between cloud-synced records and private device state:
           </p>
           <div className="grid gap-3 pt-2 sm:grid-cols-2">
             <div className="flex items-start gap-3 rounded-2xl bg-white p-4">
@@ -164,7 +163,7 @@ export function ProfileScreen() {
             Accounts aren&apos;t available yet
           </h2>
           <p className="text-[0.9375rem] leading-6 text-ink-600">
-            Backup and sync across devices isn&apos;t set up in this version of Kooking. Your saved
+            Backup and sync across devices isn&apos;t set up in this version of Fork. Your saved
             recipes, shopping list and cooking history stay on this device, and everything works
             without an account.
           </p>

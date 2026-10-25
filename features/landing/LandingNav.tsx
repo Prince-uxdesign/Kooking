@@ -1,9 +1,9 @@
 "use client";
 
-import { ArrowUpRight, CookingPot } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { buttonClasses } from "@/shared/ui/Button";
+import { ForkLogo } from "@/shared/ui/Logo";
 
 const LINKS = [
   { id: "how", label: "How it works" },
@@ -60,37 +60,29 @@ export function LandingNav() {
 
   return (
     <header
-      className={`safe-top sticky top-0 z-40 border-b bg-white transition-colors duration-300 ${
+      className={`safe-top sticky top-0 z-40 border-b bg-surface-50/85 backdrop-blur-md transition-colors duration-300 ${
         scrolled ? "border-line-default" : "border-transparent"
       }`}
     >
       <nav
         aria-label="Landing"
-        className={`mx-auto flex w-full max-w-[1240px] items-center justify-between gap-4 px-5 transition-[height] duration-300 sm:px-6 lg:px-10 ${
-          scrolled ? "h-16" : "h-20"
-        }`}
+        className="mx-auto flex h-16 w-full max-w-[1280px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-10"
       >
         <Link
           href="#top"
-          aria-label="Kooking, back to top"
-          className="inline-flex min-h-[44px] items-center gap-2.5 rounded-full"
+          aria-label="Fork, back to top"
+          className="inline-flex min-h-[44px] items-center rounded-full"
         >
-          <span
-            aria-hidden
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary-500 text-ink-900"
-          >
-            <CookingPot size={20} strokeWidth={2} />
-          </span>
-          <span className="text-[1.3rem] font-extrabold tracking-[-0.03em]">Kooking</span>
+          <ForkLogo size={30} />
         </Link>
 
-        <ul ref={listRef} className="relative hidden items-center gap-1 lg:flex">
+        <ul ref={listRef} className="relative hidden items-center lg:flex">
           <span
             aria-hidden
-            className="absolute -bottom-0.5 h-[3px] rounded-full bg-primary-500 transition-all duration-500 ease-[cubic-bezier(.2,.7,.2,1)]"
+            className="absolute inset-y-0 rounded-full bg-ink-900/[0.05] transition-all duration-500 ease-[cubic-bezier(.2,.7,.2,1)]"
             style={{
-              left: (marker?.left ?? 0) + 14,
-              width: Math.max(0, (marker?.width ?? 0) - 28),
+              left: marker?.left ?? 0,
+              width: marker?.width ?? 0,
               opacity: marker ? 1 : 0,
             }}
           />
@@ -100,8 +92,8 @@ export function LandingNav() {
                 href={`#${l.id}`}
                 data-id={l.id}
                 aria-current={active === l.id ? "true" : undefined}
-                className={`relative inline-flex h-10 items-center rounded-full px-3.5 text-[0.9375rem] font-medium transition-colors ${
-                  active === l.id ? "text-ink-900" : "text-ink-600 hover:text-ink-900"
+                className={`relative inline-flex h-9 items-center rounded-full px-3.5 text-[0.9375rem] transition-colors ${
+                  active === l.id ? "text-ink-900" : "text-ink-500 hover:text-ink-900"
                 }`}
               >
                 {l.label}
@@ -110,10 +102,13 @@ export function LandingNav() {
           ))}
         </ul>
 
-        <Link href="/" className={buttonClasses({ variant: "dark", className: "group gap-1.5" })}>
-          Start cooking
+        <Link
+          href="/"
+          className="group inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-ink-900 py-2 pl-4 pr-3 text-[0.875rem] font-medium text-white transition-colors hover:bg-ink-800"
+        >
+          Open the app
           <ArrowUpRight
-            size={18}
+            size={16}
             strokeWidth={1.75}
             aria-hidden
             className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"

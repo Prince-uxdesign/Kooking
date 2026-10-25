@@ -2,7 +2,8 @@
 
 import { MANIFESTO, type PhotoKey } from "./content";
 import { Reveal, usePrefersReducedMotion, useScrollProgress } from "./motion";
-import { Credit, Photo } from "./Texture";
+import { Photo } from "./Texture";
+import { Band, Eyebrow, Index } from "./ui";
 
 const STRIP: Array<{ photo: PhotoKey; label: string }> = [
   { photo: "jollof", label: "Party jollof" },
@@ -15,90 +16,99 @@ const STRIP: Array<{ photo: PhotoKey; label: string }> = [
   { photo: "grill", label: "Suya on the grill" },
 ];
 
-/** A slow river of photos. Pauses on hover; still under reduced motion. */
+/** A slow river of framed photos. Pauses on hover; still under reduced motion. */
 export function DishMarquee() {
   const row = [...STRIP, ...STRIP];
   return (
-    <section aria-label="Food Kooking is built for" className="py-16 sm:py-24">
-      <div className="marquee relative overflow-hidden">
-        <ul className="marquee-track flex w-max gap-4" style={{ animationDuration: "70s" }}>
+    <Band label="Food Fork is built for" innerClassName="py-12 sm:py-16">
+      <p className="flex items-center justify-center gap-2 text-[0.875rem] text-ink-500">
+        <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-primary-500" />
+        Built for the food you actually grew up on
+      </p>
+      <div className="marquee fade-x relative -mx-5 mt-8 overflow-hidden sm:-mx-8 lg:-mx-14">
+        <ul className="marquee-track flex w-max gap-3" style={{ animationDuration: "80s" }}>
           {row.map((item, i) => (
             <li
               key={`${item.photo}-${i}`}
               aria-hidden={i >= STRIP.length}
-              className="group relative h-[220px] w-[180px] shrink-0 overflow-hidden rounded-[24px] sm:h-[300px] sm:w-[240px]"
+              className="frame group w-[190px] shrink-0 sm:w-[230px]"
             >
-              <Photo
-                name={item.photo}
-                sizes="240px"
-                className="transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-              />
-              <span className="absolute bottom-3 left-3 rounded-full bg-white px-3 py-1.5 text-[0.8125rem] font-medium">
-                {item.label}
-              </span>
+              <div className="h-[200px] overflow-hidden rounded-[16px] sm:h-[250px]">
+                <Photo
+                  name={item.photo}
+                  sizes="240px"
+                  className="transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                />
+              </div>
+              <div className="flex items-center justify-between gap-2 px-1.5 pb-0.5 pt-2.5">
+                <span className="truncate text-[0.875rem]">{item.label}</span>
+                <Index>{String((i % STRIP.length) + 1).padStart(2, "0")}</Index>
+              </div>
             </li>
           ))}
         </ul>
       </div>
-    </section>
+    </Band>
   );
 }
 
 /**
- * The problem, stated once, editorial-style: two-tone type that inks in
- * as it scrolls, then three photos set off-grid like a magazine spread.
+ * The problem, stated once, editorial-style: type that inks in as it
+ * scrolls, then three framed photos set like a magazine spread.
  */
 export function Manifesto() {
   const { ref, progress } = useScrollProgress<HTMLDivElement>(0.85, 0.25);
   const words = MANIFESTO.split(" ");
   const reduced = usePrefersReducedMotion();
   const lit = reduced ? words.length : Math.round(progress * words.length);
-  const turn = words.indexOf("Kooking");
+  const turn = words.indexOf("Fork");
 
   return (
-    <section className="px-5 pb-24 sm:px-6 sm:pb-32 lg:px-10 lg:pb-40">
-      <div className="mx-auto max-w-[1180px]">
-        <div ref={ref}>
-          <p className="mb-6 text-[1rem] text-ink-500">{"{The problem with most recipes}"}</p>
-          <p className="max-w-[1000px] text-[1.875rem] font-bold leading-[1.2] tracking-[-0.03em] sm:text-[2.75rem] lg:text-[3.25rem]">
-            {words.map((w, i) => (
-              <span
-                key={i}
-                className={`transition-colors duration-300 ${
-                  i < lit ? (i >= turn ? "text-ink-900" : "text-ink-500") : "text-ink-300"
-                }`}
-              >
-                {w}
-                {i < words.length - 1 ? " " : ""}
-              </span>
-            ))}
-          </p>
-        </div>
+    <Band label="The problem with most recipes" innerClassName="py-20 sm:py-28 lg:py-36">
+      <div ref={ref}>
+        <Eyebrow tone="ink">The problem with most recipes</Eyebrow>
+        <p className="mt-8 max-w-[1040px] font-display text-[1.875rem] font-normal leading-[1.18] tracking-[-0.02em] sm:text-[2.75rem] lg:text-[3.25rem]">
+          {words.map((w, i) => (
+            <span
+              key={i}
+              className={`transition-colors duration-300 ${
+                i < lit ? (i >= turn ? "text-ink-900" : "text-ink-400") : "text-ink-300/70"
+              }`}
+            >
+              {w}
+              {i < words.length - 1 ? " " : ""}
+            </span>
+          ))}
+        </p>
+      </div>
 
-        <div className="mt-16 grid grid-cols-2 gap-4 sm:mt-24 lg:grid-cols-[1fr_2.1fr_1.1fr] lg:items-end lg:gap-5">
-          <Reveal className="order-2 lg:order-1 lg:pb-24">
-            <div className="h-[200px] overflow-hidden rounded-[24px] sm:h-[260px]">
+      <div className="mt-16 grid grid-cols-2 gap-3 sm:mt-24 lg:grid-cols-[1fr_2.1fr_1.1fr] lg:items-end">
+        <Reveal className="order-2 lg:order-1 lg:pb-24">
+          <div className="frame">
+            <div className="h-[190px] overflow-hidden rounded-[16px] sm:h-[250px]">
               <Photo name="egusi" sizes="(min-width: 1024px) 260px, 50vw" />
             </div>
-            <Credit name="egusi" className="mt-2 inline-block" />
-          </Reveal>
-          <Reveal delay={100} className="col-span-2 order-1 lg:order-2 lg:col-span-1">
-            <div className="h-[300px] overflow-hidden rounded-[32px] sm:h-[460px]">
+          </div>
+        </Reveal>
+        <Reveal delay={100} className="order-1 col-span-2 lg:order-2 lg:col-span-1">
+          <div className="frame">
+            <div className="h-[300px] overflow-hidden rounded-[16px] sm:h-[460px]">
               <Photo name="chopping" sizes="(min-width: 1024px) 560px, 100vw" />
             </div>
-            <Credit name="chopping" className="mt-2 inline-block" />
-          </Reveal>
-          <Reveal delay={200} className="order-3 flex flex-col gap-5">
-            <div className="h-[200px] overflow-hidden rounded-[24px] sm:h-[220px]">
+          </div>
+        </Reveal>
+        <Reveal delay={200} className="order-3 flex flex-col gap-5">
+          <div className="frame">
+            <div className="h-[190px] overflow-hidden rounded-[16px] sm:h-[210px]">
               <Photo name="jollof" sizes="(min-width: 1024px) 300px, 50vw" />
             </div>
-            <p className="text-[1rem] leading-[1.65] text-ink-600">
-              Wherever you cook, and whoever taught you (or didn’t), Kooking turns a recipe into a
-              plan you can actually follow.
-            </p>
-          </Reveal>
-        </div>
+          </div>
+          <p className="px-1 text-[1rem] leading-[1.65] text-ink-500">
+            Wherever you cook, and whoever taught you (or didn’t), Fork turns a recipe into a plan
+            you can actually follow.
+          </p>
+        </Reveal>
       </div>
-    </section>
+    </Band>
   );
 }

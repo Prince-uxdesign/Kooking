@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Kooking — Cooking Companion",
-    short_name: "Kooking",
+    name: "Fork — Cooking Companion",
+    short_name: "Fork",
     description:
       "A focused, distraction-free cooking companion for confident home cooking with step-by-step guidance and offline timers.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",
-    theme_color: "#3EDC6B",
+    theme_color: "#FF6A26",
     orientation: "portrait-primary",
     icons: [
       {

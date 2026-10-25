@@ -1,12 +1,12 @@
 /**
- * Kooking Progressive Web App Service Worker (Phase 36)
+ * Fork Progressive Web App Service Worker (Phase 36)
  *
  * Designed for offline resilience during cooking sessions.
  * Caches static shell, visited public recipes, and images.
  * STRICT SECURITY: Never caches authenticated endpoints, tokens, or Supabase queries.
  */
 
-const SW_VERSION = "kooking-v1";
+const SW_VERSION = "kooking-v2";
 const SHELL_CACHE = `kooking-shell-${SW_VERSION}`;
 const STATIC_CACHE = `kooking-static-${SW_VERSION}`;
 const PAGES_CACHE = `kooking-pages-${SW_VERSION}`;
@@ -189,7 +189,7 @@ async function handleNavigateRequest(request) {
 
     // Ultimate fallback if even /offline wasn't cached
     return new Response(
-      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Offline · Kooking</title></head><body style="font-family:sans-serif;padding:2rem;text-align:center;"><h1>You\'re Offline</h1><p>Kooking is currently unavailable without an internet connection.</p><p><a href="/">Try again</a></p></body></html>',
+      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Offline · Fork</title></head><body style="font-family:sans-serif;padding:2rem;text-align:center;"><h1>You\'re Offline</h1><p>Fork is currently unavailable without an internet connection.</p><p><a href="/">Try again</a></p></body></html>',
       { headers: { "Content-Type": "text/html" } },
     );
   }

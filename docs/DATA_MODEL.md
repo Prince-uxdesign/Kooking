@@ -1,4 +1,4 @@
-# Kooking — Data Model (Phase 12: Structured Recipe Data)
+# Fork — Data Model (Phase 12: Structured Recipe Data)
 
 Status: **Implemented and fully validated as structured domain models. No production database.**
 Code: `shared/domain/` (Zod schemas, pure domain rules, validation helpers), `shared/data/` (repository interfaces, memory + localStorage adapters). Tests: `shared/domain/*.test.ts` (170 tests passing).

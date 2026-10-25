@@ -29,7 +29,7 @@ export const MARQUEE_DISHES = [
 ];
 
 export const MANIFESTO =
-  "Most recipes assume you already know how to cook. They say “fry until the oil rises” and never say what that looks like. They’re written for four when you’re feeding six. They never ask if you actually have crayfish. Kooking does all of that, before the gas is on.";
+  "Most recipes assume you already know how to cook. They say “fry until the oil rises” and never say what that looks like. They’re written for four when you’re feeding six. They never ask if you actually have crayfish. Fork does all of that, before the gas is on.";
 
 /** Cooking Mode steps used by the hero phone and the dark spotlight. */
 export const COOK_STEPS = [
@@ -210,7 +210,7 @@ export const STORIES = [
     before: "Every recipe needed two clean hands and an unbroken hour. Neither was available.",
     turn: "Turned on read-aloud and said “next” instead of touching the screen. The screen stayed awake. When the baby woke, the cook paused mid-step.",
     after:
-      "After the nap, Kooking opened right back on step five with the timer intact. Pepper soup, finished in two sittings.",
+      "After the nap, Fork opened right back on step five with the timer intact. Pepper soup, finished in two sittings.",
     timeline: [
       { time: "7:05 pm", text: "Read-aloud on. Says “next” with a hand free" },
       { time: "7:18 pm", text: "Screen stays awake while the goat meat boils" },
@@ -228,8 +228,8 @@ export const STORIES = [
 
 export const FAQ = [
   {
-    q: "What exactly is Kooking?",
-    a: "A cooking companion for Nigerian food. You pick a recipe, Kooking checks what you already have, puts what’s missing on a shopping list, then guides you through cooking one step at a time with timers, read-aloud and voice commands.",
+    q: "What exactly is Fork?",
+    a: "A cooking companion for Nigerian food. You pick a recipe, Fork checks what you already have, puts what’s missing on a shopping list, then guides you through cooking one step at a time with timers, read-aloud and voice commands.",
   },
   {
     q: "I’ve genuinely never cooked. Will this work for me?",
@@ -245,18 +245,18 @@ export const FAQ = [
   },
   {
     q: "Where do the recipes come from? Are they AI-generated?",
-    a: "No. Recipes and their ingredient swaps are written and checked by people before they’re published. Kooking never invents a substitution. If a swap isn’t on the recipe’s approved list, it isn’t offered.",
+    a: "No. Recipes and their ingredient swaps are written and checked by people before they’re published. Fork never invents a substitution. If a swap isn’t on the recipe’s approved list, it isn’t offered.",
   },
   {
     q: "Is there an app to download?",
-    a: "Kooking runs in your browser, and you can install it to your home screen from there. It opens full-screen like any other app.",
+    a: "Fork runs in your browser, and you can install it to your home screen from there. It opens full-screen like any other app.",
   },
 ] as const;
 
 /**
- * Unsplash photos (free licence), hot-linked from Unsplash's CDN as their
- * guidelines ask, credited in the footer. People photos are used as scenes,
- * never as the face of a story or testimonial.
+ * Unsplash photos (Unsplash licence: free to use, no attribution required),
+ * hot-linked from Unsplash's CDN. People photos are used as scenes, never as
+ * the face of a story or testimonial.
  */
 export const PHOTOS = {
   chopping: {
@@ -331,7 +331,7 @@ export const PHOTOS = {
 export type PhotoKey = keyof typeof PHOTOS;
 
 /**
- * Testimonial wall. ILLUSTRATIVE: composites of the cooks Kooking is built
+ * Testimonial wall. ILLUSTRATIVE: composites of the cooks Fork is built
  * for, labelled as such on the page. Replace with real, consented reviews
  * at launch. No star ratings or review counts until real ones exist.
  */
@@ -352,7 +352,7 @@ export const TESTIMONIALS = [
   },
   {
     title: "It tells you what done looks like",
-    body: "“Fry until the oil rises” never made sense to me. Kooking says what colour it should be. That one line fixed my stew.",
+    body: "“Fry until the oil rises” never made sense to me. Fork says what colour it should be. That one line fixed my stew.",
     name: "Ifeanyi N.",
     place: "Enugu",
     cooked: "Tomato stew · 4 servings",

@@ -1,6 +1,6 @@
-# Kooking PWA & Offline Resilience Manual Test Plan (Phase 36)
+# Fork PWA & Offline Resilience Manual Test Plan (Phase 36)
 
-This document outlines the step-by-step verification procedures for Progressive Web App (PWA) installation, caching behaviors, and offline resilience in Kooking across desktop and mobile devices.
+This document outlines the step-by-step verification procedures for Progressive Web App (PWA) installation, caching behaviors, and offline resilience in Fork across desktop and mobile devices.
 
 ---
 
@@ -23,8 +23,8 @@ This document outlines the step-by-step verification procedures for Progressive 
    - Verify that `kooking-shell-kooking-v1` contains `/offline`, `/manifest.webmanifest`, `/icons/icon.svg`, `/icons/icon-192.png`, `/icons/icon-512.png`, and `/favicon.ico`.
 5. Open DevTools -> **Application** -> **Manifest**.
    - Verify that the manifest loads from `/manifest.webmanifest`.
-   - Verify App Name: `Kooking — Cooking Companion`, Short Name: `Kooking`.
-   - Verify Theme Color: `#3EDC6B`, Background Color: `#ffffff`, Display: `standalone`.
+   - Verify App Name: `Fork — Cooking Companion`, Short Name: `Fork`.
+   - Verify Theme Color: `#FF6A26`, Background Color: `#ffffff`, Display: `standalone`.
    - Verify that all referenced icons load with status 200 without broken image indicators.
 
 ---
@@ -129,11 +129,11 @@ This document outlines the step-by-step verification procedures for Progressive 
 
 ## 11. Installing the PWA (Where Supported)
 
-1. In Chrome on Desktop or Android, browse Kooking.
-2. Observe the non-intrusive banner: _"Install Kooking for Offline Cooking"_.
+1. In Chrome on Desktop or Android, browse Fork.
+2. Observe the non-intrusive banner: _"Install Fork for Offline Cooking"_.
 3. Click **Install App**:
    - The browser native install dialog appears.
-   - After confirming, Kooking launches in its own standalone window without browser URL bars.
+   - After confirming, Fork launches in its own standalone window without browser URL bars.
 4. Click **Not now**:
    - The banner dismisses and sets a 14-day suppression in `localStorage`.
    - The prompt does not repeatedly interrupt the user during subsequent page navigations.
@@ -146,7 +146,7 @@ This document outlines the step-by-step verification procedures for Progressive 
 2. Reload page while active in a tab.
 3. Observe:
    - `sw.js` enters waiting state.
-   - An update notification appears: _"A new version of Kooking is available with improvements."_ with an **Update Now** button.
+   - An update notification appears: _"A new version of Fork is available with improvements."_ with an **Update Now** button.
    - Active cooking sessions are **never** force-reloaded automatically.
    - Clicking **Update Now** triggers `SKIP_WAITING` and activates the new worker cleanly.
 

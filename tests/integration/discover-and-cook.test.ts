@@ -36,7 +36,7 @@ import { emptyList, addPersonalItem } from "@/shared/domain/shopping";
  *
  * Verifies all 27 steps of the primary user journey in strict order
  * without mocking or simulating away domain behavior:
- * 1. Open Kooking as an anonymous user.
+ * 1. Open Fork as an anonymous user.
  * 2. Browse available recipes.
  * 3. Search for a recipe.
  * 4. Apply available filters.
@@ -98,7 +98,7 @@ describe("Phase 39: Comprehensive End-to-End Journey 1 (Discover and Cook)", () 
 
   it("executes the complete 27-step Discover and Cook journey end-to-end", async () => {
     // -------------------------------------------------------------------------
-    // Step 1: Open Kooking as an anonymous user
+    // Step 1: Open Fork as an anonymous user
     // -------------------------------------------------------------------------
     const guest = { id: "device-guest-qa-1" };
 

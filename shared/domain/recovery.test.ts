@@ -40,7 +40,7 @@ afterEach(() => {
   delete (globalThis as unknown as { window?: unknown }).window;
 });
 
-/** "Reopen Kooking": a brand-new adapter reading what's on disk. */
+/** "Reopen Fork": a brand-new adapter reading what's on disk. */
 const reopen = async (id: string, now: number) =>
   resolveSession(await new LocalSessions().getRaw(id), catalog, now);
 

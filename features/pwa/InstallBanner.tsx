@@ -28,7 +28,7 @@ export function InstallBanner() {
   return (
     <div
       role="region"
-      aria-label="Install Kooking companion app"
+      aria-label="Install Fork companion app"
       className="mb-4 rounded-3xl border border-primary-200 bg-primary-50/70 p-4 sm:p-5"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -38,7 +38,7 @@ export function InstallBanner() {
           </span>
           <div>
             <h2 className="text-sm font-semibold text-ink-900 sm:text-base">
-              Install Kooking for Offline Cooking
+              Install Fork for Offline Cooking
             </h2>
             <p className="mt-0.5 text-xs text-ink-600 sm:text-sm">
               Keep timers running, view steps offline, and cook without browser distractions.
@@ -75,7 +75,7 @@ export function InstallBanner() {
 /**
  * Service Worker Update Notification (Phase 36 §G).
  *
- * Appears when a new version of Kooking is cached and ready.
+ * Appears when a new version of Fork is cached and ready.
  * Does not force-refresh the user out of an active cooking session.
  */
 export function UpdateBanner() {
@@ -89,7 +89,7 @@ export function UpdateBanner() {
       className="w-full bg-ink-900 px-4 py-2 text-center text-xs text-white sm:text-sm"
     >
       <div className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-center gap-3">
-        <span>A new version of Kooking is available with improvements.</span>
+        <span>A new version of Fork is available with improvements.</span>
         <button
           type="button"
           onClick={applyUpdate}

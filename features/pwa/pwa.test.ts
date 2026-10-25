@@ -17,10 +17,10 @@ describe("Phase 36: PWA Foundation & Service Worker", () => {
   describe("Web App Manifest", () => {
     it("exports a valid manifest conforming to PWA standards", () => {
       const m = manifest();
-      expect(m.name).toBe("Kooking — Cooking Companion");
-      expect(m.short_name).toBe("Kooking");
+      expect(m.name).toBe("Fork — Cooking Companion");
+      expect(m.short_name).toBe("Fork");
       expect(m.display).toBe("standalone");
-      expect(m.theme_color).toBe("#3EDC6B");
+      expect(m.theme_color).toBe("#FF6A26");
       expect(m.background_color).toBe("#ffffff");
       expect(m.start_url).toBe("/");
       expect(m.icons?.length).toBeGreaterThanOrEqual(3);

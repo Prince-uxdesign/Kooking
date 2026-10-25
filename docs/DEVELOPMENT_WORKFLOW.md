@@ -1,4 +1,4 @@
-# Kooking — Development Workflow (Phase 0)
+# Fork — Development Workflow (Phase 0)
 
 How work gets done in this repo, end to end. Commands verified; see ENVIRONMENT_SETUP for prerequisites.
 

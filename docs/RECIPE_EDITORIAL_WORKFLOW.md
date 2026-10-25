@@ -1,4 +1,4 @@
-# Kooking — Recipe Editorial Workflow & Management
+# Fork — Recipe Editorial Workflow & Management
 
 Status: **Implemented, tested, and active (Phase 16).**  
 Domain service: `shared/domain/recipe-management.ts`  
@@ -8,7 +8,7 @@ Schema source: `shared/domain/recipe-schema.ts`
 
 ## 1. Executive Summary
 
-Kooking delivers authentic, kitchen-tested Nigerian culinary knowledge. Recipes are not casual user-generated posts or unverified AI outputs. Every recipe in the catalog progresses through a controlled, auditable editorial lifecycle before it can be presented to cooks.
+Fork delivers authentic, kitchen-tested Nigerian culinary knowledge. Recipes are not casual user-generated posts or unverified AI outputs. Every recipe in the catalog progresses through a controlled, auditable editorial lifecycle before it can be presented to cooks.
 
 This document formalizes:
 
@@ -56,7 +56,7 @@ stateDiagram-v2
 
 ## 3. Structural Validation vs. Kitchen Validation
 
-Kooking strictly distinguishes between two different kinds of validation:
+Fork strictly distinguishes between two different kinds of validation:
 
 ### A. Structural Validation (Syntactic Correctness)
 
@@ -130,11 +130,11 @@ The platform is designed to onboard recipes co-developed with our Nigerian chef 
 1. **Ideation & Dish Selection**:
    Select signature dishes covering core categories (`rice`, `stews-soups`, `swallow`, `beans-legumes`, `breakfast`).
 2. **Standardized Drafting**:
-   Author drafts using Kooking's standardized measurement units (`g`, `kg`, `ml`, `l`, `cup`, `tbsp`, `tsp`, `piece`). Nigerian household measures (mudu, derica) are converted to verifiable metric equivalents at formulation time.
+   Author drafts using Fork's standardized measurement units (`g`, `kg`, `ml`, `l`, `cup`, `tbsp`, `tsp`, `piece`). Nigerian household measures (mudu, derica) are converted to verifiable metric equivalents at formulation time.
 3. **Kitchen Testing Trials**:
    The chef partner tests the formulation across standard cookware and stove setups. Sensory cues and completion notes are captured in step records.
 4. **Editorial Verification**:
-   The Kooking editorial team reviews the draft, confirms step references and substitute lists, and marks the recipe `approved`.
+   The Fork editorial team reviews the draft, confirms step references and substitute lists, and marks the recipe `approved`.
 5. **Publishing**:
    The recipe is scheduled and transitioned to `published` by an administrator, unlocking public discovery and Cooking Mode.
 
@@ -157,7 +157,7 @@ The platform is designed to onboard recipes co-developed with our Nigerian chef 
 
 ## 8. Data Integrity & Active Cooking Sessions
 
-Recipe updates can occur over time (e.g. clarifying an instruction or fixing a typo). Kooking implements strict integrity policies:
+Recipe updates can occur over time (e.g. clarifying an instruction or fixing a typo). Fork implements strict integrity policies:
 
 1. **Immutable Identifier Policy**:
    A recipe's `id` is permanent. Slugs may update with canonical redirects, but primary identifiers never change.
