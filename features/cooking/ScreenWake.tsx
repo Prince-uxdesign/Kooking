@@ -90,7 +90,7 @@ export function wakeNote(p: ScreenWakeControlProps): { text: string; retry: bool
       return {
         text: state.recovered
           ? "Screen is staying on again."
-          : "Screen stays on while you cook. Battery saver or device settings can still override this.",
+          : "Screen stays on. Battery saver can still override this.",
         retry: false,
       };
     case "unavailable":
@@ -126,12 +126,12 @@ export function ScreenWakeControl(props: ScreenWakeControlProps) {
   }
 
   return (
-    <div className="flex flex-col items-start gap-1.5">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
       <button
         type="button"
         aria-pressed={enabled}
         onClick={onToggle}
-        className={`inline-flex min-h-[44px] items-center gap-2 rounded-full bg-surface-100 px-4 text-[0.875rem] font-medium text-ink-900 transition-colors hover:bg-surface-200`}
+        className={`card-edge inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white px-4 text-[0.875rem] font-medium text-ink-900 transition-[background-color,scale] duration-150 ease-out hover:bg-surface-100 active:scale-[0.97]`}
       >
         {enabled ? (
           <Monitor aria-hidden size={18} strokeWidth={1.75} />

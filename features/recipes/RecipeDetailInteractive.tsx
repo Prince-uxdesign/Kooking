@@ -137,7 +137,7 @@ export function RecipeDetailInteractive({
     .sort((x, y) => x - y);
 
   return (
-    <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start lg:gap-12">
+    <div className="flex flex-col gap-10 xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start xl:gap-12">
       <div className="flex flex-col gap-10">
         {isOffline && (
           <div
@@ -562,7 +562,7 @@ export function RecipeDetailInteractive({
       </div>
 
       {/* Desktop: sticky summary and actions */}
-      <aside aria-label="Cooking preparation" className="hidden lg:sticky lg:top-8 lg:block">
+      <aside aria-label="Cooking preparation" className="hidden xl:sticky xl:top-8 xl:block">
         <div className="card-edge flex flex-col gap-5 rounded-[32px] bg-white p-6">
           <div className="flex flex-col gap-1">
             <h3 className="font-headline text-[1.375rem] font-medium tracking-[-0.02em] text-ink-900">
@@ -608,7 +608,7 @@ export function RecipeDetailInteractive({
       </aside>
 
       {/* Phones and tablets: actions float just above the tab bar. */}
-      <div className="fixed inset-x-3 bottom-[calc(72px+env(safe-area-inset-bottom))] z-40 mx-auto max-w-[560px] lg:hidden">
+      <div className="fixed inset-x-3 bottom-[calc(72px+env(safe-area-inset-bottom))] z-40 mx-auto max-w-[560px] xl:hidden">
         <div className="glass-bar card-edge flex items-center gap-2 rounded-full p-1.5 pl-5">
           <div className="flex min-w-0 flex-1 flex-col">
             <span className="tnum truncate text-[0.75rem] text-ink-500">

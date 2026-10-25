@@ -11,7 +11,7 @@ export default function FocusedLayout({ children }: { children: React.ReactNode 
   return (
     <div className="min-h-screen bg-surface-50 text-ink-900">
       <header className="safe-top">
-        <div className="mx-auto flex min-h-16 w-full max-w-[880px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 sm:px-6">
+        <div className="mx-auto flex min-h-16 w-full max-w-[1120px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 sm:px-6">
           <Brand />
           <Link
             href="/"
@@ -26,7 +26,7 @@ export default function FocusedLayout({ children }: { children: React.ReactNode 
       <main
         id="main-content"
         tabIndex={-1}
-        className="mx-auto w-full max-w-[880px] px-4 pb-16 pt-2 sm:px-6 sm:pt-6"
+        className="mx-auto w-full max-w-[1120px] px-4 pb-16 pt-2 sm:px-6 sm:pt-6"
       >
         {children}
       </main>

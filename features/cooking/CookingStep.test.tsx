@@ -259,4 +259,16 @@ describe("CookingStep", () => {
     expect(html).toContain("Done, next step");
     expect(html).toContain("Pause");
   });
+
+  it("offers technique help for what the step asks, and previews the next step", () => {
+    const html = render({
+      upNext: { number: 3, instruction: "Fold in the rice.", ingredients: ["Rice"] },
+      timerRunning: true,
+    });
+    expect(html).toContain("How to do this");
+    expect(html).toContain("Frying the base until the oil rises");
+    expect(html).toContain("If something");
+    expect(html).toContain("While you wait · get ready for step 3");
+    expect(html).toContain("Have ready: </span>Rice");
+  });
 });

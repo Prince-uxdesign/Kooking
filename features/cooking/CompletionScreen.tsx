@@ -39,7 +39,7 @@ export function CompletionScreen({
   return (
     <section
       aria-labelledby="complete-title"
-      className="flex flex-col gap-6 rounded-[32px] bg-white card-edge p-6 sm:p-8"
+      className="card-edge mx-auto flex w-full max-w-2xl flex-col gap-6 rounded-[32px] bg-white p-6 sm:p-8"
     >
       <span
         aria-hidden

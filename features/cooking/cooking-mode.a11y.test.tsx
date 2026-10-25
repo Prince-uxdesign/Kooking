@@ -451,3 +451,36 @@ describe("read-aloud, voice and wake status controls", () => {
     await clean(mounted.container);
   });
 });
+
+describe("step help", () => {
+  it("technique help, up next and the steps overview have no axe violations", async () => {
+    const { techniquesFor } = await import("@/shared/domain/techniques");
+    const { AllSteps, StepHelp, UpNext } = await import("./StepHelp");
+    mounted = await mount(
+      <div>
+        <StepHelp
+          techniques={techniquesFor("Fry, stirring, until the oil rises. Season with salt.")}
+        />
+        <UpNext
+          next={{ number: 3, instruction: "Fold in the rice.", ingredients: ["Rice"] }}
+          waiting
+        />
+        <AllSteps
+          steps={[
+            { number: 1, instruction: "Rinse the rice.", done: true, current: false },
+            { number: 2, instruction: "Fry the base.", done: false, current: true },
+          ]}
+          disabled={false}
+          onJump={noop}
+        />
+      </div>,
+    );
+    const root = mounted.container;
+    expect(root.querySelectorAll("details")).toHaveLength(2);
+    // Opening a technique reveals its how-to and fixes.
+    const summary = root.querySelector("summary")!;
+    await act(async () => summary.click());
+    expect(root.querySelector("details")!.hasAttribute("open")).toBe(true);
+    await clean(root);
+  });
+});

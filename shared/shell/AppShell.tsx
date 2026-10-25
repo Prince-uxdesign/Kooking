@@ -6,8 +6,8 @@ import { SavedAnnouncer } from "@/features/saved/SavedAnnouncer";
 import { InstallBanner } from "@/features/pwa/InstallBanner";
 
 /**
- * Main application shell (< lg: header + bottom tabs;
- * >= lg: sidebar). Page content stays in `children` —
+ * Main application shell (< xl: app bar + bottom tabs, phones and
+ * tablets alike; >= xl: sidebar). Page content stays in `children` —
  * no feature logic lives here.
  */
 export function AppShell({
@@ -19,13 +19,13 @@ export function AppShell({
   banner?: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen lg:flex lg:items-start">
+    <div className="min-h-screen xl:flex xl:items-start">
       <SiteHeader />
       <Sidebar />
       <main
         id="main-content"
         tabIndex={-1}
-        className="mx-auto w-full max-w-[1120px] flex-1 px-5 pb-28 pt-2 sm:px-6 sm:pt-6 lg:px-12 lg:pb-16 lg:pt-12"
+        className="mx-auto w-full max-w-[1120px] flex-1 px-5 pb-28 pt-4 sm:px-6 sm:pt-6 xl:px-12 xl:pb-16 xl:pt-12"
       >
         <InstallBanner />
         {banner}

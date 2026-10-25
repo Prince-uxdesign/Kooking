@@ -86,10 +86,11 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#15120f" },
-  ],
+  // Edge to edge when installed; safe-area padding keeps content off the notch.
+  viewportFit: "cover",
+  // The app is light-only, so the browser chrome matches the page in both schemes.
+  themeColor: "#faf9f7",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

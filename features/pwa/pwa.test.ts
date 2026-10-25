@@ -20,8 +20,8 @@ describe("Phase 36: PWA Foundation & Service Worker", () => {
       expect(m.name).toBe("Fork — Cooking Companion");
       expect(m.short_name).toBe("Fork");
       expect(m.display).toBe("standalone");
-      expect(m.theme_color).toBe("#FF6A26");
-      expect(m.background_color).toBe("#ffffff");
+      expect(m.theme_color).toBe("#faf9f7");
+      expect(m.background_color).toBe("#faf9f7");
       expect(m.start_url).toBe("/");
       expect(m.icons?.length).toBeGreaterThanOrEqual(3);
 

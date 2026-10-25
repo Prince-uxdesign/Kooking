@@ -239,7 +239,7 @@ export function KitchenCheckScreen({
   );
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 pb-24 lg:pb-8">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 pb-24 xl:pb-8">
       <header className="flex flex-col gap-4">
         <Link
           href={backHref}
@@ -275,10 +275,10 @@ export function KitchenCheckScreen({
         )}
       </header>
 
-      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start lg:gap-10">
+      <div className="flex flex-col gap-6 xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start xl:gap-10">
         <aside
           aria-label="Readiness"
-          className="flex flex-col gap-4 rounded-3xl bg-white card-edge p-5 lg:sticky lg:top-8 lg:order-2"
+          className="flex flex-col gap-4 rounded-3xl bg-white card-edge p-5 xl:sticky xl:top-8 xl:order-2"
         >
           <div className="flex flex-col gap-1">
             <h2
@@ -330,7 +330,7 @@ export function KitchenCheckScreen({
 
           <div className="flex flex-col gap-3">{actions}</div>
 
-          <div className="hidden flex-col gap-2 lg:flex">
+          <div className="hidden flex-col gap-2 xl:flex">
             <Button
               variant="primary"
               size="lg"
@@ -369,7 +369,7 @@ export function KitchenCheckScreen({
           </div>
         </aside>
 
-        <section aria-labelledby="check-list" className="flex flex-col gap-4 lg:order-1">
+        <section aria-labelledby="check-list" className="flex flex-col gap-4 xl:order-1">
           <div>
             <h2
               id="check-list"
@@ -405,7 +405,7 @@ export function KitchenCheckScreen({
       </div>
 
       {/* Phones/tablets: summary + Start cooking stay reachable above the tab bar. */}
-      <div className="sticky bottom-[calc(76px+env(safe-area-inset-bottom))] z-30 lg:hidden">
+      <div className="sticky bottom-[calc(76px+env(safe-area-inset-bottom))] z-30 xl:hidden">
         <div className="glass-bar card-edge flex items-center gap-3 rounded-full p-1.5 pl-5">
           <div className="min-w-0 flex-1">
             <p className="tnum line-clamp-2 text-[0.875rem] font-medium leading-5 text-ink-900">

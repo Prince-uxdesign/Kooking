@@ -16,7 +16,7 @@ export function TabBar() {
   return (
     <nav
       aria-label="Primary"
-      className="glass-bar safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-line-default lg:hidden"
+      className="glass-bar safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-line-default xl:hidden"
     >
       <ul className="mx-auto grid max-w-[560px] grid-cols-5 px-2">
         {NAV_ITEMS.map(({ href, label, shortLabel, Icon }) => {
@@ -60,7 +60,7 @@ export function Sidebar() {
   return (
     <nav
       aria-label="Primary"
-      className="sticky top-0 hidden h-screen w-[264px] shrink-0 flex-col border-r border-line-default bg-white/70 px-4 py-7 lg:flex"
+      className="sticky top-0 hidden h-screen w-[264px] shrink-0 flex-col border-r border-line-default bg-white/70 px-4 py-7 xl:flex"
     >
       <div className="px-2">
         <Brand />

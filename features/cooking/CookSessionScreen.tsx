@@ -80,7 +80,7 @@ const quiet = `${pill} bg-surface-100 text-ink-900 hover:bg-surface-200`;
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="flex flex-col gap-4 rounded-[32px] bg-white card-edge p-6 sm:p-8">
+    <section className="card-edge mx-auto flex w-full max-w-2xl flex-col gap-4 rounded-[32px] bg-white p-6 sm:p-8">
       <h1 className="font-headline text-[1.875rem] font-medium leading-9 tracking-[-0.025em] text-ink-900">
         {title}
       </h1>
@@ -426,6 +426,8 @@ export function CookSessionScreen({
   useEffect(() => {
     if (currentIndex === null) return;
     if (lastStep.current !== null && lastStep.current !== currentIndex) {
+      // A light tick on phones that support it, so a step change is felt, not just seen.
+      if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(8);
       window.scrollTo({ top: 0 });
       headingRef.current?.focus();
     }
@@ -592,6 +594,20 @@ export function CookSessionScreen({
         void apply((s) => finishCooking(s, at(), { stopTimers }));
       };
       const others = session.timers.filter((t) => t.id !== stepTimer?.id);
+      const next = stepDisplay(session, stepIndex + 1);
+      const upNext = next
+        ? {
+            number: next.number,
+            instruction: next.instruction,
+            ingredients: next.ingredients.map((i) => i.name),
+          }
+        : null;
+      const overview = session.steps.map((st, i) => ({
+        number: i + 1,
+        instruction: st.instruction,
+        done: doneSteps[i] ?? false,
+        current: i === stepIndex,
+      }));
       const paused = session.status === "paused";
       const at = () => clock.now();
       return (
@@ -669,6 +685,13 @@ export function CookSessionScreen({
               />
             )
           }
+          upNext={upNext}
+          timerRunning={stepTimer?.status === "running"}
+          steps={overview}
+          onJumpTo={(i) => {
+            setFinishCheck(null);
+            void apply((s) => goToStep(s, i, at()));
+          }}
           recipeTitle={session.recipeTitle ?? "Cooking"}
           servings={session.servings}
           demo={Boolean(session.demo)}

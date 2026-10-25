@@ -8,9 +8,9 @@ export default function manifest(): MetadataRoute.Manifest {
       "A focused, distraction-free cooking companion for confident home cooking with step-by-step guidance and offline timers.",
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#FF6A26",
-    orientation: "portrait-primary",
+    background_color: "#faf9f7",
+    theme_color: "#faf9f7",
+    orientation: "any",
     icons: [
       {
         src: "/icons/icon-192.png",

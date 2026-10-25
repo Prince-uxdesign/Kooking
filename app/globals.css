@@ -76,6 +76,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* App feel: no grey tap flash, no 300ms tap delay. */
+  -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -162,6 +164,42 @@ h3 {
   background: rgb(255 255 255 / 0.86);
   -webkit-backdrop-filter: blur(18px) saturate(1.6);
   backdrop-filter: blur(18px) saturate(1.6);
+}
+
+/* Taps never select button labels; installed, the page doesn't rubber-band. */
+:where(a, button, summary, [role="tab"], [role="radio"]) {
+  touch-action: manipulation;
+}
+:where(button, [role="tab"], [role="radio"]) {
+  -webkit-user-select: none;
+  user-select: none;
+}
+@media (display-mode: standalone) {
+  body {
+    overscroll-behavior-y: none;
+  }
+}
+
+/* Screen-to-screen: a short fade, like a native push. Opacity only, so the
+   wrapper never becomes the containing block for fixed action bars. */
+@keyframes app-screen-in {
+  from {
+    opacity: 0;
+  }
+}
+.screen-enter {
+  animation: app-screen-in 260ms ease-out both;
+}
+
+/* Cooking Mode: each new step slides in from the direction of travel. */
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+.step-enter {
+  animation: step-in 360ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 /* Quantity numerals stay tabular so servings changes don't jitter */

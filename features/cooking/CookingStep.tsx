@@ -18,8 +18,10 @@ import {
   Wind,
 } from "lucide-react";
 import type { CueKind } from "@/shared/domain/cues";
-import { memo, useEffect, useRef, useState, type Ref } from "react";
+import { memo, useEffect, useMemo, useRef, useState, type Ref } from "react";
+import { techniquesFor } from "@/shared/domain/techniques";
 import { StepPhoto } from "@/shared/ui/StepPhoto";
+import { AllSteps, StepHelp, UpNext, type StepOverview, type UpNextInfo } from "./StepHelp";
 import {
   stepList,
   type ProgressSummary,
@@ -229,6 +231,14 @@ export interface CookingStepProps {
   voiceStatusSlot?: React.ReactNode;
   /** Keep-screen-on switch and its status (top of the step). */
   wakeSlot?: React.ReactNode;
+  /** The next step, previewed so nothing catches the cook out. */
+  upNext?: UpNextInfo | null;
+  /** A timer is counting on this step (the preview becomes "while you wait"). */
+  timerRunning?: boolean;
+  /** Every step, for the "All steps" overview. */
+  steps?: StepOverview[];
+  /** Jump straight to a step (0-based) from the overview. */
+  onJumpTo?: (index: number) => void;
 }
 
 /**
@@ -265,6 +275,10 @@ export const CookingStep = memo(function CookingStep({
   micSlot,
   voiceStatusSlot,
   wakeSlot,
+  upNext = null,
+  timerRunning = false,
+  steps,
+  onJumpTo,
 }: CookingStepProps) {
   const chips = [
     step.heat && { icon: <Flame size={18} strokeWidth={1.75} />, text: step.heat },
@@ -285,6 +299,49 @@ export const CookingStep = memo(function CookingStep({
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  const techniques = useMemo(() => techniquesFor(step.instruction), [step.instruction]);
+  const canNext = !paused && !busy && !step.isLast;
+  const canBack = !paused && !busy && !step.isFirst;
+
+  // Desktop: arrow keys move between steps (never while typing or in a dialog).
+  const keys = useRef({ canNext, canBack, onNext, onPrevious });
+  keys.current = { canNext, canBack, onNext, onPrevious };
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) return;
+      const t = e.target as HTMLElement | null;
+      if (t?.closest("input, textarea, select, [contenteditable], [role='dialog']")) return;
+      const k = keys.current;
+      if (e.key === "ArrowRight" && k.canNext) {
+        e.preventDefault();
+        k.onNext();
+      } else if (e.key === "ArrowLeft" && k.canBack) {
+        e.preventDefault();
+        k.onPrevious();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Phones and tablets: swipe left for the next step, right to go back.
+  const touch = useRef<{ x: number; y: number } | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    const p = e.touches[0];
+    touch.current = p ? { x: p.clientX, y: p.clientY } : null;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touch.current;
+    touch.current = null;
+    const p = e.changedTouches[0];
+    if (!start || !p) return;
+    const dx = p.clientX - start.x;
+    const dy = p.clientY - start.y;
+    if (Math.abs(dx) < 80 || Math.abs(dy) > Math.abs(dx) * 0.6) return;
+    if (dx < 0 && canNext) onNext();
+    if (dx > 0 && canBack) onPrevious();
+  };
 
   const primaryAction =
     "inline-flex min-h-14 flex-[1_1_8.5rem] items-center justify-center gap-2 rounded-full bg-ink-900 text-[1.0625rem] font-semibold text-white transition-[background-color,scale] duration-150 ease-out hover:bg-ink-800 active:scale-[0.98] disabled:opacity-50";
@@ -338,9 +395,14 @@ export const CookingStep = memo(function CookingStep({
               </span>
             )}
           </h2>
-          <p className="tnum text-[0.8125rem] text-ink-500">
-            {progress.completedCount} of {progress.total} done
-          </p>
+          <div className="flex items-center gap-1">
+            <p className="tnum text-[0.8125rem] text-ink-500">
+              {progress.completedCount} of {progress.total} done
+            </p>
+            {steps && onJumpTo && (
+              <AllSteps steps={steps} disabled={paused || busy} onJump={onJumpTo} />
+            )}
+          </div>
         </div>
         <Progress progress={progress} done={doneSteps} />
       </div>
@@ -366,91 +428,120 @@ export const CookingStep = memo(function CookingStep({
         </p>
       )}
 
-      {/* The one thing to do now. */}
-      <p
-        className={`break-words font-headline text-[1.625rem] font-normal leading-[1.3] tracking-[-0.015em] sm:text-[2rem] md:text-[2.25rem] ${
-          paused ? "text-ink-500" : "text-ink-900"
-        }`}
+      {/* The step. Desktop: the doing on the left, the checking on the right.
+          Phones: one column, in the order a cook needs it. */}
+      <div
+        key={step.id}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        className="step-enter flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(300px,360px)] lg:items-start lg:gap-8"
       >
-        {step.instruction}
-      </p>
-
-      {step.image && (
-        <StepPhoto
-          key={step.image.src}
-          image={step.image}
-          className="aspect-[4/3] max-w-xl rounded-3xl bg-surface-200 sm:aspect-[16/10]"
-        />
-      )}
-
-      {speechSlot}
-      {voiceHelpSlot}
-
-      {step.safetyNote && (
-        <p className="flex items-start gap-3 rounded-3xl bg-warning-100 p-4 text-[1rem] leading-6 text-warning-700">
-          <AlertTriangle aria-hidden size={20} strokeWidth={2} className="mt-0.5 shrink-0" />
-          <span className="break-words">
-            <span className="font-semibold">Safety: </span>
-            {step.safetyNote}
-          </span>
-        </p>
-      )}
-
-      {step.ingredients.length > 0 && (
-        <section
-          aria-labelledby="step-ingredients"
-          className="card-edge flex flex-col gap-3 rounded-3xl bg-white p-5"
-        >
-          <h3
-            id="step-ingredients"
-            className="inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-ink-900"
+        <div className="contents lg:flex lg:flex-col lg:gap-6">
+          {/* The one thing to do now. */}
+          <p
+            className={`order-1 break-words font-headline text-[1.625rem] font-normal leading-[1.3] tracking-[-0.015em] sm:text-[2rem] md:text-[2.25rem] ${
+              paused ? "text-ink-500" : "text-ink-900"
+            }`}
           >
-            <UtensilsCrossed
-              aria-hidden
-              size={18}
-              strokeWidth={1.75}
-              className="text-primary-700"
-            />
-            You need for this step
-            <span className="tnum -ml-1 font-normal text-ink-500">· {servings} servings</span>
-          </h3>
-          <ul className="flex flex-col gap-4">
-            {step.ingredients.map((i) => (
-              <IngredientLine key={i.lineId} item={i} />
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {chips.length > 0 && (
-        <ul aria-label="Step details" className="flex flex-wrap gap-2">
-          {chips.map((c) => (
-            <li
-              key={c.text}
-              className="card-edge inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white px-3.5 text-[0.875rem] font-medium text-ink-900"
-            >
-              <span aria-hidden className="text-primary-700">
-                {c.icon}
-              </span>
-              {c.text}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {(step.cues.length > 0 || step.completionNote) && (
-        <CueCard step={step} hasTime={chips.length > 0 || hasTimer} />
-      )}
-
-      {step.preparationNotes && (
-        <Detail icon={<UtensilsCrossed size={18} strokeWidth={1.75} />} title="Prep">
-          <p className="break-words text-[1.0625rem] leading-7 text-ink-900">
-            {step.preparationNotes}
+            {step.instruction}
           </p>
-        </Detail>
-      )}
 
-      {timerExtrasSlot}
+          {step.image && (
+            <StepPhoto
+              key={step.image.src}
+              image={step.image}
+              className="order-2 aspect-[4/3] max-w-xl rounded-3xl bg-surface-200 sm:aspect-[16/10]"
+            />
+          )}
+
+          {speechSlot && <div className="order-3">{speechSlot}</div>}
+          {voiceHelpSlot && <div className="order-4">{voiceHelpSlot}</div>}
+
+          {step.safetyNote && (
+            <p className="order-5 flex items-start gap-3 rounded-3xl bg-warning-100 p-4 text-[1rem] leading-6 text-warning-700">
+              <AlertTriangle aria-hidden size={20} strokeWidth={2} className="mt-0.5 shrink-0" />
+              <span className="break-words">
+                <span className="font-semibold">Safety: </span>
+                {step.safetyNote}
+              </span>
+            </p>
+          )}
+
+          {techniques.length > 0 && (
+            <div className="order-9">
+              <StepHelp techniques={techniques} />
+            </div>
+          )}
+
+          {step.preparationNotes && (
+            <div className="order-10">
+              <Detail icon={<UtensilsCrossed size={18} strokeWidth={1.75} />} title="Prep">
+                <p className="break-words text-[1.0625rem] leading-7 text-ink-900">
+                  {step.preparationNotes}
+                </p>
+              </Detail>
+            </div>
+          )}
+
+          {timerExtrasSlot && <div className="order-12">{timerExtrasSlot}</div>}
+        </div>
+
+        <div className="contents lg:sticky lg:top-6 lg:flex lg:flex-col lg:gap-5">
+          {step.ingredients.length > 0 && (
+            <section
+              aria-labelledby="step-ingredients"
+              className="card-edge order-6 flex flex-col gap-3 rounded-3xl bg-white p-5"
+            >
+              <h3
+                id="step-ingredients"
+                className="inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-ink-900"
+              >
+                <UtensilsCrossed
+                  aria-hidden
+                  size={18}
+                  strokeWidth={1.75}
+                  className="text-primary-700"
+                />
+                You need for this step
+                <span className="tnum -ml-1 font-normal text-ink-500">· {servings} servings</span>
+              </h3>
+              <ul className="flex flex-col gap-4">
+                {step.ingredients.map((i) => (
+                  <IngredientLine key={i.lineId} item={i} />
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {chips.length > 0 && (
+            <ul aria-label="Step details" className="order-7 flex flex-wrap gap-2">
+              {chips.map((c) => (
+                <li
+                  key={c.text}
+                  className="card-edge inline-flex min-h-[40px] items-center gap-2 rounded-full bg-white px-3.5 text-[0.875rem] font-medium text-ink-900"
+                >
+                  <span aria-hidden className="text-primary-700">
+                    {c.icon}
+                  </span>
+                  {c.text}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {(step.cues.length > 0 || step.completionNote) && (
+            <div className="order-8">
+              <CueCard step={step} hasTime={chips.length > 0 || hasTimer} />
+            </div>
+          )}
+
+          {upNext && (
+            <div className="order-11">
+              <UpNext next={upNext} waiting={timerRunning} />
+            </div>
+          )}
+        </div>
+      </div>
 
       {error && (
         <p
@@ -469,16 +560,18 @@ export const CookingStep = memo(function CookingStep({
         className="glass-bar safe-bottom fixed inset-x-0 bottom-0 z-40 rounded-t-[28px] border-t border-line-default shadow-[0_-12px_32px_-16px_rgb(21_18_15/0.18)]"
       >
         {promptSlot && (
-          <div className="mx-auto w-full max-w-[880px] px-4 pt-3 sm:px-6">{promptSlot}</div>
+          <div className="mx-auto w-full max-w-[1120px] px-4 pt-3 sm:px-6">{promptSlot}</div>
         )}
-        {barSlot && <div className="mx-auto w-full max-w-[880px] px-4 pt-3 sm:px-6">{barSlot}</div>}
+        {barSlot && (
+          <div className="mx-auto w-full max-w-[1120px] px-4 pt-3 sm:px-6">{barSlot}</div>
+        )}
         {voiceStatusSlot && (
-          <div className="mx-auto w-full max-w-[880px] px-4 pt-3 sm:px-6">{voiceStatusSlot}</div>
+          <div className="mx-auto w-full max-w-[1120px] px-4 pt-3 sm:px-6">{voiceStatusSlot}</div>
         )}
         {timerSlot && (
-          <div className="mx-auto w-full max-w-[880px] px-3 pt-3 sm:px-6">{timerSlot}</div>
+          <div className="mx-auto w-full max-w-[1120px] px-3 pt-3 sm:px-6">{timerSlot}</div>
         )}
-        <div className="mx-auto flex w-full max-w-[880px] flex-wrap items-center gap-x-2 gap-y-3 px-4 pb-4 pt-3 sm:px-6">
+        <div className="mx-auto flex w-full max-w-[1120px] flex-wrap items-center gap-x-2 gap-y-3 px-4 pb-4 pt-3 sm:px-6">
           <button
             type="button"
             onClick={onPrevious}
