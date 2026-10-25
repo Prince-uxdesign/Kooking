@@ -126,3 +126,52 @@ export function useCycle(count: number, ms: number, active = true) {
   }, [count, ms, active, reduced]);
   return [index, setIndex] as const;
 }
+
+/** Counts up from 0 to `value` once in view. Non-numeric values render as-is. */
+export function CountUp({ value, ms = 900 }: { value: string; ms?: number }) {
+  const target = Number(value);
+  const reduced = usePrefersReducedMotion();
+  const { ref, inView } = useInView<HTMLSpanElement>();
+  const [shown, setShown] = useState<number | null>(null);
+  useEffect(() => {
+    if (!inView || reduced || !Number.isFinite(target)) return;
+    let frame = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / ms);
+      setShown(Math.round(target * (1 - Math.pow(1 - t, 3))));
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [inView, reduced, target, ms]);
+  return <span ref={ref}>{shown ?? value}</span>;
+}
+
+/** Moves the element by `speed` × scroll distance while it is on screen (transform only). */
+export function useParallax<T extends HTMLElement>(speed = 0.2) {
+  const ref = useRef<T>(null);
+  const reduced = usePrefersReducedMotion();
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || reduced) return;
+    let frame = 0;
+    const apply = () => {
+      frame = 0;
+      const y = window.scrollY;
+      if (y > window.innerHeight * 1.5) return;
+      el.style.transform = `translate3d(0, ${(y * speed).toFixed(1)}px, 0)`;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
+    apply();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      el.style.transform = "";
+    };
+  }, [speed, reduced]);
+  return ref;
+}

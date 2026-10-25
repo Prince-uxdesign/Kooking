@@ -57,6 +57,8 @@
     var(--font-host), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;
   --font-display: var(--font-gloock), "Iowan Old Style", Georgia, serif;
+  --font-headline: var(--font-archivo), var(--font-host), -apple-system, sans-serif;
+  --font-label: var(--font-archivo-narrow), var(--font-host), -apple-system, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
 
   --radius-sm: 8px;

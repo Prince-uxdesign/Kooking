@@ -100,7 +100,7 @@ export function CookingSpotlight() {
               title={
                 <>
                   Hands covered in pepper?{" "}
-                  <span className="font-display text-primary-400">Just say “next.”</span>
+                  <span className="text-primary-400">Just say “next.”</span>
                 </>
               }
               lead="Cooking Mode keeps the screen awake, reads each step aloud and listens for next, back, repeat and start timer. Every command has a button too, so cooking never depends on the mic."
@@ -113,7 +113,7 @@ export function CookingSpotlight() {
               src={photoUrl("grill", 1800)}
               className="flex min-h-[560px] items-center justify-center px-3 py-10 sm:px-8 sm:py-16"
             >
-              <div className="grid w-full max-w-[860px] items-center gap-3 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+              <div className="grid w-full max-w-[860px] items-center gap-3 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
                 {/* The step card, as it appears in Cooking Mode */}
                 <div className="rounded-[22px] bg-ink-900/90 p-6 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_30px_60px_-30px_rgb(0_0_0/0.8)] sm:p-7">
                   <div className="flex items-center justify-between">
@@ -134,7 +134,7 @@ export function CookingSpotlight() {
                   <p className="mt-2 text-[1.375rem] leading-snug tracking-[-0.015em] sm:text-[1.5rem]">
                     Pour in the pepper blend and simmer until it thickens.
                   </p>
-                  <p className="mt-4 inline-flex rounded-full bg-primary-500 px-3 py-1.5 text-[0.8125rem] font-medium text-ink-900">
+                  <p className="mt-4 inline-flex rounded-full bg-primary-600 px-3 py-1.5 text-[0.8125rem] font-medium text-white">
                     All of the pepper blend
                   </p>
                   <div className="mt-5 border-t border-dashed border-white/15 pt-4">
@@ -198,7 +198,7 @@ export function CookingSpotlight() {
           <ul className="mt-14 grid gap-10 border-t border-white/10 pt-10 md:grid-cols-3 md:gap-8">
             {NOTES.map((n, i) => (
               <Reveal as="li" key={n.title} delay={i * 80}>
-                <p className="font-mono text-[0.75rem] text-white/40 tnum">02.{i + 1}</p>
+                <p className="font-mono text-[0.75rem] text-white/60 tnum">02.{i + 1}</p>
                 <p className="mt-3 text-[1.125rem] tracking-[-0.01em]">{n.title}</p>
                 <p className="mt-2 max-w-[320px] text-[0.9375rem] leading-relaxed text-white/55">
                   {n.text}

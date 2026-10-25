@@ -76,7 +76,7 @@ export function DiscoverScreen() {
       <div className="flex h-9 items-center gap-2 rounded-full bg-surface-100 pl-3 pr-1 text-[10px] text-ink-500">
         <Search size={12} strokeWidth={2} className="text-ink-900" />
         <span className="flex-1">Search for recipes</span>
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary-500 text-ink-900">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary-600 text-white">
           <Search size={11} strokeWidth={2.25} />
         </span>
       </div>
@@ -87,7 +87,7 @@ export function DiscoverScreen() {
             <p className="text-[12px]">Party Jollof Rice</p>
             <p className="font-mono text-[8px] uppercase text-ink-500">1 hr 20 min · Serves 6</p>
           </div>
-          <span className="rounded-full bg-primary-500 px-2 py-0.5 text-[8px] text-ink-900">
+          <span className="rounded-full bg-primary-600 px-2 py-0.5 text-[8px] text-white">
             Featured
           </span>
         </div>
@@ -161,7 +161,7 @@ export function CheckScreen() {
           >
             <span
               className={`flex h-4 w-4 items-center justify-center rounded-full ${
-                r.state === "need" ? "bg-white" : "bg-primary-500"
+                r.state === "need" ? "bg-white" : "bg-primary-600 text-white"
               }`}
             >
               {r.state !== "need" && <Check size={9} strokeWidth={3} />}
@@ -200,7 +200,7 @@ export function ShopScreen() {
     <div className="flex flex-1 flex-col gap-3 px-4 pb-4 pt-2">
       <p className="text-[17px] leading-tight tracking-tight">Shopping list</p>
       <div className="flex gap-1.5 text-[9px]">
-        <span className="rounded-full bg-primary-500 px-2.5 py-1.5 text-ink-900">To buy</span>
+        <span className="rounded-full bg-primary-600 px-2.5 py-1.5 text-white">To buy</span>
         <span className="rounded-full bg-surface-100 px-2.5 py-1.5 text-ink-700">Done</span>
       </div>
       <div className="flex flex-col gap-1.5 rounded-[18px] bg-surface-100 p-1.5">
@@ -295,7 +295,7 @@ export function CookScreen({
       <div key={step} className="screen-in flex flex-col gap-2.5">
         <p className="text-[10px] text-white/60">{s.title}</p>
         <p className="text-[15px] font-medium leading-snug">{s.body}</p>
-        <span className="self-start rounded-full bg-primary-500 px-2.5 py-1 text-[9px] font-medium text-ink-900">
+        <span className="self-start rounded-full bg-primary-600 px-2.5 py-1 text-[9px] font-medium text-white">
           {s.quantity}
         </span>
         <div className="rounded-[14px] bg-white/10 p-2.5">
@@ -321,7 +321,7 @@ export function CookScreen({
               <p className="text-[8px] text-white/60">Timer</p>
               <p className="font-mono text-[22px] leading-none tnum">{fmt(left)}</p>
             </div>
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-500 text-ink-900">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-600 text-white">
               <Pause size={14} strokeWidth={2.25} />
             </span>
           </div>
@@ -349,7 +349,7 @@ export function CookScreen({
 export function DoneScreen() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 pb-6 text-center">
-      <span className="screen-in flex h-16 w-16 items-center justify-center rounded-full bg-primary-500 text-ink-900">
+      <span className="screen-in flex h-16 w-16 items-center justify-center rounded-full bg-primary-600 text-white">
         <CheckCircle2 size={28} strokeWidth={2} />
       </span>
       <p

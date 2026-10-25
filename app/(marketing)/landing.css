@@ -5,8 +5,33 @@
  */
 
 :root {
-  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --hair: rgb(21 18 15 / 0.07);
+}
+
+/* The nav floats over the page, so in-page jumps stop below it. */
+html:has(.landing) {
+  scroll-padding-top: 6rem;
+}
+
+/* Landing nav: frosted white glass with a bright inner edge. */
+.glass-nav {
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  backdrop-filter: blur(20px) saturate(1.6);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.55),
+    0 0 0 1px rgb(21 18 15 / 0.06),
+    0 12px 32px -12px rgb(21 18 15 / 0.25);
+}
+
+/* Nav and CTA labels roll up to a copy of themselves on hover. */
+.roll > span {
+  transition: transform 350ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .roll > span {
+    transform: translateY(-100%);
+  }
 }
 
 /* Outer tray: a faint tint with a hairline edge. Holds a .panel or a photo. */
@@ -40,6 +65,23 @@
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
+/* Paragraphs avoid a lone word on their last line. */
+.landing p {
+  text-wrap: pretty;
+}
+
+/* Feel native on touch: no grey tap flash, no double-tap delay, no text
+   selection when a control is long-pressed. */
+.landing :is(a, button, summary) {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.landing :is(button, summary) {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 /* Big headings break into even lines instead of leaving a lone word. */
 #main-content :is(h1, h2, h3),
 footer h2 {
@@ -60,6 +102,103 @@ html[data-motion="on"] .reveal {
 html[data-motion="on"] .reveal[data-in="true"] {
   opacity: 1;
   transform: none;
+}
+
+/* Section headings wipe up from their baseline as they rise into place. */
+html[data-motion="on"] .reveal.heading-rise {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(100% 0 -0.25em 0);
+  translate: 0 0.4em;
+  transition:
+    clip-path 900ms var(--ease-out),
+    translate 900ms var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+
+html[data-motion="on"] .reveal.heading-rise[data-in="true"] {
+  clip-path: inset(-0.25em 0 -0.25em 0);
+  translate: 0 0;
+}
+
+/* The short rule over each section label draws itself in. */
+html[data-motion="on"] .reveal .eyebrow > span:first-child {
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale 900ms var(--ease-out) calc(var(--d, 0ms) + 150ms);
+}
+
+html[data-motion="on"] .reveal[data-in="true"] .eyebrow > span:first-child {
+  scale: 1 1;
+}
+
+/* Photos settle from a gentle zoom as their block reveals. */
+html[data-motion="on"] .reveal img.object-cover {
+  scale: 1.08;
+  transition: scale 1400ms var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+
+html[data-motion="on"] .reveal[data-in="true"] img.object-cover {
+  scale: 1;
+}
+
+/* Hero: photo eases out of a slight zoom; headline lines rise out of a mask. */
+@keyframes landing-hero-zoom {
+  from {
+    transform: scale(1.12);
+  }
+}
+
+.hero-zoom {
+  animation: landing-hero-zoom 1800ms var(--ease-out) both;
+}
+
+@keyframes landing-line-rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+.line-rise {
+  animation: landing-line-rise 1000ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Footer line art traces itself once in view. */
+html[data-motion="on"] .draw path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2400ms var(--ease-out);
+}
+
+html[data-motion="on"] .draw path:nth-child(2) {
+  transition-delay: 250ms;
+}
+
+html[data-motion="on"] .draw path:nth-child(3) {
+  transition-delay: 500ms;
+}
+
+html[data-motion="on"] .draw[data-in="true"] path {
+  stroke-dashoffset: 0;
+}
+
+/* FAQ answers open and close smoothly where the browser supports it. */
+.landing details {
+  interpolate-size: allow-keywords;
+}
+
+.landing details::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size 320ms var(--ease-out),
+    content-visibility 320ms allow-discrete;
+}
+
+.landing details[open]::details-content {
+  block-size: auto;
 }
 
 /* Cooking Mode band: inset card → full bleed, driven by --p (0..1) */
@@ -230,6 +369,30 @@ html[data-motion="on"] [data-in="true"] .letter {
   .story-fill {
     animation: none;
     transform: scaleX(1);
+  }
+  .roll > span {
+    transition: none;
+  }
+  .hero-zoom,
+  .line-rise {
+    animation: none;
+  }
+  html[data-motion="on"] .reveal.heading-rise {
+    clip-path: none;
+    translate: none;
+  }
+  html[data-motion="on"] .reveal .eyebrow > span:first-child,
+  html[data-motion="on"] .reveal img.object-cover {
+    scale: none;
+  }
+  html[data-motion="on"] .draw path {
+    stroke-dashoffset: 0;
+  }
+  .landing details::details-content {
+    transition: none;
+  }
+  .group:hover .roll > span {
+    transform: none;
   }
 }
 

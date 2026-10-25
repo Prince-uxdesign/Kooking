@@ -1,11 +1,13 @@
 "use client";
 
-import { Check, Clock, Minus, Plus } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
 import { ROTATING_DISHES } from "./content";
-import { Reveal, useCycle, usePrefersReducedMotion } from "./motion";
+import { Reveal, useCycle, useParallax, usePrefersReducedMotion } from "./motion";
 import { Photo } from "./Texture";
-import { Band, Eyebrow, Mark, PillCta, TextCta } from "./ui";
+import { ForkMark } from "@/shared/ui/Logo";
+import { Eyebrow, PillCta } from "./ui";
 
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
@@ -38,7 +40,7 @@ function TimerCard() {
         <span className="font-mono text-[1.5rem] leading-none tnum">
           {mm}:{ss}
         </span>
-        <span className="rounded-full bg-primary-500 px-3 py-1.5 text-[0.75rem] font-medium text-ink-900">
+        <span className="rounded-full bg-primary-600 px-3 py-1.5 text-[0.75rem] font-medium text-white">
           Pause
         </span>
       </div>
@@ -46,173 +48,108 @@ function TimerCard() {
   );
 }
 
-function CheckCard() {
-  return (
-    <div className="lift rounded-[22px] bg-white p-5 text-left">
-      <div className="flex items-baseline justify-between">
-        <p className="text-[0.9375rem] font-medium">Kitchen Check</p>
-        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-ink-500">
-          Serves 6
-        </p>
-      </div>
-      <div className="mt-3 h-1 rounded-full bg-surface-200">
-        <div className="h-full w-2/3 rounded-full bg-primary-500" />
-      </div>
-      <ul className="mt-4 flex flex-col gap-2.5 text-[0.8125rem]">
-        {[
-          ["Long-grain rice", "750 g", true],
-          ["Tomato paste", "Purée ✓", true],
-          ["Scotch bonnet", "Need 2", false],
-        ].map(([n, s, ok]) => (
-          <li key={n as string} className="flex items-center gap-2.5">
-            <span
-              className={`flex h-5 w-5 items-center justify-center rounded-full ${
-                ok ? "bg-primary-500 text-ink-900" : "border border-line-strong"
-              }`}
-            >
-              {ok && <Check size={11} strokeWidth={3} />}
-            </span>
-            <span className="flex-1">{n as string}</span>
-            <span
-              className={`font-mono text-[0.75rem] ${ok ? "text-ink-500" : "text-primary-700"}`}
-            >
-              {s as string}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 export function Hero() {
   const [dish] = useCycle(ROTATING_DISHES.length, 2600);
+  const photo = useParallax<HTMLDivElement>(0.18);
 
   return (
-    <>
-      <section id="top" className="relative px-5 pb-16 pt-14 sm:px-8 sm:pb-24 sm:pt-20 lg:pt-24">
-        <div className="mx-auto flex max-w-[1100px] flex-col items-center text-center">
+    <section id="top" aria-labelledby="hero-title" className="p-2 sm:p-3">
+      {/* A real kitchen, edge to edge. The faces stay bright; the words sit
+          low on a dark wash so the photo never fights the text. */}
+      <div className="relative isolate flex min-h-[calc(100svh-1rem)] flex-col justify-end overflow-hidden rounded-[20px] bg-ink-800 sm:h-[calc(100svh-1.5rem)] sm:max-h-[1000px] sm:min-h-[680px] sm:rounded-[28px]">
+        <div ref={photo} className="absolute inset-0 -z-20 will-change-transform">
+          <div className="hero-zoom h-full w-full">
+            <Photo name="couple" priority sizes="100vw" />
+          </div>
+        </div>
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(21_18_15/0.95)_0%,rgb(21_18_15/0.88)_52%,rgb(21_18_15/0.55)_72%,rgb(21_18_15/0)_92%)] sm:bg-[linear-gradient(to_top,rgb(21_18_15/0.92)_0%,rgb(21_18_15/0.78)_38%,rgb(21_18_15/0.4)_62%,rgb(21_18_15/0)_80%),linear-gradient(to_right,rgb(21_18_15/0.6)_0%,rgb(21_18_15/0)_62%)]"
+        />
+
+        <div className="px-6 pb-10 pt-28 text-white sm:px-10 sm:pb-12 lg:px-14 lg:pb-14">
           <Reveal>
-            <a
-              href="#how"
-              className="group inline-flex min-h-[36px] items-center gap-2 rounded-full bg-white py-1 pl-1 pr-3.5 text-[0.8125rem] text-ink-600 ring-1 ring-inset ring-line-default transition-colors hover:ring-line-strong"
-            >
-              <Eyebrow>For Nigerian kitchens</Eyebrow>
-              See how it works
-              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
-                →
-              </span>
-            </a>
+            <Eyebrow tone="night">For Nigerian kitchens</Eyebrow>
           </Reveal>
 
-          <h1 className="mt-9 font-display text-[3.25rem] font-normal leading-[0.98] tracking-[-0.03em] text-ink-900 sm:text-[5rem] lg:text-[6.25rem]">
+          <h1
+            id="hero-title"
+            className="mt-6 max-w-[920px] font-headline text-[2.75rem] font-medium leading-[0.96] tracking-[-0.02em] sm:text-[4.25rem] lg:text-[5rem]"
+          >
             <span className="sr-only">Your first pot won’t taste like a first.</span>
-            <span aria-hidden className="block">
-              Your first <br className="sm:hidden" />
-              <span className="relative inline-block whitespace-nowrap text-primary-600">
-                <span key={dish} className="word-in">
-                  {ROTATING_DISHES[dish]}
+            <span aria-hidden className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
+              <span className="line-rise block" style={d(80)}>
+                Your first <br className="sm:hidden" />
+                <span className="relative inline-block whitespace-nowrap text-primary-300 sm:text-primary-400">
+                  <span key={dish} className="word-in">
+                    {ROTATING_DISHES[dish]}
+                  </span>
                 </span>
               </span>
             </span>
-            <span aria-hidden className="block">
-              won’t taste like a first.
+            <span aria-hidden className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
+              <span className="line-rise block" style={d(200)}>
+                won’t{" "}
+                <span className="whitespace-nowrap">
+                  taste <ForkMark className="inline-block h-[0.7em] w-[0.7em] align-[-0.04em]" />
+                </span>{" "}
+                like a first.
+              </span>
             </span>
           </h1>
 
-          <Reveal delay={120}>
-            <p className="mx-auto mt-8 max-w-[560px] text-[1.0625rem] leading-[1.65] text-ink-500 sm:text-[1.1875rem]">
-              Fork checks what’s already in <Mark>your kitchen</Mark>, puts what’s missing on a{" "}
-              <Mark tone="leaf">shopping list</Mark>, then cooks with you one step at a time, with
-              timers, read-aloud and voice.
-            </p>
-          </Reveal>
+          <div className="mt-7 flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <Reveal delay={120}>
+                <p className="max-w-[500px] text-[1.0625rem] leading-[1.6] text-white/90 sm:text-[1.125rem]">
+                  Fork checks what’s already in your kitchen, puts what’s missing on a shopping
+                  list, then cooks with you one step at a time, with timers, read-aloud and voice.
+                </p>
+              </Reveal>
 
-          <Reveal delay={220} className="mt-9 flex flex-col items-center gap-2 sm:flex-row">
-            <PillCta href="/">Start cooking, free</PillCta>
-            <TextCta href="/recipes">Browse recipes</TextCta>
-          </Reveal>
+              <Reveal delay={220} className="mt-7 flex flex-wrap items-center gap-2">
+                <PillCta href="/" tone="light">
+                  Start cooking, free
+                </PillCta>
+                <Link
+                  href="/recipes"
+                  className="group inline-flex min-h-[48px] items-center gap-1.5 rounded-full px-4 text-[0.9375rem] font-medium text-white transition-[color,scale] duration-150 ease-out active:scale-[0.97]"
+                >
+                  Browse recipes
+                  <ArrowRight
+                    size={15}
+                    strokeWidth={2}
+                    aria-hidden
+                    className="transition-transform duration-300 group-hover:translate-x-0.5"
+                  />
+                </Link>
+              </Reveal>
 
-          <Reveal delay={300}>
-            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-ink-400">
-              {["No account needed", "Works offline", "Checked by people, not AI"].map((t, i) => (
-                <li key={t} className="inline-flex items-center gap-3">
-                  {i > 0 && <span aria-hidden className="h-1 w-1 rounded-full bg-ink-300" />}
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Stage: a real kitchen in a frame, with the product floating over it. */}
-      <Band label="Fork in a real kitchen" innerClassName="py-8 sm:py-10 lg:py-12">
-        <Reveal delay={150} className="relative">
-          <div className="frame">
-            <div className="relative h-[360px] overflow-hidden rounded-[18px] sm:h-[480px] lg:h-[580px]">
-              <Photo name="greens" priority sizes="(min-width: 1200px) 1100px, 100vw" />
+              <Reveal delay={300}>
+                <ul className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 font-label text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-white/80">
+                  {["No account needed", "Works offline", "Checked by people, not AI"].map(
+                    (t, i) => (
+                      <li key={t} className="inline-flex items-center gap-3">
+                        {i > 0 && <span aria-hidden className="h-1 w-1 rounded-full bg-white/50" />}
+                        {t}
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </Reveal>
             </div>
-          </div>
 
-          <div aria-hidden>
-            <div className="absolute left-10 top-10 hidden w-[280px] lg:block">
+            {/* Large screens: the product itself, resting in the corner. */}
+            <div aria-hidden className="hidden w-[280px] shrink-0 xl:block">
               <Reveal delay={420}>
                 <div className="drift" style={d(0)}>
-                  <CheckCard />
-                </div>
-              </Reveal>
-            </div>
-
-            <div className="absolute bottom-12 left-10 hidden lg:block">
-              <Reveal delay={620}>
-                <div
-                  className="drift lift flex items-center gap-3 rounded-full bg-white p-1.5"
-                  style={d(1500)}
-                >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-100">
-                    <Minus size={15} />
-                  </span>
-                  <span className="font-mono text-[0.8125rem] tnum">6 servings</span>
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-500">
-                    <Plus size={15} />
-                  </span>
-                </div>
-              </Reveal>
-            </div>
-
-            <div className="absolute right-10 top-16 hidden w-[280px] lg:block">
-              <Reveal delay={520}>
-                <div className="drift" style={d(2600)}>
                   <TimerCard />
                 </div>
               </Reveal>
             </div>
-
-            <div className="absolute bottom-12 right-10 hidden lg:block">
-              <Reveal delay={720}>
-                <div
-                  className="drift lift flex items-center gap-3 rounded-full bg-white py-1.5 pl-1.5 pr-5"
-                  style={d(3600)}
-                >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-100">
-                    <Clock size={15} />
-                  </span>
-                  <span className="text-[0.875rem]">
-                    <span className="font-medium">1 hr 20 min</span>
-                    <span className="text-ink-500"> · wash to plate</span>
-                  </span>
-                </div>
-              </Reveal>
-            </div>
-
-            {/* Phones and tablets: one card overlapping the photo's bottom edge */}
-            <div className="relative z-10 mx-3 -mt-28 sm:mx-auto sm:w-[340px] lg:hidden">
-              <CheckCard />
-            </div>
           </div>
-        </Reveal>
-      </Band>
-    </>
+        </div>
+      </div>
+    </section>
   );
 }

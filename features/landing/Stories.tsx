@@ -3,7 +3,7 @@
 import { MapPin } from "lucide-react";
 import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { STORIES, type PhotoKey } from "./content";
-import { Reveal, useInView } from "./motion";
+import { CountUp, Reveal, useInView } from "./motion";
 import { Photo } from "./Texture";
 import { Band, Eyebrow, SectionHead } from "./ui";
 
@@ -78,7 +78,7 @@ export function Stories() {
                 aria-controls={`story-panel-${s.id}`}
                 tabIndex={on ? 0 : -1}
                 onClick={() => go(i)}
-                className={`relative min-h-[44px] overflow-hidden rounded-full px-3 text-[0.9375rem] transition-colors ${
+                className={`relative min-h-[44px] overflow-hidden rounded-full px-3 text-[0.9375rem] transition-[color,background-color,scale] duration-150 ease-out active:scale-[0.97] ${
                   on
                     ? "bg-white text-ink-900 shadow-[0_0_0_1px_var(--hair),0_1px_3px_rgb(21_18_15/0.08)]"
                     : "text-ink-500 hover:text-ink-900"
@@ -117,7 +117,7 @@ export function Stories() {
                 {story.receipt.map(([label, value]) => (
                   <div key={label} className="px-4 py-4">
                     <p className="whitespace-nowrap text-[1.125rem] tracking-[-0.02em] tnum sm:text-[1.375rem]">
-                      {value}
+                      <CountUp value={value} />
                     </p>
                     <p className="mt-0.5 font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-ink-500">
                       {label}

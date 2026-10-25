@@ -67,12 +67,12 @@ export function Manifesto() {
     <Band label="The problem with most recipes" innerClassName="py-20 sm:py-28 lg:py-36">
       <div ref={ref}>
         <Eyebrow tone="ink">The problem with most recipes</Eyebrow>
-        <p className="mt-8 max-w-[1040px] font-display text-[1.875rem] font-normal leading-[1.18] tracking-[-0.02em] sm:text-[2.75rem] lg:text-[3.25rem]">
+        <p className="mt-8 max-w-[1040px] font-headline text-[1.875rem] font-medium leading-[1.1] tracking-[-0.02em] sm:text-[2.75rem] lg:text-[3.25rem]">
           {words.map((w, i) => (
             <span
               key={i}
               className={`transition-colors duration-300 ${
-                i < lit ? (i >= turn ? "text-ink-900" : "text-ink-400") : "text-ink-300/70"
+                i < lit ? (i >= turn ? "text-ink-900" : "text-ink-500") : "text-ink-400"
               }`}
             >
               {w}

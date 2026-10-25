@@ -76,7 +76,7 @@ export function KitchenCheckDemo() {
 
       <Reveal delay={150} className="mt-14 lg:mt-20">
         <GrainStage src={photoUrl("market", 1800)} className="p-3 sm:p-8 lg:p-14">
-          <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_360px]">
             {/* Ingredients */}
             <div className="glass">
               <div className="panel p-2 sm:p-3">
@@ -95,7 +95,7 @@ export function KitchenCheckDemo() {
                       onClick={() => step(-1)}
                       disabled={servings <= 1}
                       aria-label="Fewer servings"
-                      className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-[0_0_0_1px_var(--hair)] transition-colors hover:bg-surface-50 disabled:opacity-40"
+                      className="flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-[0_0_0_1px_var(--hair)] transition-[background-color,scale] duration-150 ease-out hover:bg-surface-50 active:scale-[0.97] disabled:opacity-40"
                     >
                       <Minus size={17} aria-hidden />
                     </button>
@@ -110,7 +110,7 @@ export function KitchenCheckDemo() {
                       onClick={() => step(1)}
                       disabled={servings >= 12}
                       aria-label="More servings"
-                      className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-500 text-ink-900 transition-colors hover:bg-primary-400 disabled:opacity-40"
+                      className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-600 text-white transition-[background-color,scale] duration-150 ease-out hover:bg-primary-700 active:scale-[0.97] disabled:opacity-40"
                     >
                       <Plus size={17} strokeWidth={2.25} aria-hidden />
                     </button>
@@ -133,13 +133,13 @@ export function KitchenCheckDemo() {
                           type="button"
                           aria-pressed={have}
                           onClick={() => toggle(line.id)}
-                          className="flex min-h-[56px] w-full min-w-0 items-center gap-3 rounded-[12px] px-2.5 text-left sm:w-auto sm:flex-1"
+                          className="flex min-h-[56px] w-full min-w-0 items-center gap-3 rounded-[12px] px-2.5 text-left transition-[scale] duration-150 ease-out active:scale-[0.99] sm:w-auto sm:flex-1"
                         >
                           <span
                             aria-hidden
                             className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors duration-300 ${
                               have
-                                ? "bg-primary-500 text-ink-900"
+                                ? "bg-primary-600 text-white"
                                 : "bg-white text-transparent shadow-[inset_0_0_0_1px_var(--color-line-strong)]"
                             }`}
                           >
@@ -167,7 +167,7 @@ export function KitchenCheckDemo() {
                             type="button"
                             aria-pressed={s === "swap"}
                             onClick={() => swap(line.id)}
-                            className="mb-1 ml-[48px] inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-white px-3.5 text-[0.8125rem] text-ink-700 shadow-[0_0_0_1px_var(--hair)] transition-colors hover:text-ink-900 sm:mb-0 sm:ml-0 sm:mr-1"
+                            className="mb-1 ml-[48px] inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-white px-3.5 text-[0.8125rem] text-ink-700 shadow-[0_0_0_1px_var(--hair)] transition-[color,scale] duration-150 ease-out hover:text-ink-900 active:scale-[0.97] sm:mb-0 sm:ml-0 sm:mr-1"
                           >
                             <Repeat size={13} aria-hidden />
                             {s === "swap" ? "Undo swap" : `Have ${line.swap.toLowerCase()}?`}
@@ -189,7 +189,7 @@ export function KitchenCheckDemo() {
                 </div>
                 <p className="mt-4 text-[4rem] font-light leading-none tracking-[-0.05em] tnum">
                   {ready.length}
-                  <span className="text-ink-300">/{needed.length}</span>
+                  <span className="text-ink-500">/{needed.length}</span>
                 </p>
                 <div
                   className="mt-5 flex gap-1"
@@ -244,7 +244,7 @@ export function KitchenCheckDemo() {
                   {isReady ? (
                     <Link
                       href="/"
-                      className="group flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary-500 text-[0.9375rem] font-medium text-ink-900 transition-colors hover:bg-primary-400"
+                      className="group flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary-600 text-[0.9375rem] font-medium text-white transition-[background-color,scale] duration-150 ease-out hover:bg-primary-700 active:scale-[0.97]"
                     >
                       Start cooking
                       <ArrowRight
@@ -257,7 +257,7 @@ export function KitchenCheckDemo() {
                     <button
                       type="button"
                       onClick={() => setAdded(missing.length)}
-                      className="flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-ink-900 text-[0.9375rem] font-medium text-white transition-colors hover:bg-ink-800"
+                      className="flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-ink-900 text-[0.9375rem] font-medium text-white transition-[background-color,scale] duration-150 ease-out hover:bg-ink-800 active:scale-[0.97]"
                     >
                       <ShoppingBasket size={17} aria-hidden />
                       Add {missing.length} to shopping list

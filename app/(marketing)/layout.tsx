@@ -11,7 +11,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script
         dangerouslySetInnerHTML={{ __html: "document.documentElement.dataset.motion='on'" }}
       />
-      <div className="min-h-screen bg-surface-50">{children}</div>
+      <div className="landing min-h-svh bg-surface-50">{children}</div>
     </>
   );
 }

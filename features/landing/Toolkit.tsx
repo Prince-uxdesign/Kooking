@@ -206,13 +206,15 @@ export function FeatureGrid() {
         />
       </Reveal>
       <Reveal delay={120} className="mt-14 lg:mt-16">
-        <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-[20px] bg-line-default shadow-[0_0_0_1px_var(--color-line-default)] sm:grid-cols-3 lg:grid-cols-5">
+        <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-[20px] bg-line-default shadow-[0_0_0_1px_var(--color-line-default)] lg:grid-cols-5">
           {TILES.map((t, i) => (
-            <li
+            <Reveal
+              as="li"
               key={t.label}
-              className="group relative flex aspect-square flex-col justify-between bg-surface-50 p-4 transition-colors duration-300 hover:bg-white sm:p-5"
+              delay={i * 60}
+              className="group relative flex aspect-square flex-col justify-between bg-surface-50 sm:aspect-[16/10] lg:aspect-square p-4 transition-colors duration-300 hover:bg-white active:bg-white sm:p-5"
             >
-              <span className="font-mono text-[0.6875rem] text-ink-400 tnum">
+              <span className="font-mono text-[0.6875rem] text-ink-500 tnum">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="flex flex-1 items-center justify-center">
@@ -220,14 +222,14 @@ export function FeatureGrid() {
                   aria-hidden
                   size={34}
                   strokeWidth={1.1}
-                  className="text-ink-900 transition-colors duration-300 group-hover:text-primary-600"
+                  className="text-ink-900 transition-[color,translate,scale] duration-300 ease-out group-hover:-translate-y-1 group-hover:text-primary-600 group-active:scale-90 group-active:text-primary-600"
                 />
               </span>
               <span>
                 <span className="block text-[0.9375rem] tracking-[-0.01em]">{t.label}</span>
                 <span className="mt-0.5 block text-[0.8125rem] text-ink-500">{t.text}</span>
               </span>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </Reveal>

@@ -27,7 +27,7 @@ export function Photo({
     // landing page doesn't need next/image's remote allow-list.
     <img
       src={photoUrl(name, 900)}
-      srcSet={[480, 900, 1400].map((w) => `${photoUrl(name, w)} ${w}w`).join(", ")}
+      srcSet={[480, 900, 1400, 2200].map((w) => `${photoUrl(name, w)} ${w}w`).join(", ")}
       sizes={sizes}
       alt={p.alt}
       loading={priority ? "eager" : "lazy"}

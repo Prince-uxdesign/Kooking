@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Gloock, Host_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, Archivo_Narrow, Gloock, Host_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/features/auth/AuthContext";
 import { OfflineBanner, PwaProvider, UpdateBanner } from "@/features/pwa";
@@ -16,6 +16,20 @@ const gloock = Gloock({
   weight: "400",
   display: "swap",
   variable: "--font-gloock",
+});
+
+/** Big landing headlines; Gloock stays on the wordmark. */
+const archivo = Archivo({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-archivo",
+});
+
+/** Small uppercase labels and nav links on the landing page. */
+const archivoNarrow = Archivo_Narrow({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-archivo-narrow",
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -82,7 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${host.variable} ${gloock.variable} ${plexMono.variable}`}
+      className={`${host.variable} ${gloock.variable} ${archivo.variable} ${archivoNarrow.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>

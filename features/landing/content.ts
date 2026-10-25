@@ -259,6 +259,13 @@ export const FAQ = [
  * the face of a story or testimonial.
  */
 export const PHOTOS = {
+  couple: {
+    id: "photo-1606787503066-794bb59c64bc",
+    alt: "A woman tasting from a spoon and laughing while a man chops tomatoes beside her at the stove",
+    by: "@jimmydean",
+    name: "Jimmy Dean",
+    focus: "58% 28%",
+  },
   chopping: {
     id: "photo-1575467678950-0c09aad418af",
     alt: "A woman smiling as she chops vegetables at a kitchen counter",

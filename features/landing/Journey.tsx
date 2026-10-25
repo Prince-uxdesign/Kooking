@@ -58,11 +58,7 @@ export function Journey() {
                 data-index={i}
                 className="flex min-h-0 flex-col justify-center border-t border-line-default py-10 first:border-t-0 lg:min-h-[68vh] lg:border-t-0 lg:py-0"
               >
-                <div
-                  className={`transition-opacity duration-500 lg:max-w-[520px] ${
-                    on ? "opacity-100" : "lg:opacity-35"
-                  }`}
-                >
+                <div className="lg:max-w-[520px]">
                   <div className="flex items-center gap-3">
                     <Index>{step.number}</Index>
                     <span
@@ -72,7 +68,7 @@ export function Journey() {
                           ? "bg-ink-900 text-white"
                           : on
                             ? "bg-primary-50 text-primary-700"
-                            : "text-ink-400"
+                            : "text-ink-500"
                       }`}
                     >
                       {done ? (
@@ -88,7 +84,11 @@ export function Journey() {
                       )}
                     </span>
                   </div>
-                  <h3 className="mt-5 text-[1.75rem] font-normal leading-[1.15] tracking-[-0.025em] sm:text-[2.25rem]">
+                  <h3
+                    className={`mt-5 text-[1.75rem] font-normal leading-[1.15] tracking-[-0.025em] transition-colors duration-300 sm:text-[2.25rem] ${
+                      on ? "text-ink-900" : "lg:text-ink-500"
+                    }`}
+                  >
                     {step.title}
                   </h3>
                   <p className="mt-4 text-[1.0625rem] leading-[1.7] text-ink-500">{step.lead}</p>
@@ -151,7 +151,7 @@ export function Journey() {
                 {JOURNEY.map((s, i) => (
                   <span
                     key={s.key}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${
+                    className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ease-out ${
                       i === active ? "w-6 bg-primary-500" : "w-1.5 bg-ink-300"
                     }`}
                   />

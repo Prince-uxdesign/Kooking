@@ -28,7 +28,7 @@ export function Faq() {
                   <span className="flex-1">{f.q}</span>
                   <span
                     aria-hidden
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white shadow-[inset_0_0_0_1px_var(--hair)] transition-all duration-300 group-open:rotate-45 group-open:bg-primary-500 group-open:shadow-none"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white shadow-[inset_0_0_0_1px_var(--hair)] transition-[rotate,background-color,box-shadow] duration-200 ease-out group-open:rotate-45 group-open:bg-primary-600 group-open:text-white group-open:shadow-none"
                   >
                     <Plus size={16} />
                   </span>

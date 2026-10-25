@@ -1,6 +1,7 @@
-import { ArrowRight, Sparkle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Reveal } from "./motion";
 
 /**
  * Landing building blocks. The page is drawn on a ruled sheet: a centred
@@ -64,28 +65,38 @@ export function Band({
   );
 }
 
-/** Small tinted label that opens a section. */
+/** Section label: a short rule over a small uppercase line. */
 export function Eyebrow({
   children,
   tone = "pepper",
-  icon,
 }: {
   children: ReactNode;
   tone?: "pepper" | "leaf" | "ink" | "night";
-  icon?: ReactNode;
 }) {
   const tones = {
-    pepper: "bg-primary-50 text-primary-700 ring-primary-100",
-    leaf: "bg-success-100/60 text-success-700 ring-success-100",
-    ink: "bg-white text-ink-600 ring-line-default",
-    night: "bg-white/[0.06] text-white/80 ring-white/10",
+    pepper: "text-primary-700",
+    leaf: "text-success-700",
+    ink: "text-ink-600",
+    night: "text-white/80",
   } as const;
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.8125rem] font-medium ring-1 ring-inset ${tones[tone]}`}
+      className={`eyebrow inline-flex flex-col items-start gap-2.5 font-label text-[0.75rem] font-semibold uppercase leading-none tracking-[0.08em] ${tones[tone]}`}
     >
-      {icon ?? <Sparkle aria-hidden size={13} strokeWidth={2} />}
+      <span aria-hidden className="h-px w-16 bg-current opacity-40" />
       {children}
+    </span>
+  );
+}
+
+/** Label that rolls up to a copy of itself when its `group` parent is hovered. */
+export function Roll({ children }: { children: ReactNode }) {
+  return (
+    <span className="roll relative inline-flex overflow-hidden">
+      <span>{children}</span>
+      <span aria-hidden className="absolute inset-x-0 top-full">
+        {children}
+      </span>
     </span>
   );
 }
@@ -147,20 +158,22 @@ export function SectionHead({
     <div
       className={`flex flex-col gap-5 ${
         align === "center"
-          ? "mx-auto max-w-[760px] items-center text-center"
+          ? "mx-auto max-w-[760px] items-center text-center [&>.eyebrow]:items-center"
           : "max-w-[640px] items-start"
       } ${className}`}
     >
       {eyebrow}
-      <h2
+      <Reveal
+        as="h2"
         id={id}
-        className={`text-[2.125rem] font-normal leading-[1.08] tracking-[-0.03em] sm:text-[2.75rem] lg:text-[3.25rem] ${
+        delay={80}
+        className={`heading-rise font-headline text-[2.125rem] font-medium leading-[1.02] tracking-[-0.02em] sm:text-[2.75rem] lg:text-[3.25rem] ${
           dark ? "text-white" : "text-ink-900"
         }`}
       >
         {title}
-        {tail && <span className={dark ? "text-white/45" : "text-ink-400"}> {tail}</span>}
-      </h2>
+        {tail && <span className={dark ? "text-white/60" : "text-ink-500"}> {tail}</span>}
+      </Reveal>
       {lead && (
         <p
           className={`max-w-[560px] text-[1.0625rem] leading-[1.6] sm:text-[1.125rem] ${
@@ -195,7 +208,7 @@ export function ChapterHead({
   lead?: ReactNode;
   dark?: boolean;
 }) {
-  const quiet = dark ? "text-white/45" : "text-ink-400";
+  const quiet = dark ? "text-white/60" : "text-ink-500";
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12">
       <p
@@ -207,9 +220,11 @@ export function ChapterHead({
         {label}
       </p>
       <div>
-        <h2
+        <Reveal
+          as="h2"
           id={id}
-          className={`text-[1.875rem] font-normal leading-[1.15] tracking-[-0.025em] sm:text-[2.375rem] ${
+          delay={80}
+          className={`heading-rise font-headline text-[1.875rem] font-medium leading-[1.06] tracking-[-0.02em] sm:text-[2.375rem] ${
             dark ? "text-white" : "text-ink-900"
           }`}
         >
@@ -220,7 +235,7 @@ export function ChapterHead({
               <span className={quiet}> {tail}</span>
             </>
           )}
-        </h2>
+        </Reveal>
         {lead && (
           <p
             className={`mt-6 max-w-[520px] text-[1.0625rem] leading-[1.65] ${
@@ -290,21 +305,21 @@ export function PillCta({
   return (
     <Link
       href={href}
-      className={`group inline-flex min-h-[48px] items-center justify-center gap-3 rounded-full py-1.5 pl-5 pr-1.5 text-[0.9375rem] font-medium ring-1 ring-offset-[3px] transition-colors ${ctaTone[tone]} ${className}`}
+      className={`group inline-flex min-h-[48px] items-center justify-center gap-3 rounded-full py-1.5 pl-5 pr-1.5 text-[0.9375rem] font-medium ring-1 ring-offset-[3px] transition-[color,background-color,scale] duration-150 ease-out active:scale-[0.97] ${ctaTone[tone]} ${className}`}
     >
       {children}
       <span
         aria-hidden
         className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
           tone === "dark"
-            ? "bg-white/[0.12] group-hover:bg-primary-500 group-hover:text-ink-900"
-            : "bg-ink-900/[0.06] group-hover:bg-primary-500"
+            ? "bg-white/[0.12] group-hover:bg-primary-600 group-hover:text-white"
+            : "bg-ink-900/[0.06] group-hover:bg-primary-600 group-hover:text-white"
         }`}
       >
         <ArrowRight
           size={15}
           strokeWidth={2}
-          className="transition-transform duration-300 group-hover:translate-x-0.5"
+          className="transition-transform duration-300 group-hover:translate-x-0.5 group-active:translate-x-1"
         />
       </span>
     </Link>
@@ -316,7 +331,7 @@ export function TextCta({ href, children }: { href: string; children: ReactNode 
   return (
     <Link
       href={href}
-      className="group inline-flex min-h-[48px] items-center gap-1.5 rounded-full px-4 text-[0.9375rem] font-medium text-ink-700 transition-colors hover:text-ink-900"
+      className="group inline-flex min-h-[48px] items-center gap-1.5 rounded-full px-4 text-[0.9375rem] font-medium text-ink-700 transition-[color,scale] duration-150 ease-out hover:text-ink-900 active:scale-[0.97]"
     >
       {children}
       <ArrowRight
