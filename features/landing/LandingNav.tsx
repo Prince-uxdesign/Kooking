@@ -1,7 +1,7 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
+import { ArrowUpRight, LoaderCircle } from "lucide-react";
+import Link, { useLinkStatus } from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ForkLogo } from "@/shared/ui/Logo";
 import { Roll } from "./ui";
@@ -13,6 +13,16 @@ const LINKS = [
   { id: "cooking", label: "Cooking Mode" },
   { id: "faq", label: "FAQ" },
 ];
+
+/** Shows the click registered while the next page loads. */
+function Pending({ children }: { children?: React.ReactNode }) {
+  const { pending } = useLinkStatus();
+  return pending ? (
+    <LoaderCircle size={15} strokeWidth={2.25} aria-hidden className="ml-2 animate-spin" />
+  ) : (
+    children
+  );
+}
 
 /**
  * Floating frosted-glass pill, fixed to the top. The links track the section in
@@ -79,7 +89,7 @@ export function LandingNav() {
           className="pointer-events-none absolute inset-x-8 bottom-0 h-[2px] origin-left scale-x-[var(--sp,0)] rounded-full bg-primary-600"
         />
         <Link
-          href="#top"
+          href="/welcome#top"
           aria-label="Fork, back to top"
           className="inline-flex min-h-[44px] items-center rounded-full"
         >
@@ -99,7 +109,7 @@ export function LandingNav() {
           {LINKS.map((l) => (
             <li key={l.id}>
               <a
-                href={`#${l.id}`}
+                href={`/welcome#${l.id}`}
                 data-id={l.id}
                 aria-current={active === l.id ? "true" : undefined}
                 className={`group relative inline-flex h-9 items-center rounded-full px-3.5 transition-colors ${label} ${
@@ -114,17 +124,20 @@ export function LandingNav() {
 
         <div className="flex items-center gap-1.5">
           <Link
-            href="/recipes"
+            href="/welcome/recipes"
             className={`group hidden h-11 items-center rounded-full bg-ink-900 px-5 text-white transition-[background-color,scale] duration-150 ease-out hover:bg-ink-800 active:scale-[0.97] sm:inline-flex ${label}`}
           >
             <Roll>Browse recipes</Roll>
+            <Pending />
           </Link>
           <Link
             href="/"
             className={`group inline-flex h-11 items-center gap-1.5 rounded-full bg-primary-600 pl-5 pr-4 text-white transition-[background-color,scale] duration-150 ease-out hover:bg-primary-700 active:scale-[0.97] ${label}`}
           >
             <Roll>Open the app</Roll>
-            <ArrowUpRight size={15} strokeWidth={2} aria-hidden />
+            <Pending>
+              <ArrowUpRight size={15} strokeWidth={2} aria-hidden />
+            </Pending>
           </Link>
         </div>
       </nav>

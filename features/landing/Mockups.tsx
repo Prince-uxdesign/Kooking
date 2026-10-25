@@ -26,25 +26,19 @@ import { usePrefersReducedMotion } from "./motion";
 
 export function PhoneFrame({
   children,
-  dark = false,
   className = "",
 }: {
   children: React.ReactNode;
-  dark?: boolean;
   className?: string;
 }) {
   return (
     <div aria-hidden className={`rounded-[46px] bg-ink-900 p-[7px] ${className}`}>
-      <div
-        className={`relative flex aspect-[9/19] flex-col overflow-hidden rounded-[39px] ${
-          dark ? "bg-ink-900 text-white" : "bg-white text-ink-900"
-        }`}
-      >
+      <div className="relative flex aspect-[9/19] flex-col overflow-hidden rounded-[39px] bg-white text-ink-900">
         <div className="flex h-9 shrink-0 items-center justify-between px-6 text-[11px] font-medium tnum">
           <span>9:41</span>
           <span className="h-[18px] w-[72px] rounded-full bg-ink-900" />
           <span className="flex items-center gap-1">
-            <span className={`h-2 w-3.5 rounded-[3px] ${dark ? "bg-white" : "bg-ink-900"}`} />
+            <span className="h-2 w-3.5 rounded-[3px] bg-ink-900" />
           </span>
         </div>
         <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
@@ -273,12 +267,12 @@ export function CookScreen({
 
   const s = COOK_STEPS[step];
   return (
-    <div className="flex flex-1 flex-col gap-3 px-4 pb-4 pt-1 text-white">
-      <div className="flex items-center justify-between text-[9px] text-white/70">
+    <div className="flex flex-1 flex-col gap-3 bg-surface-50 px-4 pb-4 pt-1 text-ink-900">
+      <div className="flex items-center justify-between text-[9px] text-ink-500">
         <span className="tnum">
           Step {step + 1} of {COOK_STEPS.length + 5}
         </span>
-        <span className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1">
+        <span className="flex items-center gap-1 rounded-full bg-white px-2 py-1 text-ink-700 shadow-[0_0_0_1px_var(--hair)]">
           <Sun size={9} /> Screen on
         </span>
       </div>
@@ -287,58 +281,60 @@ export function CookScreen({
           <span
             key={i}
             className={`h-1 flex-1 rounded-full transition-colors duration-500 ${
-              i <= step ? "bg-primary-500" : "bg-white/15"
+              i < step ? "bg-primary-200" : i === step ? "bg-primary-600" : "bg-surface-200"
             }`}
           />
         ))}
       </div>
       <div key={step} className="screen-in flex flex-col gap-2.5">
-        <p className="text-[10px] text-white/60">{s.title}</p>
-        <p className="text-[15px] font-medium leading-snug">{s.body}</p>
+        <p className="text-[10px] text-ink-500">{s.title}</p>
+        <p className="font-headline text-[16px] font-medium leading-snug tracking-[-0.01em]">
+          {s.body}
+        </p>
         <span className="self-start rounded-full bg-primary-600 px-2.5 py-1 text-[9px] font-medium text-white">
           {s.quantity}
         </span>
-        <div className="rounded-[14px] bg-white/10 p-2.5">
-          <p className="text-[8px] text-white/60">Ready when</p>
+        <div className="rounded-[14px] bg-success-100/60 p-2.5">
+          <p className="text-[8px] font-semibold text-success-700">Ready when</p>
           <p className="text-[10px] leading-snug">{s.cue}</p>
         </div>
       </div>
-      <div className="mt-auto flex items-center gap-2.5 rounded-[14px] bg-white/[0.05] p-2.5">
-        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10 text-[9px] tnum">
+      <div className="mt-auto flex items-center gap-2.5 rounded-[14px] border border-dashed border-line-strong p-2.5">
+        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-surface-100 text-[9px] text-ink-700 tnum">
           {((step + 1) % COOK_STEPS.length) + 1}
         </span>
         <span className="min-w-0">
-          <span className="block text-[8px] text-white/60">Up next</span>
+          <span className="block text-[8px] text-ink-500">Up next</span>
           <span className="block truncate text-[10px]">
             {COOK_STEPS[(step + 1) % COOK_STEPS.length].title}
           </span>
         </span>
       </div>
-      <div className="rounded-[18px] bg-white/10 p-3">
+      <div className="rounded-[18px] bg-white p-3 shadow-[0_0_0_1px_var(--hair),0_8px_20px_-12px_rgb(0_0_0/0.18)]">
         {s.timer ? (
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[8px] text-white/60">Timer</p>
+              <p className="text-[8px] text-ink-500">Timer</p>
               <p className="font-mono text-[22px] leading-none tnum">{fmt(left)}</p>
             </div>
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-600 text-white">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink-900 text-white">
               <Pause size={14} strokeWidth={2.25} />
             </span>
           </div>
         ) : (
           <div className="flex items-center justify-between">
-            <p className="text-[10px] text-white/70">No timer on this step</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
+            <p className="text-[10px] text-ink-500">No timer on this step</p>
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-100">
               <Play size={13} />
             </span>
           </div>
         )}
       </div>
       <div className="flex items-center justify-between gap-2">
-        <span className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-full bg-white/10 text-[9px]">
+        <span className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-full bg-white text-[9px] text-ink-700 shadow-[0_0_0_1px_var(--hair)]">
           <Volume2 size={11} /> Read aloud
         </span>
-        <span className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-full bg-white/10 text-[9px]">
+        <span className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-full bg-white text-[9px] text-ink-700 shadow-[0_0_0_1px_var(--hair)]">
           <Mic size={11} /> “Next”
         </span>
       </div>

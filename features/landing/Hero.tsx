@@ -23,8 +23,8 @@ function TimerCard() {
   const mm = String(Math.floor(left / 60)).padStart(2, "0");
   const ss = String(left % 60).padStart(2, "0");
   return (
-    <div className="lift rounded-[22px] bg-ink-900 p-5 text-left text-white">
-      <div className="flex items-center justify-between font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-white/60">
+    <div className="lift rounded-[22px] bg-white p-5 text-left text-ink-900">
+      <div className="flex items-center justify-between font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-ink-500">
         <span>Step 04 / 09</span>
         <span className="flex items-center gap-1.5">
           <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-primary-500" /> Cooking
@@ -33,14 +33,14 @@ function TimerCard() {
       <p className="mt-4 text-[0.9375rem] leading-snug">
         Fry the tomato paste until the oil rises to the top.
       </p>
-      <p className="mt-2 text-[0.8125rem] leading-snug text-white/60">
+      <p className="mt-2 text-[0.8125rem] leading-snug text-ink-500">
         Ready when: deep brick red, oil pooling at the edges.
       </p>
-      <div className="mt-4 flex items-center justify-between rounded-[14px] bg-white/[0.08] py-2.5 pl-4 pr-2.5">
+      <div className="mt-4 flex items-center justify-between rounded-[14px] bg-surface-100 py-2.5 pl-4 pr-2.5">
         <span className="font-mono text-[1.5rem] leading-none tnum">
           {mm}:{ss}
         </span>
-        <span className="rounded-full bg-primary-600 px-3 py-1.5 text-[0.75rem] font-medium text-white">
+        <span className="rounded-full bg-ink-900 px-3 py-1.5 text-[0.75rem] font-medium text-white">
           Pause
         </span>
       </div>
@@ -112,7 +112,7 @@ export function Hero() {
                   Start cooking, free
                 </PillCta>
                 <Link
-                  href="/recipes"
+                  href="/welcome/recipes"
                   className="group inline-flex min-h-[48px] items-center gap-1.5 rounded-full px-4 text-[0.9375rem] font-medium text-white transition-[color,scale] duration-150 ease-out active:scale-[0.97]"
                 >
                   Browse recipes

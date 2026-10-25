@@ -30,7 +30,6 @@ export function Journey() {
   }, []);
 
   const current = JOURNEY[active];
-  const dark = current.key === "cook";
 
   return (
     <Band id="how" labelledBy="how-title" innerClassName="py-20 sm:py-28 lg:py-36">
@@ -110,11 +109,9 @@ export function Journey() {
                   </ul>
 
                   {/* Phones and tablets: the screen sits with its step */}
-                  <div
-                    className={`frame mt-8 px-6 pt-8 lg:hidden ${step.key === "cook" ? "!bg-ink-900" : ""}`}
-                  >
+                  <div className="frame mt-8 px-6 pt-8 lg:hidden">
                     <div className="mx-auto h-[400px] w-[240px] overflow-hidden sm:h-[460px] sm:w-[270px]">
-                      <PhoneFrame dark={step.key === "cook"}>
+                      <PhoneFrame>
                         <JourneyScreen step={step.key} />
                       </PhoneFrame>
                     </div>
@@ -129,13 +126,9 @@ export function Journey() {
         <div className="hidden lg:block">
           <div className="sticky top-[13vh]">
             <div className="frame">
-              <div
-                className={`rounded-[18px] px-12 pt-12 transition-colors duration-700 ${
-                  dark ? "bg-ink-900" : "bg-white shadow-[0_0_0_1px_var(--hair)]"
-                }`}
-              >
+              <div className="rounded-[18px] bg-white px-12 pt-12 shadow-[0_0_0_1px_var(--hair)]">
                 <div className="h-[560px] overflow-hidden">
-                  <PhoneFrame dark={dark} className="mx-auto w-[290px]">
+                  <PhoneFrame className="mx-auto w-[290px]">
                     <div key={current.key} className="screen-in flex flex-1 flex-col">
                       <JourneyScreen step={current.key as JourneyKey} />
                     </div>

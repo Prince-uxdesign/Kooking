@@ -51,7 +51,7 @@ function TimerRing() {
           cy="60"
           r="54"
           fill="none"
-          stroke="rgb(255 255 255 / 0.1)"
+          stroke="var(--color-surface-200)"
           strokeWidth="5"
         />
         <circle
@@ -71,7 +71,7 @@ function TimerRing() {
         <span className="font-mono text-[1.5rem] leading-none tnum">
           {mm}:{ss}
         </span>
-        <span className="mt-1.5 text-[0.75rem] text-white/60">Simmer</span>
+        <span className="mt-1.5 text-[0.75rem] text-ink-500">Simmer</span>
       </div>
     </div>
   );
@@ -115,10 +115,10 @@ export function CookingSpotlight() {
             >
               <div className="grid w-full max-w-[860px] items-center gap-3 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
                 {/* The step card, as it appears in Cooking Mode */}
-                <div className="rounded-[22px] bg-ink-900/90 p-6 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_30px_60px_-30px_rgb(0_0_0/0.8)] sm:p-7">
+                <div className="rounded-[22px] bg-white p-6 text-ink-900 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] sm:p-7">
                   <div className="flex items-center justify-between">
-                    <Index dark>05 / 09</Index>
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.08] px-2.5 py-1 text-[0.75rem] text-white/70">
+                    <Index>05 / 09</Index>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-100 px-2.5 py-1 text-[0.75rem] text-ink-700">
                       <Sun size={12} aria-hidden /> Screen on
                     </span>
                   </div>
@@ -126,42 +126,42 @@ export function CookingSpotlight() {
                     {Array.from({ length: 9 }).map((_, i) => (
                       <span
                         key={i}
-                        className={`h-1 flex-1 rounded-full ${i < 5 ? "bg-primary-500" : "bg-white/15"}`}
+                        className={`h-1 flex-1 rounded-full ${i < 4 ? "bg-primary-200" : i === 4 ? "bg-primary-600" : "bg-surface-200"}`}
                       />
                     ))}
                   </div>
-                  <p className="mt-6 text-[0.8125rem] text-white/50">Simmer the stew</p>
-                  <p className="mt-2 text-[1.375rem] leading-snug tracking-[-0.015em] sm:text-[1.5rem]">
+                  <p className="mt-6 text-[0.8125rem] text-ink-500">Simmer the stew</p>
+                  <p className="mt-2 font-headline text-[1.375rem] leading-snug tracking-[-0.015em] sm:text-[1.5rem]">
                     Pour in the pepper blend and simmer until it thickens.
                   </p>
                   <p className="mt-4 inline-flex rounded-full bg-primary-600 px-3 py-1.5 text-[0.8125rem] font-medium text-white">
                     All of the pepper blend
                   </p>
-                  <div className="mt-5 border-t border-dashed border-white/15 pt-4">
-                    <p className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-white/50">
+                  <div className="mt-5 rounded-2xl bg-success-100/60 p-3.5">
+                    <p className="font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-success-700">
                       Ready when
                     </p>
-                    <p className="mt-1.5 text-[0.9375rem] text-white/85">
+                    <p className="mt-1.5 text-[0.9375rem] text-ink-900">
                       A spoon dragged through leaves a clear line.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-5 rounded-[22px] bg-ink-900/90 p-5 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_30px_60px_-30px_rgb(0_0_0/0.8)]">
+                  <div className="flex items-center gap-5 rounded-[22px] bg-white p-5 text-ink-900 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)]">
                     <TimerRing />
                     <div>
                       <p className="text-[0.9375rem]">20-minute simmer</p>
-                      <p className="mt-1 text-[0.8125rem] leading-relaxed text-white/55">
+                      <p className="mt-1 text-[0.8125rem] leading-relaxed text-ink-500">
                         Survives a reload, a locked phone and a closed tab.
                       </p>
                     </div>
                   </div>
                   <div
                     aria-hidden
-                    className="flex items-center gap-4 rounded-[22px] bg-ink-900/90 p-4 pr-5 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_30px_60px_-30px_rgb(0_0_0/0.8)]"
+                    className="flex items-center gap-4 rounded-[22px] bg-white p-4 pr-5 text-ink-900 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)]"
                   >
-                    <span className="flex h-11 shrink-0 items-center gap-[3px] rounded-full bg-white/10 px-4">
+                    <span className="flex h-11 shrink-0 items-center gap-[3px] rounded-full bg-primary-50 px-4">
                       {[0, 1, 2, 3, 4, 5].map((i) => (
                         <span
                           key={i}
@@ -176,17 +176,17 @@ export function CookingSpotlight() {
                       </span>
                       <span
                         key={`r-${cmd}`}
-                        className="screen-in block truncate text-[0.8125rem] text-white/60"
+                        className="screen-in block truncate text-[0.8125rem] text-ink-500"
                       >
                         {c.result}
                       </span>
                     </span>
                   </div>
                   <div className="flex gap-2" aria-hidden>
-                    <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-white/[0.08] text-[0.8125rem] text-white/80 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]">
+                    <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-white text-[0.8125rem] font-medium text-ink-900">
                       <Volume2 size={14} /> Read aloud
                     </span>
-                    <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-white/[0.08] text-[0.8125rem] text-white/80 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]">
+                    <span className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-white text-[0.8125rem] font-medium text-ink-900">
                       <Mic size={14} /> Listening
                     </span>
                   </div>

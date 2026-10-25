@@ -30,11 +30,11 @@ const FOOTER_COLUMNS = [
   {
     title: "On this page",
     links: [
-      { href: "#how", label: "How it works" },
-      { href: "#try", label: "Kitchen Check" },
-      { href: "#stories", label: "Stories" },
-      { href: "#cooking", label: "Cooking Mode" },
-      { href: "#faq", label: "FAQ" },
+      { href: "/welcome#how", label: "How it works" },
+      { href: "/welcome#try", label: "Kitchen Check" },
+      { href: "/welcome#stories", label: "Stories" },
+      { href: "/welcome#cooking", label: "Cooking Mode" },
+      { href: "/welcome#faq", label: "FAQ" },
     ],
   },
 ];
@@ -88,7 +88,7 @@ export function Closing() {
           </p>
           <div className="mt-9 flex flex-col items-center gap-2 sm:flex-row">
             <PillCta href="/">Start cooking, free</PillCta>
-            <TextCta href="/recipes">Browse recipes</TextCta>
+            <TextCta href="/welcome/recipes">Browse recipes</TextCta>
           </div>
         </Reveal>
 

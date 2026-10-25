@@ -14,3 +14,5 @@ tsconfig.tsbuildinfo
 .impeccable/
 .agents/
 skills-lock.json
+.open-next/
+.wrangler/
